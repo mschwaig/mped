@@ -53,7 +53,6 @@ void SimulatedAnnealing::compute() {
 		next_dist = this->mped->computeExternalEditDistance(this->mped->get_Sigma1(), this->mped->get_Sigma2(),
 				sigma1_n, sigma2_n, mped->getS1(), mped->getS2());
 
-
 		// switch to the next state if dist is better
 		// otherwise switch with probability e^(-deltaE/T)
 		if ((current_dist > next_dist) || exp(-(next_dist - current_dist) / temperature) > rand()) {

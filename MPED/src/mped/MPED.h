@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <algorithm>
 #include "../alignment/Alignment.h"
 #include "../utility/Matrix.h"
 using namespace std;
