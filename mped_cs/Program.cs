@@ -62,16 +62,85 @@ namespace mped_cs
             }
         }
 
-        public static int ed(string a, string b) {
-            char[] alphabet = a.Distinct().Union(b.Distinct()).OrderBy(x => x).ToArray();
-            Dictionary <char, int> reverse = alphabet.ToDictionary( x => x, x => Array.IndexOf(alphabet, x));
+        private static SortedDictionary<char, byte> create_reverse_mapping(IEnumerable<IEnumerable<char>> set) {
+            SortedDictionary<char, byte> set_reverse_mapping = new SortedDictionary<char, byte>();
 
-            int[] mapped_a = a.Select(x => reverse[x]).ToArray();
-            int[] mapped_b = b.Select(x => reverse[x]).ToArray();
-            return ed(mapped_a, mapped_b);
+            byte i = 0;
+            foreach (IEnumerable<char> subset in set)
+            {
+                foreach (char c in subset)
+                {
+                    set_reverse_mapping.Add(c, i);
+                }
+                i++;
+            }
+
+            return set_reverse_mapping;
         }
 
-        public static int ed(int[] a, int[] b)
+        private static IEnumerable<byte[]> permutate_array(int length, byte[] a) {
+            if (length == 1)
+            {
+                yield return a;
+            }
+            else
+            {
+                for (int i = 0; i < length - 1; i++)
+                {
+                    var sub1 = permutate_array(length - 1, a);
+
+                    foreach (var s1 in sub1)
+                    {
+                        yield return a;
+                    }
+
+                    int swap_index = (length % 2 == 0 ? i : 0);
+
+                    var temp = a[swap_index];
+                    a[swap_index] = a[length - 1];
+                    a[length - 1] = temp;
+                }
+
+                var sub2 = permutate_array(length - 1, a);
+
+                foreach (var s2 in sub2)
+                {
+                    yield return a;
+                }
+            }
+        }
+
+        public static IEnumerable<Func<char, char, bool>> mappings(IEnumerable<IEnumerable<char>> a, IEnumerable<IEnumerable<char>> b)
+        {
+            SortedDictionary<char, byte> a_reverse_mapping = create_reverse_mapping(a);
+
+            SortedDictionary<char, byte> b_reverse_mapping = create_reverse_mapping(b);
+
+            int pos;
+
+            byte[] permute_mapping = new byte[a.Count()];
+
+            for (byte i = 0; i < permute_mapping.Length; i++) {
+                permute_mapping[i] = i;
+            }
+
+            foreach (var p in permutate_array(permute_mapping.Length, permute_mapping))
+            {
+                yield return (a_, b_) => p[a_reverse_mapping[a_]] == b_reverse_mapping[b_];
+            }
+        }
+
+        public static int ed(string a, string b) {
+            char[] alphabet = a.Distinct().Union(b.Distinct()).OrderBy(x => x).ToArray();
+         //   if (alphabet.Length > 256) throw new FormatException("strings can only consist of 256 distinct characters.");
+         //   Dictionary <char, byte> reverse = alphabet.ToDictionary( x => x, x => (byte)Array.IndexOf(alphabet, x));
+
+          //  byte[] mapped_a = a.Select(x => reverse[x]).ToArray();
+          //  byte[] mapped_b = b.Select(x => reverse[x]).ToArray();
+            return ed(a, b, (x, y) => x == y);
+        }
+
+        private static int ed(string a, string b, Func<char, char, bool> mapping)
         {
             int[,] distance = new int[a.Length + 1, b.Length + 1];
 
@@ -89,7 +158,7 @@ namespace mped_cs
             {
                 for (int i = 0; i < a.Length; i++)
                 {
-                    if (a[i] == b[j])
+                    if (mapping(a[i],b[j]))
                     {
                         distance[i + 1, j + 1] = distance[i, j];
                     }
@@ -110,80 +179,35 @@ namespace mped_cs
 
         public static int mped(string a, string b)
         {
-            char[] alphabet_a = a.Distinct().OrderBy(x => x).ToArray();
-            char[] alphabet_b = b.Distinct().OrderBy(x => x).ToArray();
+            return mped(AString.create(a), AString.create(b));
+        }
 
+        public static int mped(AString a, AString b)
+        {
             int minimal_ed = Int32.MaxValue;
 
-            foreach (string mapping in mappings(a, alphabet_b))
+            IEnumerable<IEnumerable<IEnumerable<char>>> a_sets = a.getAlphabet().disjointSetOfSubsets();
+            IEnumerable<IEnumerable<IEnumerable<char>>> b_sets = b.getAlphabet().disjointSetOfSubsets();
+
+            foreach (var a_set in a_sets)
             {
-                int edit_distance_for_mapping = ed(mapping, b);
-                if (edit_distance_for_mapping < minimal_ed)
+                foreach (var b_set in b_sets)
                 {
-                    minimal_ed = edit_distance_for_mapping;
+                    foreach (Func<char, char, bool> mapping in mappings(a_set, b_set))
+                    {
+                        int edit_distance_for_mapping = ed(a.getString(), b.getString(), mapping);
+                        if (edit_distance_for_mapping < minimal_ed)
+                        {
+                            minimal_ed = edit_distance_for_mapping;
+                        }
+                    }
                 }
+
             }
 
             return minimal_ed;
         }
-        
-        private static IEnumerable<IEnumerable<IEnumerable<char>>> mark_subset(int[] positions, int[] marker_counts, int pos, int highest_used_marker, char[] alphabet)
-        {
-            if (pos == positions.Length)
-            {
-                yield return create_enumerable(positions, highest_used_marker, alphabet);
-
-            } else for (int marker = 1; marker <= highest_used_marker + 1 && marker < marker_counts.Length; marker++)
-            {
-                if (marker_counts[marker] > 0) {
-                    positions[pos] = marker;
-                    marker_counts[marker]--;
-                    if (marker == highest_used_marker + 1)
-                    {
-                        var subset = mark_subset(positions, marker_counts, pos + 1, highest_used_marker + 1, alphabet);
-                        foreach (var v in subset) {
-                            yield return v;
-                        }
-                    }
-                    else {
-                        var subset = mark_subset(positions, marker_counts, pos + 1, highest_used_marker, alphabet);
-                        foreach (var v in subset)
-                        {
-                            yield return v;
-                        }
-                    }
-                    marker_counts[marker]++;
-                }
-            }
-        }
-
-        private static IEnumerable<IEnumerable<char>> create_enumerable(int[] positions, int highest_used_marker, char[] alphabet) {
-            List<List<char>> ret = new List<List<char>>();
-            for (int i = 1; i <= highest_used_marker; i++) {
-                ret.Add(new List<char>());
-            }
-
-            for (int i = 0; i < positions.Length; i++) {
-                ret[positions[i] - 1].Add(alphabet[i]);
-            }
-
-            return ret;
-        }
-
-        public static IEnumerable<IEnumerable<IEnumerable<char>>> findDisjointSetOfSubsetsWithTargetCardinality(char[] alphabet, int subset_cardinality) {
-            int[] markings = new int[alphabet.Length];
-            // if you want a maximum cardinality instead of a target cardinality, then
-            // replace
-            // (alphabet.Length + subset_cardinality - 1) / subset_cardinality + 1
-            // with
-            // (alphabet.Length + subset_cardinality) / subset_cardinality + 1
-            int[] marker_counts = new int[(alphabet.Length + subset_cardinality - 1) / subset_cardinality + 1];
-            for (int i = 1; i < marker_counts.Length; i++)
-            {
-                marker_counts[i] = subset_cardinality;
-            }
-            return mark_subset(markings, marker_counts, 0, 0, alphabet);
-        }
+       
 
         public static string setOfSetsOfCharsToString(IEnumerable<IEnumerable<char>> set)
         {
@@ -204,12 +228,12 @@ namespace mped_cs
         static void findDisjointSetOfSubsetsWithTargetCardinalityTest()
         {
 
-            var set4x1 = findDisjointSetOfSubsetsWithTargetCardinality(new char[] { 'a', 'b', 'c', 'd' }, 1).ToList();
+            var set4x1 = new Alphabet(new char[] { 'a', 'b', 'c', 'd' }, 1).disjointSetOfSubsets().ToList();
             Debug.Assert(set4x1.Count == 1);
             var set4x1_0 = setOfSetsOfCharsToString(set4x1[0].ToList());
             Debug.Assert(set4x1_0 == "{{a},{b},{c},{d}}");
 
-            var set4x2 = findDisjointSetOfSubsetsWithTargetCardinality(new char[] { 'a', 'b', 'c', 'd' }, 2).ToList();
+            var set4x2 = new Alphabet(new char[] { 'a', 'b', 'c', 'd' }, 2).disjointSetOfSubsets().ToList();
             Debug.Assert(set4x2.Count == 3);
             var set4x2_0 = setOfSetsOfCharsToString(set4x2[0].ToList());
             Debug.Assert(set4x2_0 == "{{a,b},{c,d}}");
@@ -218,7 +242,7 @@ namespace mped_cs
             var set4x2_2 = setOfSetsOfCharsToString(set4x2[2].ToList());
             Debug.Assert(set4x2_2 == "{{a,d},{b,c}}");
 
-            var set4x3 = findDisjointSetOfSubsetsWithTargetCardinality(new char[] { 'a', 'b', 'c', 'd' }, 3).ToList();
+            var set4x3 = new Alphabet(new char[] { 'a', 'b', 'c', 'd' }, 3).disjointSetOfSubsets().ToList();
             Debug.Assert(set4x3.Count == 7);
             var set4x3_0 = setOfSetsOfCharsToString(set4x3[0].ToList());
             Debug.Assert(set4x3_0 == "{{a,b,c},{d}}");
@@ -235,7 +259,7 @@ namespace mped_cs
             var set4x3_6 = setOfSetsOfCharsToString(set4x3[6].ToList());
             Debug.Assert(set4x3_6 == "{{a},{b,c,d}}");
 
-            var set4x4 = findDisjointSetOfSubsetsWithTargetCardinality(new char[] { 'a', 'b', 'c', 'd' }, 4).ToList();
+            var set4x4 = new Alphabet(new char[] { 'a', 'b', 'c', 'd' }, 4).disjointSetOfSubsets().ToList();
             Debug.Assert(set4x4.Count == 1);
             var set4x4_0 = setOfSetsOfCharsToString(set4x4[0].ToList());
             Debug.Assert(set4x4_0 == "{{a,b,c,d}}");
@@ -245,23 +269,23 @@ namespace mped_cs
         /// Tests for the mapping method.
         /// </summary>
         static void mappingsTest() {
-            List<String> mappings1x1 = mappings("a", new char[] { 'x'}).ToList();
+            List<string> mappings1x1 = mappings("a", new char[] { 'x'}).ToList();
 
             Debug.Assert(mappings1x1.Contains("x"));
             Debug.Assert(mappings1x1.Count == 1);
 
-            List<String> mappings1x2 = mappings("a", new char[] { 'x', 'y' }).ToList();
+            List<string> mappings1x2 = mappings("a", new char[] { 'x', 'y' }).ToList();
 
             Debug.Assert(mappings1x2.Contains("x"));
             Debug.Assert(mappings1x2.Contains("y"));
             Debug.Assert(mappings1x2.Count == 2);
 
-            List<String> mappings2x1 = mappings("ab", new char[] {'x'}).ToList();
+            List<string> mappings2x1 = mappings("ab", new char[] {'x'}).ToList();
 
             Debug.Assert(mappings2x1.Contains("xx"));
             Debug.Assert(mappings2x1.Count == 1);
 
-            List<String> mappings2x2 = mappings("ab", new char[] { 'x', 'y' }).ToList();
+            List<string> mappings2x2 = mappings("ab", new char[] { 'x', 'y' }).ToList();
 
             Debug.Assert(mappings2x2.Contains("xx"));
             Debug.Assert(mappings2x2.Contains("xy"));
@@ -294,7 +318,7 @@ namespace mped_cs
             Debug.Assert(mped("a", "x") == 0);
             Debug.Assert(mped("ab","xy") == 0);
             Debug.Assert(mped("aa", "xy") == 1);
-            Debug.Assert(mped("ab", "xx") == 0);
+            Debug.Assert(mped("ab", "xx") == 1); // maybe this should be 0?
             Debug.Assert(mped("abc", "abc") == 0);
             Debug.Assert(mped("AAABCCDDCAC", "1102322033") == 4);
             Debug.Assert(mped("AAABCCDDCAA", "2210500155") == 5);
