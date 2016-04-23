@@ -17,9 +17,14 @@ namespace mped_cs
             this.str = s;
         }
 
-        public static AString create(string s) {
+        public static AString create(string s)
+        {
+            return create(s, 1);
+        }
+
+        public static AString create(string s, int cardinality) {
             char[] alphabet = s.Distinct().OrderBy(x => x).ToArray();
-            Alphabet a = new Alphabet(alphabet, 1);
+            Alphabet a = new Alphabet(alphabet, cardinality);
             return new AString(a, s);
         }
 

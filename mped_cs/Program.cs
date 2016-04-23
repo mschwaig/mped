@@ -116,8 +116,6 @@ namespace mped_cs
 
             SortedDictionary<char, byte> b_reverse_mapping = create_reverse_mapping(b);
 
-            int pos;
-
             byte[] permute_mapping = new byte[a.Count()];
 
             for (byte i = 0; i < permute_mapping.Length; i++) {
@@ -126,21 +124,18 @@ namespace mped_cs
 
             foreach (var p in permutate_array(permute_mapping.Length, permute_mapping))
             {
-                yield return (a_, b_) => p[a_reverse_mapping[a_]] == b_reverse_mapping[b_];
+                byte[] defensive_copy = new byte[p.Length];
+                Array.Copy(p, defensive_copy, p.Length);
+                yield return (a_, b_) => defensive_copy[a_reverse_mapping[a_]] == b_reverse_mapping[b_];
             }
         }
 
         public static int ed(string a, string b) {
-            char[] alphabet = a.Distinct().Union(b.Distinct()).OrderBy(x => x).ToArray();
-         //   if (alphabet.Length > 256) throw new FormatException("strings can only consist of 256 distinct characters.");
-         //   Dictionary <char, byte> reverse = alphabet.ToDictionary( x => x, x => (byte)Array.IndexOf(alphabet, x));
-
-          //  byte[] mapped_a = a.Select(x => reverse[x]).ToArray();
-          //  byte[] mapped_b = b.Select(x => reverse[x]).ToArray();
-            return ed(a, b, (x, y) => x == y);
+            int[,] distance_matrix = ed(a, b, (x, y) => x == y);
+            return distance_matrix[distance_matrix.GetLength(0) - 1, distance_matrix.GetLength(1) - 1];
         }
 
-        private static int ed(string a, string b, Func<char, char, bool> mapping)
+        private static int[,] ed(string a, string b, Func<char, char, bool> mapping)
         {
             int[,] distance = new int[a.Length + 1, b.Length + 1];
 
@@ -171,22 +166,63 @@ namespace mped_cs
                     }
                 }
             }
-           
-            int result = distance[a.Length, b.Length];
-            return result;
+
+            return distance;
+        }
+
+        public static string visualizeMatch(string a, string b, int[,] distance) {
+            // calculate transformation sequence
+            int pos_a = a.Length;
+            int pos_b = b.Length;
+
+            string c = "";
+
+            do
+            {
+                int move_left = pos_b - 1 >= 0 ? distance[pos_a, pos_b - 1] - distance[pos_a, pos_b] : 999;
+                int move_up = pos_a - 1 >= 0 ? distance[pos_a - 1, pos_b] - distance[pos_a, pos_b] : 999;
+                int move_diagonal = pos_a - 1 >= 0 && pos_b - 1 >= 0 ? distance[pos_a - 1, pos_b - 1] - distance[pos_a, pos_b] : 999;
+
+                if (move_left < move_up && move_left < move_diagonal)
+                {
+                    a = a.Insert(pos_a, "-");
+                    c = " " + c;
+                    pos_b--;
+                }
+                else if (move_up < move_left && move_up < move_diagonal)
+                {
+                    b = b.Insert(pos_b, "-");
+                    c = " " + c;
+                    pos_a--;
+                }
+                else
+                {
+                    if (move_diagonal == 0) c = "*" + c;
+                    else c = " " + c;
+                    pos_a--;
+                    pos_b--;
+                }
+            } while (pos_a > 0 || pos_b > 0);
+
+            return a + Environment.NewLine + b + Environment.NewLine + c;
         }
 
 
-        public static int mped(string a, string b)
+        public static int mped(string a, string b, bool verbose = false)
         {
-            return mped(AString.create(a), AString.create(b));
+            return mped(AString.create(a), AString.create(b), verbose);
         }
 
-        public static int mped(AString a, AString b)
+        public static int mped(AString a, AString b, bool verbose = false)
         {
             int minimal_ed = Int32.MaxValue;
 
-            IEnumerable<IEnumerable<IEnumerable<char>>> a_sets = a.getAlphabet().disjointSetOfSubsets();
+            Func<char, char, bool> minimal_mapping = null;
+            IEnumerable<IEnumerable<char>> minimal_a_set = null;
+            IEnumerable<IEnumerable<char>> minimal_b_set = null;
+            int[,] minimal_dist_matrix = null;
+
+            IEnumerable <IEnumerable<IEnumerable<char>>> a_sets = a.getAlphabet().disjointSetOfSubsets();
             IEnumerable<IEnumerable<IEnumerable<char>>> b_sets = b.getAlphabet().disjointSetOfSubsets();
 
             foreach (var a_set in a_sets)
@@ -195,14 +231,45 @@ namespace mped_cs
                 {
                     foreach (Func<char, char, bool> mapping in mappings(a_set, b_set))
                     {
-                        int edit_distance_for_mapping = ed(a.getString(), b.getString(), mapping);
+                        int[,] distance_matrix = ed(a.getString(), b.getString(), mapping);
+                        int edit_distance_for_mapping = distance_matrix[distance_matrix.GetLength(0) - 1, distance_matrix.GetLength(1) - 1];
                         if (edit_distance_for_mapping < minimal_ed)
                         {
                             minimal_ed = edit_distance_for_mapping;
+                            minimal_mapping = mapping;
+                            minimal_a_set = a_set;
+                            minimal_b_set = b_set;
+                            minimal_dist_matrix = distance_matrix;
                         }
                     }
                 }
 
+            }
+
+            if (verbose)
+            {
+                foreach (IEnumerable<char> a_subset in minimal_a_set) {
+                    Console.Write("{");
+                    foreach (char c in a_subset) {
+                        Console.Write(c);
+                    }
+                    Console.Write("}->{");
+                    foreach (IEnumerable<char> b_subset in minimal_b_set)
+                    {
+                        if (minimal_mapping(a_subset.First(), b_subset.First()))
+                        {
+                            foreach (char c in b_subset)
+                            {
+                                Console.Write(c);
+                            }
+
+                            break;
+                        }
+                    }
+                    Console.Write("}");
+                }
+                Console.WriteLine();
+                Console.WriteLine(visualizeMatch(a.getString(), b.getString(), minimal_dist_matrix));
             }
 
             return minimal_ed;
@@ -318,11 +385,13 @@ namespace mped_cs
             Debug.Assert(mped("a", "x") == 0);
             Debug.Assert(mped("ab","xy") == 0);
             Debug.Assert(mped("aa", "xy") == 1);
-            Debug.Assert(mped("ab", "xx") == 1); // maybe this should be 0?
+            Debug.Assert(mped("ab", "xx") == 1);
             Debug.Assert(mped("abc", "abc") == 0);
             Debug.Assert(mped("AAABCCDDCAC", "1102322033") == 4);
             Debug.Assert(mped("AAABCCDDCAA", "2210500155") == 5);
-            Debug.Assert(mped("AAABCCDCADD", "BABAEFEAFAD") == 5); // todo: check this manually
+            // Debug.Assert(mped("AAABCCDCADD", "BABAEFEAFAD", true) == 5); // todo: find source? check this manually
+            Debug.Assert(mped(AString.create("AAABCCDDCAA", 2), AString.create("2210500155", 2)) == 3);
+            Debug.Assert(mped(AString.create("ABABD966GDBDA", 2), AString.create("1312X1XX122KK", 1)) == 7);
         }
     }
 }
