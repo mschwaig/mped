@@ -176,62 +176,14 @@ namespace mped_cs
 
             return minimal_ed;
         }
-       
-
-        public static string setOfSetsOfCharsToString(IEnumerable<IEnumerable<char>> set)
-        {
-            return "{" + String.Join(",", set.ToList().Select(y => "{" + String.Join(",", y) + "}")) + "}";
-        }
 
         static void Main(string[] args)
         {
-            findDisjointSetOfSubsetsWithTargetCardinalityTest();
-
             mappingsTest();
 
             edTest();
 
             mpedTest();
-        }
-
-        static void findDisjointSetOfSubsetsWithTargetCardinalityTest()
-        {
-
-            var set4x1 = new Alphabet(new char[] { 'a', 'b', 'c', 'd' }, 1).disjointSetOfSubsets().ToList();
-            Debug.Assert(set4x1.Count == 1);
-            var set4x1_0 = setOfSetsOfCharsToString(set4x1[0].ToList());
-            Debug.Assert(set4x1_0 == "{{a},{b},{c},{d}}");
-
-            var set4x2 = new Alphabet(new char[] { 'a', 'b', 'c', 'd' }, 2).disjointSetOfSubsets().ToList();
-            Debug.Assert(set4x2.Count == 3);
-            var set4x2_0 = setOfSetsOfCharsToString(set4x2[0].ToList());
-            Debug.Assert(set4x2_0 == "{{a,b},{c,d}}");
-            var set4x2_1 = setOfSetsOfCharsToString(set4x2[1].ToList());
-            Debug.Assert(set4x2_1 == "{{a,c},{b,d}}");
-            var set4x2_2 = setOfSetsOfCharsToString(set4x2[2].ToList());
-            Debug.Assert(set4x2_2 == "{{a,d},{b,c}}");
-
-            var set4x3 = new Alphabet(new char[] { 'a', 'b', 'c', 'd' }, 3).disjointSetOfSubsets().ToList();
-            Debug.Assert(set4x3.Count == 7);
-            var set4x3_0 = setOfSetsOfCharsToString(set4x3[0].ToList());
-            Debug.Assert(set4x3_0 == "{{a,b,c},{d}}");
-            var set4x3_1 = setOfSetsOfCharsToString(set4x3[1].ToList());
-            Debug.Assert(set4x3_1 == "{{a,b,d},{c}}");
-            var set4x3_2 = setOfSetsOfCharsToString(set4x3[2].ToList());
-            Debug.Assert(set4x3_2 == "{{a,b},{c,d}}");
-            var set4x3_3 = setOfSetsOfCharsToString(set4x3[3].ToList());
-            Debug.Assert(set4x3_3 == "{{a,c,d},{b}}");
-            var set4x3_4 = setOfSetsOfCharsToString(set4x3[4].ToList());
-            Debug.Assert(set4x3_4 == "{{a,c},{b,d}}");
-            var set4x3_5 = setOfSetsOfCharsToString(set4x3[5].ToList());
-            Debug.Assert(set4x3_5 == "{{a,d},{b,c}}");
-            var set4x3_6 = setOfSetsOfCharsToString(set4x3[6].ToList());
-            Debug.Assert(set4x3_6 == "{{a},{b,c,d}}");
-
-            var set4x4 = new Alphabet(new char[] { 'a', 'b', 'c', 'd' }, 4).disjointSetOfSubsets().ToList();
-            Debug.Assert(set4x4.Count == 1);
-            var set4x4_0 = setOfSetsOfCharsToString(set4x4[0].ToList());
-            Debug.Assert(set4x4_0 == "{{a,b,c,d}}");
         }
 
         /// <summary>
