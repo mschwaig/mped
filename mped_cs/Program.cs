@@ -62,73 +62,7 @@ namespace mped_cs
             }
         }
 
-        private static SortedDictionary<char, byte> create_reverse_mapping(IEnumerable<IEnumerable<char>> set) {
-            SortedDictionary<char, byte> set_reverse_mapping = new SortedDictionary<char, byte>();
 
-            byte i = 0;
-            foreach (IEnumerable<char> subset in set)
-            {
-                foreach (char c in subset)
-                {
-                    set_reverse_mapping.Add(c, i);
-                }
-                i++;
-            }
-
-            return set_reverse_mapping;
-        }
-
-        private static IEnumerable<byte[]> permutate_array(int length, byte[] a) {
-            if (length == 1)
-            {
-                yield return a;
-            }
-            else
-            {
-                for (int i = 0; i < length - 1; i++)
-                {
-                    var sub1 = permutate_array(length - 1, a);
-
-                    foreach (var s1 in sub1)
-                    {
-                        yield return a;
-                    }
-
-                    int swap_index = (length % 2 == 0 ? i : 0);
-
-                    var temp = a[swap_index];
-                    a[swap_index] = a[length - 1];
-                    a[length - 1] = temp;
-                }
-
-                var sub2 = permutate_array(length - 1, a);
-
-                foreach (var s2 in sub2)
-                {
-                    yield return a;
-                }
-            }
-        }
-
-        public static IEnumerable<Func<char, char, bool>> mappings(IEnumerable<IEnumerable<char>> a, IEnumerable<IEnumerable<char>> b)
-        {
-            SortedDictionary<char, byte> a_reverse_mapping = create_reverse_mapping(a);
-
-            SortedDictionary<char, byte> b_reverse_mapping = create_reverse_mapping(b);
-
-            byte[] permute_mapping = new byte[a.Count()];
-
-            for (byte i = 0; i < permute_mapping.Length; i++) {
-                permute_mapping[i] = i;
-            }
-
-            foreach (var p in permutate_array(permute_mapping.Length, permute_mapping))
-            {
-                byte[] defensive_copy = new byte[p.Length];
-                Array.Copy(p, defensive_copy, p.Length);
-                yield return (a_, b_) => defensive_copy[a_reverse_mapping[a_]] == b_reverse_mapping[b_];
-            }
-        }
 
         public static int ed(string a, string b) {
             int[,] distance_matrix = ed(a, b, (x, y) => x == y);
@@ -217,58 +151,26 @@ namespace mped_cs
         {
             int minimal_ed = Int32.MaxValue;
 
-            Func<char, char, bool> minimal_mapping = null;
-            IEnumerable<IEnumerable<char>> minimal_a_set = null;
-            IEnumerable<IEnumerable<char>> minimal_b_set = null;
+            AlphabetMapping minimal_mapping = null;
             int[,] minimal_dist_matrix = null;
 
-            IEnumerable <IEnumerable<IEnumerable<char>>> a_sets = a.getAlphabet().disjointSetOfSubsets();
-            IEnumerable<IEnumerable<IEnumerable<char>>> b_sets = b.getAlphabet().disjointSetOfSubsets();
-
-            foreach (var a_set in a_sets)
+            foreach (AlphabetMapping m in AlphabetMapping.getMappings(a.getAlphabet(), b.getAlphabet()))
             {
-                foreach (var b_set in b_sets)
-                {
-                    foreach (Func<char, char, bool> mapping in mappings(a_set, b_set))
-                    {
-                        int[,] distance_matrix = ed(a.getString(), b.getString(), mapping);
-                        int edit_distance_for_mapping = distance_matrix[distance_matrix.GetLength(0) - 1, distance_matrix.GetLength(1) - 1];
-                        if (edit_distance_for_mapping < minimal_ed)
-                        {
-                            minimal_ed = edit_distance_for_mapping;
-                            minimal_mapping = mapping;
-                            minimal_a_set = a_set;
-                            minimal_b_set = b_set;
-                            minimal_dist_matrix = distance_matrix;
-                        }
-                    }
-                }
+                Func<char, char, bool> mapping = m.getMappingFunction();
 
+                int[,] distance_matrix = ed(a.getString(), b.getString(), mapping);
+                int edit_distance_for_mapping = distance_matrix[distance_matrix.GetLength(0) - 1, distance_matrix.GetLength(1) - 1];
+                if (edit_distance_for_mapping < minimal_ed)
+                {
+                    minimal_ed = edit_distance_for_mapping;
+                    minimal_mapping = m;
+                    minimal_dist_matrix = distance_matrix;
+                }
             }
 
             if (verbose)
             {
-                foreach (IEnumerable<char> a_subset in minimal_a_set) {
-                    Console.Write("{");
-                    foreach (char c in a_subset) {
-                        Console.Write(c);
-                    }
-                    Console.Write("}->{");
-                    foreach (IEnumerable<char> b_subset in minimal_b_set)
-                    {
-                        if (minimal_mapping(a_subset.First(), b_subset.First()))
-                        {
-                            foreach (char c in b_subset)
-                            {
-                                Console.Write(c);
-                            }
-
-                            break;
-                        }
-                    }
-                    Console.Write("}");
-                }
-                Console.WriteLine();
+                Console.WriteLine(minimal_mapping);
                 Console.WriteLine(visualizeMatch(a.getString(), b.getString(), minimal_dist_matrix));
             }
 

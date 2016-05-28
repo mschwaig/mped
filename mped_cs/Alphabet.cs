@@ -10,6 +10,7 @@ namespace mped_cs
     {
         int subset_cardinality;
         char[] characters;
+        SortedDictionary<char, byte> reverse_mapping;
 
         public AString create(string s) {
             return AString.create(this, s);
@@ -22,6 +23,24 @@ namespace mped_cs
             Array.Sort(sorted);
             this.characters = sorted;
             this.subset_cardinality = subset_cardinality;
+            this.reverse_mapping = create_reverse_mapping(characters);
+        }
+
+        public SortedDictionary<char, byte> getReverseMapping() {
+            return reverse_mapping;
+        }
+
+        public int getSubsetCardinality() {
+            return subset_cardinality;
+        }
+
+        public int getCount() {
+            return characters.Length;
+        }
+
+        public char[] getCharacters()
+        {
+            return characters;
         }
 
         public IEnumerable<IEnumerable<IEnumerable<char>>> disjointSetOfSubsets()
@@ -62,7 +81,6 @@ namespace mped_cs
             return (subset_cardinality == a.subset_cardinality) && (Enumerable.SequenceEqual(characters, a.characters));
         }
 
-
         private IEnumerable<IEnumerable<IEnumerable<char>>> mark_subset(int[] positions, int[] marker_counts, int pos, int highest_used_marker)
         {
             if (pos == positions.Length)
@@ -95,7 +113,6 @@ namespace mped_cs
                     }
                 }
         }
-
         private IEnumerable<IEnumerable<char>> create_enumerable(int[] positions, int highest_used_marker)
         {
             List<List<char>> ret = new List<List<char>>();
@@ -110,6 +127,20 @@ namespace mped_cs
             }
 
             return ret;
+        }
+
+        private static SortedDictionary<char, byte> create_reverse_mapping(char[] characters)
+        {
+            SortedDictionary<char, byte> set_reverse_mapping = new SortedDictionary<char, byte>();
+
+            byte i = 0;
+            foreach (char c in characters)
+            {
+                set_reverse_mapping.Add(c, i);
+                i++;
+            }
+
+            return set_reverse_mapping;
         }
     }
 }
