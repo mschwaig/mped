@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mped_cs
 {
-    class Alphabet
+    public class Alphabet
     {
         int subset_cardinality;
         char[] characters;

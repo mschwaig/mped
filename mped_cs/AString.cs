@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mped_cs
 {
-    class AString
+    public class AString
     {
         Alphabet alphabet;
         string str;

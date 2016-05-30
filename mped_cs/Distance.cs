@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace mped_cs
 {
-    class Program
+    public class Distance
     {
         public static int ed(string a, string b) {
             int[,] distance_matrix = ed(a, b, (x, y) => x == y);
@@ -118,46 +118,6 @@ namespace mped_cs
             }
 
             return minimal_ed;
-        }
-
-        static void Main(string[] args)
-        {
-            edTest();
-
-            mpedTest();
-        }
-
-        /// <summary>
-        /// Tests for the ed method.
-        /// </summary>
-        static void edTest()
-        {
-            Debug.Assert(ed("a","a") == 0);
-            Debug.Assert(ed("a", "b") == 1);
-            Debug.Assert(ed("a", "") == 1);
-            Debug.Assert(ed("", "a") == 1);
-            Debug.Assert(ed("ab", "b") == 1);
-            Debug.Assert(ed("ab", "a") == 1);
-            Debug.Assert(ed("a", "ab") == 1);
-            Debug.Assert(ed("b", "ab") == 1);
-            Debug.Assert(ed("ab", "ab") == 0);
-            Debug.Assert(ed("aa", "ab") == 1);
-        }
-
-        /// <summary>
-        /// Tests for MPED method.
-        /// </summary>
-        static void mpedTest() {
-            Debug.Assert(mped("a", "x") == 0);
-            Debug.Assert(mped("ab","xy") == 0);
-            Debug.Assert(mped("aa", "xy") == 1);
-            Debug.Assert(mped("ab", "xx") == 1);
-            Debug.Assert(mped("abc", "abc") == 0);
-            Debug.Assert(mped("AAABCCDDCAC", "1102322033") == 4);
-            Debug.Assert(mped("AAABCCDDCAA", "2210500155") == 5);
-            // Debug.Assert(mped("AAABCCDCADD", "BABAEFEAFAD", true) == 5); // todo: find source? check this manually
-            Debug.Assert(mped(AString.create("AAABCCDDCAA", 2), AString.create("2210500155", 2)) == 3);
-            Debug.Assert(mped(AString.create("ABABD966GDBDA", 2), AString.create("1312X1XX122KK", 1)) == 7);
         }
     }
 }
