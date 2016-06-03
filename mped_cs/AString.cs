@@ -30,7 +30,6 @@ namespace mped_cs
 
         public static AString create(Alphabet a, string s)
         {
-            char[] alphabet = s.Distinct().OrderBy(x => x).ToArray();
             return new AString(a, s);
         }
 
@@ -40,6 +39,10 @@ namespace mped_cs
 
         public string getString() {
             return str;
+        }
+
+        public int getLength() {
+            return str.Length;
         }
     }
 }

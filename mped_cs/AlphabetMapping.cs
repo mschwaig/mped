@@ -36,6 +36,11 @@ namespace mped_cs
             }
         }
 
+        public static AlphabetMapping getMapping(Alphabet a, Alphabet b, byte[] permutation)
+        {
+            return new AlphabetMapping(a, b, permutation);
+        }
+
         public Func<char, char, bool> getMappingFunction()
         {
             return mapping_function;
