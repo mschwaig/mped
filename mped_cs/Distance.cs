@@ -93,31 +93,37 @@ namespace mped_cs
         public static int mped(AString a, AString b, bool verbose = false)
         {
             int minimal_ed = Int32.MaxValue;
-
             AlphabetMapping minimal_mapping = null;
-            int[,] minimal_dist_matrix = null;
+            Func<AlphabetMapping, int> mtd = getAlphabetMappingEvaluationFunction(a, b);
 
-            foreach (AlphabetMapping m in AlphabetMapping.getMappings(a.getAlphabet(), b.getAlphabet()))
+            foreach (AlphabetMapping m in AlphabetMapping.getAllPossibleMappings(a.getAlphabet(), b.getAlphabet()))
             {
-                Func<char, char, bool> mapping = m.getMappingFunction();
-
-                int[,] distance_matrix = ed(a.getString(), b.getString(), mapping);
-                int edit_distance_for_mapping = distance_matrix[distance_matrix.GetLength(0) - 1, distance_matrix.GetLength(1) - 1];
+                int edit_distance_for_mapping = mtd(m);
                 if (edit_distance_for_mapping < minimal_ed)
                 {
                     minimal_ed = edit_distance_for_mapping;
                     minimal_mapping = m;
-                    minimal_dist_matrix = distance_matrix;
                 }
             }
 
             if (verbose)
             {
                 Console.WriteLine(minimal_mapping);
+                int[,] minimal_dist_matrix = ed(a.getString(), b.getString(), minimal_mapping.getMappingFunction());
                 Console.WriteLine(visualizeMatch(a.getString(), b.getString(), minimal_dist_matrix));
             }
 
             return minimal_ed;
+        }
+
+        public static Func<AlphabetMapping, int> getAlphabetMappingEvaluationFunction(AString a, AString b)
+        {
+            return (m) => {
+                Func<char, char, bool> mapping = m.getMappingFunction();
+
+                int[,] distance_matrix = ed(a.getString(), b.getString(), mapping);
+                return distance_matrix[distance_matrix.GetLength(0) - 1, distance_matrix.GetLength(1) - 1];
+            };
         }
     }
 }

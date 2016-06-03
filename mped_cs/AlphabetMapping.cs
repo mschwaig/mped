@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mped_cs
 {
-    class AlphabetMapping
+    public class AlphabetMapping
     {
         byte[] permutation;
         Alphabet a;
@@ -21,7 +21,7 @@ namespace mped_cs
             this.mapping_function = (a_, b_) => (permutation[a.getReverseMapping()[a_]] / a.getSubsetCardinality() == b.getReverseMapping()[b_] / b.getSubsetCardinality());
         }
 
-        public static IEnumerable<AlphabetMapping> getMappings(Alphabet a, Alphabet b)
+        public static IEnumerable<AlphabetMapping> getAllPossibleMappings(Alphabet a, Alphabet b)
         {
             byte[] permute_mapping = new byte[Math.Max(a.getCount(), b.getCount())];
 
