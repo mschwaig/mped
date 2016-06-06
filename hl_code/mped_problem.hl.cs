@@ -26,10 +26,11 @@ namespace HeuristicLab.Problems.Programmable {
       // Use vars.yourVariable to access variables in the variable store i.e. yourVariable
       // Define the solution encoding which can also consist of multiple vectors, examples below
 
-      AString a = AString.create("AAABCCDDCAA");
-      AString b = AString.create("2210500155");
-      a_alphabet = a.getAlphabet();
-      b_alphabet = b.getAlphabet();
+      a_alphabet = new Alphabet(vars.alphabet_a.Value.ToCharArray(), 1);
+      b_alphabet = new Alphabet(vars.alphabet_a.Value.ToCharArray(), 1);
+
+      AString a = a_alphabet.create(vars.string_a.Value);
+      AString b = b_alphabet.create(vars.string_b.Value);
 
       int max_alphabet_length = Math.Max(a.getLength(), b.getLength()); // longer one of two alphabet lengths
 
