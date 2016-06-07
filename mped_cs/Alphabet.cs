@@ -43,6 +43,11 @@ namespace mped_cs
             return characters;
         }
 
+        public override string ToString()
+        {
+            return new String(characters);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null)
