@@ -27,7 +27,7 @@ namespace HeuristicLab.Problems.Programmable {
       // Define the solution encoding which can also consist of multiple vectors, examples below
 
       a_alphabet = new Alphabet(vars.alphabet_a.Value.ToCharArray(), 1);
-      b_alphabet = new Alphabet(vars.alphabet_a.Value.ToCharArray(), 1);
+      b_alphabet = new Alphabet(vars.alphabet_b.Value.ToCharArray(), 1);
 
       AString a = a_alphabet.create(vars.string_a.Value);
       AString b = b_alphabet.create(vars.string_b.Value);
