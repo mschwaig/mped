@@ -66,6 +66,9 @@
     <Reference Include="HeuristicLab.Parameters-3.3">
       <HintPath>..\dependencies\HeuristicLab.Parameters-3.3.dll</HintPath>
     </Reference>
+    <Reference Include="HeuristicLab.Persistence-3.3">
+      <HintPath>..\dependencies\HeuristicLab.Persistence-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="HeuristicLab.PluginInfrastructure-3.3">
       <HintPath>..\dependencies\HeuristicLab.PluginInfrastructure-3.3.dll</HintPath>
     </Reference>

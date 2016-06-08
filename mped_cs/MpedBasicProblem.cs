@@ -7,6 +7,8 @@ using HeuristicLab.Core;
 using HeuristicLab.Data;
 using HeuristicLab.Parameters;
 using HeuristicLab.Encodings.PermutationEncoding;
+using HeuristicLab.Persistence.Default.CompositeSerializers.Storable;
+using System.Collections.Generic;
 
 namespace mped_cs
 {
@@ -60,6 +62,7 @@ namespace mped_cs
         private Alphabet a_alphabet;
         private Alphabet b_alphabet;
 
+        [StorableConstructor]
         private MpedBasicProblem(bool deserializing) : base(deserializing) { }
 
         public override bool Maximization
@@ -77,17 +80,13 @@ namespace mped_cs
         }
 
         public MpedBasicProblem()
-      : base() {
-            Parameters.Add(new ValueParameter<StringValue>("AlphabetA", "desc", new StringValue("")));
-            Parameters.Add(new ValueParameter<StringValue>("AlphabetB", "desc", new StringValue("")));
-            Parameters.Add(new ValueParameter<StringValue>("StringA", "desc", new StringValue("")));
-            Parameters.Add(new ValueParameter<StringValue>("StringB", "desc", new StringValue("")));
-
-            Initialize();
+      : this(new Alphabet("ABCD".ToCharArray(), 1).create("AAABCCDDCAC"), new Alphabet("0123".ToCharArray(), 1).create("1102322033")) {
         }
 
+        [StorableHook(HookType.AfterDeserialization)]
         private void AfterDeserialization()
         {
+            setupEventHandlers();
             Initialize();
         }
 
@@ -104,7 +103,17 @@ namespace mped_cs
             Parameters.Add(new ValueParameter<StringValue>("StringA", "desc", new StringValue(a.getString())));
             Parameters.Add(new ValueParameter<StringValue>("StringB", "desc", new StringValue(b.getString())));
 
+            setupEventHandlers();
+
             Initialize();
+        }
+
+        private void setupEventHandlers()
+        {
+            AlphabetA.ValueChanged += onParameterChanged;
+            AlphabetB.ValueChanged += onParameterChanged;
+            StringA.ValueChanged += onParameterChanged;
+            StringB.ValueChanged += onParameterChanged;
         }
 
         private void Initialize() {
@@ -114,26 +123,40 @@ namespace mped_cs
             AString a = a_alphabet.create(StringA.Value);
             AString b = b_alphabet.create(StringB.Value);
 
-            int max_alphabet_length = Math.Max(a.getLength(), b.getLength()); // longer one of two alphabet lengths
+            int max_alphabet_length = Math.Max(a_alphabet.getCount(), b_alphabet.getCount()); // longer one of two alphabet lengths
 
-            Encoding = new PermutationEncoding("permutation", max_alphabet_length, PermutationTypes.Absolute);
+            this.Encoding.Length = max_alphabet_length;
             alphabetMappingEval = Distance.getAlphabetMappingEvaluationFunction(a, b);
 
-            AlphabetAParameter.ValueChanged += onParameterChanged;
-            AlphabetBParameter.ValueChanged += onParameterChanged;
-            StringAParameter.ValueChanged += onParameterChanged;
-            StringBParameter.ValueChanged += onParameterChanged;
+
         }
 
         public override double Evaluate(Individual individual, IRandom random)
         {                   
-            var permutation = individual.Permutation("permutation").Select(x => Convert.ToByte(x)).ToArray();
+            var permutation = individual.Permutation().Select(x => Convert.ToByte(x)).ToArray();
             var quality = alphabetMappingEval(AlphabetMapping.getMapping(a_alphabet, b_alphabet, permutation));
             return quality;
         }
 
         public override void Analyze(Individual[] individuals, double[] qualities, ResultCollection results, IRandom random)
         {
+        }
+
+        public override IEnumerable<Individual> GetNeighbors(Individual individual, IRandom random)
+        {
+            while (true)
+            {
+                // Algorithm will draw only a finite amount of samples
+                var neighbor = individual.Copy();
+                var permutation = neighbor.Permutation();
+                int length = permutation.Length;
+                int first = random.Next(length);
+                int second = (random.Next(length - 1) + first + 1) % length;
+                var tmp = permutation[first];
+                permutation[first] = permutation[second];
+                permutation[second] = tmp;
+                yield return neighbor;
+            }
         }
     }
 }
