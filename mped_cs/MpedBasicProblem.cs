@@ -132,9 +132,10 @@ namespace mped_cs
         }
 
         public override double Evaluate(Individual individual, IRandom random)
-        {                   
+        {
             var permutation = individual.Permutation().Select(x => Convert.ToByte(x)).ToArray();
-            var quality = alphabetMappingEval(AlphabetMapping.getMapping(a_alphabet, b_alphabet, permutation));
+            var mapping = AlphabetMapping.getMapping(a_alphabet, b_alphabet, permutation);
+            var quality = alphabetMappingEval(mapping);
             return quality;
         }
 
