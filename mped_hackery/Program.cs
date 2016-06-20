@@ -13,30 +13,8 @@ namespace mped_hackery
     class Program
     {
 
-        static char[] a = { 'A', 'B', 'C', 'D', 'E', 'F' };
-
-        static char[] b = { 'A', 'B', 'C', 'D', 'E', 'F' };
-
-        static string s1 = "CEEAEBEBFABEADBBABADBBFDBEECCFADEEACAECEECEEDDDDFCFFDABDABFCBDFBEEDBBEDBEDBDFFBCECCBCCAFFBEABEDCACDF";
-        static string s2 = "BCFBCECFBDFFFABBBDDAACBECDFAFCECFDEEABACABAFDFAACBCCDCBEADFDECFCABCDEFBABFCCAEBCDCDDCDDECBCADABDCFEE";
-
-        /*
-        static char[] a = {
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'};
-
-        static char[] b = {
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'};
-
-        static string s1 = "FLdfShNcOJaTEMeAhTIUHBRHGeWOgUlmmEMOAVWKaGFajSXgDCfTnALDjWYdLpljNeWpAQAMnokAmgNeHfKefSomjIVUnioaLLNElXfdCSVoFKGCIjWVfHDlgZGhlVPFAJfbTJiZAWcMmpgYCSMDLSlDHSOLQoiWDQomUVZoAnVIVhogjXfSILjXNbTBkWIBeFIVAjDWjNCOndYQTXSjJPNiXRZiBXEUeTTPYSfpUIZlJUaaDDXMEPiPhQoZKLVLJYaTJIhBhTOAgSZChpfoAhPObEYIUGeJdNbakGQkMWVaAhYOhlhLVWLSILhEaYWbeFNSgoIaYlbTMfOkVJRZOSdGCJSZPMKdAjmkTGXicHdalhGTnnYQHmMLSHQXWZLLaoTSiTQPbYnHfDLKCobRejWDXaSMgAMDlSpmOeaTWIfYpEWOlFVXnjXhRQkIAEYbMjMNDOmOOHlVEnDTDEQaUeFBkIUnjSTSaDMFhJKXJGJfoBcUMREm";
-        static string s2 = "PLdfShNcOJaTEMeAhTIUHBRHGeWOgUlmmEMOAVWKaGFajSXgDCfTnALDjWYdLpljNeWpAQAMnokAmgNeHfKefSomjIVUnioaLLNElXfdCSVoFKGCIjWVfHDlgZGhlVPFAJfbTJiZAWcMmpgYCSMDLSlDHSOLQoiWDQomUVZoAnVIVhogjXfSILjXNbTBkWIBeFIVAjDWjNCOndYQTXSjJPNiXRZiBXEUeTTPYSfpUIZlJUaaDDXMEPiPhQoZKLVLJYaTJIhBhTOAgSZChpfoAhPObEYIUGeJdNbakGQkMWVaAhYOhlhLVWLSILhEaYWbeFNSgoIaYlbTMfOkVJRZOSdGCJSZPMKdAjmkTGXicHdalhGTnnYQHmMLSHQXWZLLaoTSiTQPbYnHfDLKCobRejWDXaSMgAMDlSpmOeaTWIfYpEWOlFVXnjXhRQkIAEYbMjMNDOmOOHlVEnDTDEQaUeFBkIUnjSTSaDMFhJKXJGJfoBcUMREm";
-
-        static string s23 = "AhQBDohJfILimZHEQEDXOEIcehJXOoAbeIRXoMHUeSppmRJWkNjoFKJmYdNMfKkgIaDdIZGEmZimEJgMXddBECWUpUpKoleUXJhMOWNLHfBVSNhOmAfCXjbFDZedZlFAlOOkSUoBPSjPAABccbOoGcmeXbIehabLZBaDpmlSBddFpLEDXCAoXGkIRZNhMJJegYgpPocffmnSphfLWEHfZddSGRcPZEFhUoORVFeZPKIbJRJZkBKHCTFDkNinMMGagGoATOgRQYQPUCJfHCVYkneAjLWIMgNCEYlCTIGWLjhUCfYiDDfJhXgiRnHHhXEaLOLmHGMolpNAGKnDceFJADKXhCbVBoedeHIeUcamhgNiJgbGAEUDSlZHDeFEVgnnKaLpBJZADIRKgSNBQUUmTbLjXBbgXVRAiQXZUcEhVTpKTPRaQEeAMATZORRAXiTXgRRPleWeQdRpbBPIaAPShReimoKCKEJcASTCoBfcXpZYZTnNCIQW";
-
-        */
+        static char[] a, b;
+        static string s1, s2;
 
         static SortedList<int, CharacterMapping> generateDataForCorrelatedStrings(int alphabet_size, int length, double correlation)
         {
@@ -47,22 +25,18 @@ namespace mped_hackery
             a = test.alphabet;
             b = test.alphabet;
 
-            int creation_time = 0;
 
             CharacterMapping[,] one_to_one_mappings = new CharacterMapping[a.Length, b.Length];
 
-            // generate all possible mappings of length 1
-            SortedList<CharacterMapping, CharacterMapping> list = new SortedList<CharacterMapping, CharacterMapping>();
+            // generate all possible 1:1 mappings of characters
             for (int i = 0; i < a.Length; i++)
             {
                 for (int j = 0; j < b.Length; j++)
                 {
                     Dictionary<char, char> dict = new Dictionary<char, char>();
                     dict.Add(a[i], b[j]);
-                    CharacterMapping cm = new CharacterMapping(a, b, s1, s2, dict, creation_time);
-                    list.Add(cm, cm);
+                    CharacterMapping cm = new CharacterMapping(a, b, s1, s2, dict);
                     one_to_one_mappings[i, j] = cm;
-                    creation_time++;
                 }
             }
 
@@ -131,16 +105,16 @@ namespace mped_hackery
                         real_evals_to_find_min += alphabet_size * alphabet_size;
 
                         var min_evals_to_find_min = result.Select((value, index) => new { value, index })
-            .Where(pair => (pair.value.Key == min_ed_contribution))
-            .Select(pair => pair.index)
-            .FirstOrDefault() + 1;
+                            .Where(pair => (pair.value.Key == min_ed_contribution))
+                            .Select(pair => pair.index)
+                            .FirstOrDefault() + 1;
 
                         min_evals_to_find_min += alphabet_size * alphabet_size;
 
                         var max_evals_to_find_min = result.Select((value, index) => new { value, index })
-        .Where(pair => (pair.value.Key > min_ed_contribution))
-        .Select(pair => pair.index)
-        .FirstOrDefault();
+                            .Where(pair => (pair.value.Key > min_ed_contribution))
+                            .Select(pair => pair.index)
+                            .FirstOrDefault();
 
                         if (max_evals_to_find_min == 0)
                         {
@@ -149,9 +123,9 @@ namespace mped_hackery
                         max_evals_to_find_min += alphabet_size * alphabet_size;
 
                         var evals_to_prove_min = result.Select((value, index) => new { value, index })
-                        .Where(pair => (pair.value.Key > minimum_ed))
-        .Select(pair => pair.index)
-        .FirstOrDefault();
+                            .Where(pair => (pair.value.Key > minimum_ed))
+                            .Select(pair => pair.index)
+                            .FirstOrDefault();
 
                         if (evals_to_prove_min == 0)
                         {
@@ -270,6 +244,7 @@ namespace mped_hackery
             }
         }
 
+        /// source: stackoverflow
         /// <summary>
         /// Comparer for comparing two keys, handling equality as beeing greater
         /// Use this Comparer e.g. with SortedLists or SortedDictionaries, that don't allow duplicate keys
@@ -293,8 +268,7 @@ namespace mped_hackery
 
             #endregion
         }
-
-
+        
         public static CorrelatedStringPair generatePairOfStrings(int alphabet_size, int length, double generate_same_char_probability)
         {
             char[] alphabet = new char[alphabet_size];
@@ -333,6 +307,7 @@ namespace mped_hackery
 
         }
 
+        // source: stackoverflow
         private static readonly int[] factorial = new int[]{
     1,
     1,
@@ -369,6 +344,7 @@ namespace mped_hackery
         }
     }
 
+    // source: stackoverflow
     static class RandomExtensions
     {
         public static void Shuffle<T>(this Random rng, T[] array)
