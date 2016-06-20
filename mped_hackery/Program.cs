@@ -12,19 +12,10 @@ namespace mped_hackery
 
     class Program
     {
-
-        static char[] a, b;
-        static string s1, s2;
-
-        static SortedList<int, CharacterMapping> generateDataForCorrelatedStrings(int alphabet_size, int length, double correlation)
+        public static CharacterMapping[,] generateMatrixOfOneToOneMappings(Problem p)
         {
-            CorrelatedStringPair test = generatePairOfStrings(alphabet_size, length, correlation);
-
-            s1 = test.s1;
-            s2 = test.s2;
-            a = test.alphabet;
-            b = test.alphabet;
-
+            char[] a = p.a, b = p.b;
+            string s1 = p.s1, s2 = p.s2;
 
             CharacterMapping[,] one_to_one_mappings = new CharacterMapping[a.Length, b.Length];
 
@@ -40,8 +31,13 @@ namespace mped_hackery
                 }
             }
 
-            byte[] permutation_representation = new byte[a.Length];
-            for (int i = 0; i < a.Length; i++)
+            return one_to_one_mappings;
+        }
+
+        public static SortedList<int, CharacterMapping> exhaustivelyGenerateListOfPossibleMappings(CharacterMapping[,] one_to_one_mappings)
+        {
+            byte[] permutation_representation = new byte[one_to_one_mappings.GetLength(0)];
+            for (int i = 0; i < one_to_one_mappings.GetLength(0); i++)
             {
                 permutation_representation[i] = (byte)i;
             }
@@ -49,10 +45,10 @@ namespace mped_hackery
             SortedList<int, CharacterMapping> min_ed_list = new SortedList<int, CharacterMapping>(new DuplicateKeyComparer<int>());
             foreach (var permutation in array_permutations(permutation_representation))
             {
-                CharacterMapping[] combined_one_to_ones = new CharacterMapping[a.Length];
+                CharacterMapping[] combined_one_to_ones = new CharacterMapping[one_to_one_mappings.GetLength(0)];
 
                 int max_min_ed = Int32.MinValue;
-                for (int i = 0; i < a.Length; i++)
+                for (int i = 0; i < one_to_one_mappings.GetLength(0); i++)
                 {
                     CharacterMapping add = one_to_one_mappings[i, permutation[i]];
                     if (max_min_ed < add.min_ed)
@@ -68,6 +64,69 @@ namespace mped_hackery
             return min_ed_list;
         }
 
+        static SortedList<int, CharacterMapping> generateDataForExhaustiveTest(int alphabet_size, int length, double correlation)
+        {
+            Problem p = Problem.generateProblem(alphabet_size, length, correlation);
+
+            CharacterMapping[,] one_to_one_mappings = generateMatrixOfOneToOneMappings(p);
+
+            return exhaustivelyGenerateListOfPossibleMappings(one_to_one_mappings);
+        }
+
+        static ExhaustiveExperimentResult processResultOfExhaustiveTest(SortedList<int, CharacterMapping> result, int alphabet_size)
+        {
+            int minimum_ed = Int32.MaxValue;
+            CharacterMapping minimum_mapping = null;
+            int min_ed_contribution = Int32.MaxValue;
+            foreach (var r in result)
+            {
+                if (r.Value.min_ed < minimum_ed)
+                {
+                    minimum_ed = r.Value.min_ed;
+                    minimum_mapping = r.Value;
+                    min_ed_contribution = r.Key;
+                }
+            }
+
+            var real_evals_to_find_min = result.Select((value, index) => new { value, index })
+                .Where(pair => (pair.value.Value.min_ed == minimum_ed))
+                .Select(pair => pair.index)
+                .FirstOrDefault() + 1;
+
+            real_evals_to_find_min += alphabet_size * alphabet_size;
+
+            var min_evals_to_find_min = result.Select((value, index) => new { value, index })
+                .Where(pair => (pair.value.Key == min_ed_contribution))
+                .Select(pair => pair.index)
+                .FirstOrDefault() + 1;
+
+            min_evals_to_find_min += alphabet_size * alphabet_size;
+
+            var max_evals_to_find_min = result.Select((value, index) => new { value, index })
+                .Where(pair => (pair.value.Key > min_ed_contribution))
+                .Select(pair => pair.index)
+                .FirstOrDefault();
+
+            if (max_evals_to_find_min == 0)
+            {
+                max_evals_to_find_min = factorial[alphabet_size];
+            }
+            max_evals_to_find_min += alphabet_size * alphabet_size;
+
+            var evals_to_prove_min = result.Select((value, index) => new { value, index })
+                .Where(pair => (pair.value.Key > minimum_ed))
+                .Select(pair => pair.index)
+                .FirstOrDefault();
+
+            if (evals_to_prove_min == 0)
+            {
+                evals_to_prove_min = factorial[alphabet_size];
+            }
+            evals_to_prove_min += alphabet_size * alphabet_size;
+
+            return new ExhaustiveExperimentResult(min_evals_to_find_min, real_evals_to_find_min, max_evals_to_find_min, evals_to_prove_min, minimum_ed);
+        }
+
         static void Main(string[] args)
         {
             int alphabet_size = 6;
@@ -76,63 +135,20 @@ namespace mped_hackery
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("results.txt"))
             {
 
-                file.WriteLine(String.Format("correlation, min evals to find min, real evals to find min, max evals to find min, evals to prove min, mped. alphabet size: {0}, string length: {1}", alphabet_size, length));
+                file.WriteLine(String.Format("# correlation, min evals to find min, real evals to find min, max evals to find min, evals to prove min, mped. alphabet size: {0}, string length: {1}", alphabet_size, length));
 
                 for (int correlation_step = 0; correlation_step <= 10; correlation_step++)
                 {
                     for (int i = 0; i < 5; i++)
                     {
                         double correlation = 0.1d * correlation_step;
-                        var result = generateDataForCorrelatedStrings(alphabet_size, length, correlation);
-                        int minimum_ed = Int32.MaxValue;
-                        CharacterMapping minimum_mapping = null;
-                        int min_ed_contribution = Int32.MaxValue;
-                        foreach (var r in result)
-                        {
-                            if (r.Value.min_ed < minimum_ed)
-                            {
-                                minimum_ed = r.Value.min_ed;
-                                minimum_mapping = r.Value;
-                                min_ed_contribution = r.Key;
-                            }
-                        }
+                        var result_list = generateDataForExhaustiveTest(alphabet_size, length, correlation);
 
-                        var real_evals_to_find_min = result.Select((value, index) => new { value, index })
-                            .Where(pair => (pair.value.Value.min_ed == minimum_ed))
-                            .Select(pair => pair.index)
-                            .FirstOrDefault() + 1;
+                        var result = processResultOfExhaustiveTest(result_list, alphabet_size);
 
-                        real_evals_to_find_min += alphabet_size * alphabet_size;
-
-                        var min_evals_to_find_min = result.Select((value, index) => new { value, index })
-                            .Where(pair => (pair.value.Key == min_ed_contribution))
-                            .Select(pair => pair.index)
-                            .FirstOrDefault() + 1;
-
-                        min_evals_to_find_min += alphabet_size * alphabet_size;
-
-                        var max_evals_to_find_min = result.Select((value, index) => new { value, index })
-                            .Where(pair => (pair.value.Key > min_ed_contribution))
-                            .Select(pair => pair.index)
-                            .FirstOrDefault();
-
-                        if (max_evals_to_find_min == 0)
-                        {
-                            max_evals_to_find_min = factorial[alphabet_size];
-                        }
-                        max_evals_to_find_min += alphabet_size * alphabet_size;
-
-                        var evals_to_prove_min = result.Select((value, index) => new { value, index })
-                            .Where(pair => (pair.value.Key > minimum_ed))
-                            .Select(pair => pair.index)
-                            .FirstOrDefault();
-
-                        if (evals_to_prove_min == 0)
-                        {
-                            evals_to_prove_min = factorial[alphabet_size];
-                        }
-                        evals_to_prove_min += alphabet_size*alphabet_size;
-                        file.WriteLine(String.Format("{0} {1} {2} {3} {4} {5}", correlation, min_evals_to_find_min, real_evals_to_find_min, max_evals_to_find_min, evals_to_prove_min, minimum_ed));
+                        file.WriteLine(String.Format("{0} {1} {2} {3} {4} {5}", correlation, result.min_evals_to_find_min,
+                            result.real_evals_to_find_min,
+                            result.max_evals_to_find_min, result.evals_to_prove_min, result.mped));
                     }
                 }
             }
@@ -244,6 +260,20 @@ namespace mped_hackery
             }
         }
 
+        public class ExhaustiveExperimentResult
+        {
+            public int min_evals_to_find_min, real_evals_to_find_min, max_evals_to_find_min, evals_to_prove_min, mped;
+
+            public ExhaustiveExperimentResult(int min_evals_to_find_min, int real_evals_to_find_min, int max_evals_to_find_min, int evals_to_prove_min, int mped)
+            {
+                this.min_evals_to_find_min = min_evals_to_find_min;
+                this.real_evals_to_find_min = real_evals_to_find_min;
+                this.max_evals_to_find_min = max_evals_to_find_min;
+                this.evals_to_prove_min = evals_to_prove_min;
+                this.mped = mped;
+            }
+        }
+
         /// source: stackoverflow
         /// <summary>
         /// Comparer for comparing two keys, handling equality as beeing greater
@@ -269,43 +299,6 @@ namespace mped_hackery
             #endregion
         }
         
-        public static CorrelatedStringPair generatePairOfStrings(int alphabet_size, int length, double generate_same_char_probability)
-        {
-            char[] alphabet = new char[alphabet_size];
-            char[] alphabet2 = new char[alphabet_size];
-            for (int i = 0; i < alphabet_size; i++)
-            {
-                if (i < 26)
-                {
-                    alphabet[i] = (char)('A' + i);
-                }
-                else
-                {
-                    alphabet[i] = (char)('A' + (i - 26));
-                }
-            }
-
-            Array.Copy(alphabet, alphabet2, alphabet_size);
-            Random r = new Random();
-            r.Shuffle(alphabet2);
-            char[] s1 = new char[length];
-            char[] s2 = new char[length];
-            for (int i = 0; i < s1.Length; i++)
-            {
-                int r1 = r.Next(alphabet_size);
-                s1[i] = alphabet[r1];
-                if (r.NextDouble() < generate_same_char_probability)
-                {
-                    s2[i] = alphabet2[r1];
-                }
-                else
-                {
-                    s2[i] = alphabet[r.Next(alphabet_size)];
-                }
-            }
-            return new CorrelatedStringPair(new String(s1), new String(s2), alphabet, generate_same_char_probability);
-
-        }
 
         // source: stackoverflow
         private static readonly int[] factorial = new int[]{
@@ -325,23 +318,6 @@ namespace mped_hackery
     1932053504,
 };
 
-    }
-
-    class CorrelatedStringPair
-    {
-        public string s1;
-        public string s2;
-        public char[] alphabet;
-
-        public double introduced_correlation;
-
-        public CorrelatedStringPair(string s1, string s2, char[] alphabet, double introduced_correlation)
-        {
-            this.s1 = s1;
-            this.s2 = s2;
-            this.alphabet = alphabet;
-            this.introduced_correlation = introduced_correlation;
-        }
     }
 
     // source: stackoverflow
