@@ -73,7 +73,71 @@ namespace mped_hackery
             return exhaustivelyGenerateListOfPossibleMappings(one_to_one_mappings);
         }
 
-        static ExhaustiveExperimentResult processResultOfExhaustiveTest(SortedList<int, CharacterMapping> result, int alphabet_size)
+        static void generateDataForProgressiveTest(int alphabet_size, int length, double correlation)
+        {
+            Problem p = Problem.generateProblem(alphabet_size, length, correlation);
+
+            CharacterMapping[,] one_to_one_mappings = generateMatrixOfOneToOneMappings(p);
+
+            printMatrix(p.a, p.b, one_to_one_mappings);
+
+            for (int i = 0; i <= 0; i++) {
+                Console.WriteLine(i);
+            matrix_op(one_to_one_mappings, new int[alphabet_size], 0, i, false);
+            }
+
+
+        }
+
+        static void matrix_op(CharacterMapping[,] mapping, int[] permutation, int i, int max_char_dist, bool contains_max)
+        {
+            for (int j = 0; j < mapping.GetLength(1); j++)
+            {
+                permutation[i] = j;
+
+                bool breakflag = false;
+                for (int k = 0; k < i; k++) {
+                    if (permutation[k] == j)
+                    {
+                        breakflag = true;
+                        break;
+                    }
+                }
+                if (breakflag)
+                {
+                    continue;
+                }
+
+                if (mapping[i, j].min_ed <= max_char_dist)
+                {
+                    if (i == 0)
+                    {
+                        contains_max = false;
+                    }
+
+                    if (mapping[i, j].min_ed == max_char_dist)
+                    {
+                        contains_max = true;
+                    }
+
+                    
+
+                    if (i < mapping.GetLength(0) - 1)
+                    {
+                        matrix_op(mapping, permutation, i + 1, max_char_dist, contains_max);
+                    }
+                    else
+                    {
+                        if (contains_max)
+                        {
+                            Console.WriteLine(String.Join(", ", permutation)+ " :" + String.Join(", ", permutation.Select((value, index) => mapping[index, value].min_ed)));
+                        }
+                    }
+                }
+            }
+        }
+
+            static ExhaustiveExperimentResult processResultOfExhaustiveTest(SortedList<int, CharacterMapping> result, int alphabet_size)
         {
             int minimum_ed = Int32.MaxValue;
             CharacterMapping minimum_mapping = null;
@@ -131,7 +195,7 @@ namespace mped_hackery
         {
             int alphabet_size = 6;
             int length = 100;
-
+                 
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("results.txt"))
             {
 
@@ -190,7 +254,7 @@ namespace mped_hackery
         }
 
 
-        public static void printMatrix(CharacterMapping[,] one_to_one_mappings)
+        public static void printMatrix(char[]a, char[]b, CharacterMapping[,] one_to_one_mappings)
         {
             Console.WriteLine("   " + String.Join("   ", b));
 
@@ -199,15 +263,7 @@ namespace mped_hackery
                 Console.Write(a[i] + " ");
                 for (int j = 0; j < b.Length; j++)
                 {
-                    int min = one_to_one_mappings[i, j].min_ed;
-                    if (min < 12)
-                    {
-                        Console.Write(String.Format("{0,3} ", one_to_one_mappings[i, j].min_ed));
-                    }
-                    else
-                    {
-                        Console.Write("   ");
-                    }
+                     Console.Write(String.Format("{0,3} ", one_to_one_mappings[i, j].min_ed));
                 }
                 Console.WriteLine();
             }
