@@ -8,6 +8,8 @@
 #include "HillClimbing.h"
 #include <iostream>
 #include <cstdlib>
+#include <time.h>
+
 using namespace std;
 
 // Fisher-Yates shuffle

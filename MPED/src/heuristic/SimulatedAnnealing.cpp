@@ -2,6 +2,9 @@
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
+#include <time.h>
+#include <algorithm>
+
 using namespace std;
 
 void SimulatedAnnealing::randomNext(unsigned short* n1, unsigned short* n2) {
@@ -55,6 +58,7 @@ void SimulatedAnnealing::compute() {
 
 		// switch to the next state if dist is better
 		// otherwise switch with probability e^(-deltaE/T)
+		// TODO: investigate if this if is correct
 		if ((current_dist > next_dist) || exp(-(next_dist - current_dist) / temperature) > rand()) {
 			copy(sigma1_n, sigma1_n + sgl1, sigma1_c);
 			copy(sigma2_n, sigma2_n + sgl2, sigma2_c);
@@ -79,5 +83,3 @@ void SimulatedAnnealing::compute() {
 
 	this->result = best_dist;
 }
-
-

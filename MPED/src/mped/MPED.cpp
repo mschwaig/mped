@@ -1,4 +1,5 @@
 #include "MPED.h"
+#include <algorithm>
 
 inline const int indexof(unsigned x, unsigned short a[], int size) {
 	for (int i = 0; i < size; i++)
