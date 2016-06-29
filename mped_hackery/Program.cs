@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Security.Cryptography;
 
 namespace mped_hackery
 {
@@ -66,7 +67,7 @@ namespace mped_hackery
 
         static SortedList<int, CharacterMapping> generateDataForExhaustiveTest(int alphabet_size, int length, double correlation)
         {
-            Problem p = Problem.generateProblem(alphabet_size, length, correlation);
+            Problem p = ProblemData.generateProblem(alphabet_size, length, correlation, new RNGCryptoServiceProvider());
 
             CharacterMapping[,] one_to_one_mappings = generateMatrixOfOneToOneMappings(p);
 
@@ -75,7 +76,7 @@ namespace mped_hackery
 
         static void generateDataForProgressiveTest(int alphabet_size, int length, double correlation)
         {
-            Problem p = Problem.generateProblem(alphabet_size, length, correlation);
+            Problem p = ProblemData.generateProblem(alphabet_size, length, correlation, new RNGCryptoServiceProvider());
 
             CharacterMapping[,] one_to_one_mappings = generateMatrixOfOneToOneMappings(p);
 
@@ -85,8 +86,24 @@ namespace mped_hackery
                 Console.WriteLine(i);
             matrix_op(one_to_one_mappings, new int[alphabet_size], 0, i, false);
             }
+        }
 
+        static List<Problem> generateComparisonData() {
 
+            List<Problem> problems = new List<Problem>();
+            RandomNumberGenerator r = new RNGCryptoServiceProvider();
+
+            for (int alphabet_pow = 2; alphabet_pow <= 5; alphabet_pow++)
+            for (int length_pow = 4; length_pow <= 4; length_pow++)
+            for (int similarity = 0; similarity <= 8; similarity++)
+            {
+                        int alphabet_size = 1 << alphabet_pow;
+                        int string_length = 1 << (length_pow * 2);
+                        int related_char_count = string_length * similarity / 8;
+                        problems.Add(ProblemData.generateProblem(alphabet_size, string_length, related_char_count, r));
+            }
+
+            return problems;
         }
 
         static void matrix_op(CharacterMapping[,] mapping, int[] permutation, int i, int max_char_dist, bool contains_max)
@@ -193,6 +210,13 @@ namespace mped_hackery
 
         static void Main(string[] args)
         {
+
+
+            var res = generateComparisonData();
+
+            var asdf = Newtonsoft.Json.JsonConvert.SerializeObject(res);
+            System.IO.File.WriteAllText("test.txt", asdf);
+
             int alphabet_size = 6;
             int length = 100;
                  
@@ -377,18 +401,30 @@ namespace mped_hackery
     }
 
     // source: stackoverflow
-    static class RandomExtensions
+    static class RandomNumberGeneratorExtensions
     {
-        public static void Shuffle<T>(this Random rng, T[] array)
+        public static void Shuffle<T>(this RandomNumberGenerator rng, T[] array)
         {
             int n = array.Length;
             while (n > 1)
             {
-                int k = rng.Next(n--);
+                int k = rng.Next<RandomNumberGenerator>(n--);
                 T temp = array[n];
                 array[n] = array[k];
                 array[k] = temp;
             }
+        }
+
+        public static int Next<T>(this RandomNumberGenerator rng, int max_number) {
+            byte[] arr = new byte[4];
+            int result;
+            do {
+                rng.GetBytes(arr);
+                arr[3] = (byte) (arr[3] & 0x7f); // eliminate sign bit
+                result = BitConverter.ToInt32(arr, 0) % max_number;
+            } while (result >= Int32.MaxValue - (Int32.MaxValue % max_number));
+
+            return result;
         }
     }
 }
