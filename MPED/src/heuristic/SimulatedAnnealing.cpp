@@ -20,6 +20,7 @@ void SimulatedAnnealing::computeAndAlign() {
 // that's the random-restart steepest ascent hill climbing
 void SimulatedAnnealing::compute() {
 	srand(time(NULL));
+	this->eval_count = 0;
 
 	// sigma & strings lengths
 	size_t sgl1 = this->mped->getSgl1();
@@ -55,6 +56,7 @@ void SimulatedAnnealing::compute() {
 		// compute the new distance
 		next_dist = this->mped->computeExternalEditDistance(this->mped->get_Sigma1(), this->mped->get_Sigma2(),
 				sigma1_n, sigma2_n, mped->getS1(), mped->getS2());
+		this->eval_count++;
 
 		// switch to the next state if dist is better
 		// otherwise switch with probability e^(-deltaE/T)

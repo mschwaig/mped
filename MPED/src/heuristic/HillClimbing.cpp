@@ -52,6 +52,7 @@ void HillClimbing::computeAndAlign() {
 void HillClimbing::compute() {
 
 	srand(time(NULL));
+	this->eval_count = 0;
 
 	unsigned d = this->mped->computeEditDistance();
 	unsigned min_dist = d, min_min_dist = d;
@@ -100,6 +101,7 @@ void HillClimbing::compute() {
 							// then we have the distance
 							d = this->mped->computeExternalEditDistance(this->mped->get_Sigma1(), this->mped->get_Sigma2(),
 									sigma1_o, sigma2_o, mped->getS1(), mped->getS2());
+							this->eval_count++;
 
 							if (d < min_dist) {
 								min_dist = d;

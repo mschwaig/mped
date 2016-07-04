@@ -13,6 +13,7 @@
 class Heuristic {
 protected:
 	unsigned result;
+	unsigned eval_count;
 	MPED* mped;
 
 	unsigned short* computed_sigma1;
