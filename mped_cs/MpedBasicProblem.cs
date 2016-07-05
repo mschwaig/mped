@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace mped_cs
 {
-    [Item("MPED computation", "colorful description")]
+    [Item("Multi-Parameterized Edit-Distance computation", "colorful description")]
     [Creatable(CreatableAttribute.Categories.CombinatorialProblems, Priority = 100)]
     public class MpedBasicProblem : SingleObjectiveBasicProblem<PermutationEncoding>
     {
