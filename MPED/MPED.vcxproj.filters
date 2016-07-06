@@ -33,6 +33,9 @@
     <ClCompile Include="src\utility\SeqReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\HeuristicWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\alignment\Alignment.h">

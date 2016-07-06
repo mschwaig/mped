@@ -56,10 +56,10 @@ private:
 
 public:
 
-	MPED(string a, string b) : _s1(a), _s2(b) {
-		_sigma1 = defineSigma(a);
-		_sigma2 = defineSigma(b);
+	MPED(string a, string b) : MPED (a, b, defineSigma(a), defineSigma(b)) {
+	}
 
+	MPED(string s1, string s2, string alphabet1, string alphabet2) : _s1(s1), _s2(s2), _sigma1(alphabet1), _sigma2(alphabet2) {
 		p1 = 1, p2 = 1, attempts = 0, gap = 1;
 		self_identity = false;
 

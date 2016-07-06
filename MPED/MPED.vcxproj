@@ -21,17 +21,20 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{565CF8C3-E87F-44A0-BB51-B529DC890858}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -100,6 +103,7 @@
     <ClCompile Include="src\alignment\Alignment.cpp" />
     <ClCompile Include="src\heuristic\HillClimbing.cpp" />
     <ClCompile Include="src\heuristic\SimulatedAnnealing.cpp" />
+    <ClCompile Include="src\HeuristicWrapper.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mped\MPED.cpp" />
     <ClCompile Include="src\utility\SeqReader.cpp" />
@@ -112,6 +116,11 @@
     <ClInclude Include="src\mped\MPED.h" />
     <ClInclude Include="src\utility\Matrix.h" />
     <ClInclude Include="src\utility\SeqReader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="at.mschwaig.mped.definitions">
+      <HintPath>dependencies\at.mschwaig.mped.definitions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
