@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
 using System.Security.Cryptography;
 
-namespace mped_hackery
+using at.mschwaig.mped.definitions;
+
+namespace at.mschwaig.mped.mincontribsort
 {
     // sources http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.217.3627&rep=rep1&type=pdf
 

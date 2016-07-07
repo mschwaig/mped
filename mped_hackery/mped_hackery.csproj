@@ -7,8 +7,8 @@
     <ProjectGuid>{49D756C9-FE1D-48FD-A379-828B036A4502}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>mped_hackery</RootNamespace>
-    <AssemblyName>mped_hackery</AssemblyName>
+    <RootNamespace>at.mschwaig.mped.mincontribsort</RootNamespace>
+    <AssemblyName>at.mschwaig.mped.mincontribsort</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="at.mschwaig.mped.definitions">
+      <HintPath>..\..\..\..\Documents\mped\MPED\dependencies\at.mschwaig.mped.definitions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -48,12 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterMappings.cs" />
-    <Compile Include="Heuristic.cs" />
-    <Compile Include="Problem.cs" />
     <Compile Include="ProblemData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solution.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
