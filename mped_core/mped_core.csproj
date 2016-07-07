@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{188DFF60-6774-44A7-A060-BACE437FAFDC}</ProjectGuid>
+    <ProjectGuid>{F2EF6E76-A266-4E70-A849-8405E8A95FF6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>at.mschwaig.mped.definitions</RootNamespace>
-    <AssemblyName>at.mschwaig.mped.definitions</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>at.mschwaig.mped.core</RootNamespace>
+    <AssemblyName>at.mschwaig.mped.core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,7 +28,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,11 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Heuristic.cs" />
-    <Compile Include="Problem.cs" />
+    <Compile Include="Alphabet.cs" />
+    <Compile Include="AlphabetMapping.cs" />
+    <Compile Include="AString.cs" />
+    <Compile Include="Distance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result.cs" />
-    <Compile Include="Solution.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mped_definitions\mped_definitions.csproj">
+      <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
+      <Name>mped_definitions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

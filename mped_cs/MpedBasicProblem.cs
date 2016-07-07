@@ -10,7 +10,9 @@ using HeuristicLab.Encodings.PermutationEncoding;
 using HeuristicLab.Persistence.Default.CompositeSerializers.Storable;
 using System.Collections.Generic;
 
-namespace mped_cs
+using at.mschwaig.mped.core;
+
+namespace at.mschwaig.mped.hl.plugin
 {
     [Item("Multi-Parameterized Edit-Distance computation", "colorful description")]
     [Creatable(CreatableAttribute.Categories.CombinatorialProblems, Priority = 100)]

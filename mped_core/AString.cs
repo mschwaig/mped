@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace mped_cs
+namespace at.mschwaig.mped.core
 {
     public class AString
     {
@@ -12,7 +8,7 @@ namespace mped_cs
         string str;
 
         private AString(Alphabet a, string s) {
-            // TODO: check that string is definde over alphabet
+            // TODO: check that string is defined over alphabet
             this.alphabet = a;
             this.str = s;
         }

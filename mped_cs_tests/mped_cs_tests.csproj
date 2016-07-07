@@ -7,8 +7,8 @@
     <ProjectGuid>{06A2B7A0-C424-43DF-BD8D-1CC9C0977BD1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>mped_cs_tests</RootNamespace>
-    <AssemblyName>mped_cs_tests</AssemblyName>
+    <RootNamespace>at.mschwaig.mped.tests</RootNamespace>
+    <AssemblyName>at.mschwaig.mped.tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,9 +50,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mped_core\mped_core.csproj">
+      <Project>{f2ef6e76-a266-4e70-a849-8405e8a95ff6}</Project>
+      <Name>mped_core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\mped_cs\mped_cs.csproj">
       <Project>{2bf2b6db-7e80-404f-9943-cef8aa60142e}</Project>
       <Name>mped_cs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mped_definitions\mped_definitions.csproj">
+      <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
+      <Name>mped_definitions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

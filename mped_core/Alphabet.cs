@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace mped_cs
+namespace at.mschwaig.mped.core
 {
     public class Alphabet
     {

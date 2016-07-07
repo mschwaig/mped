@@ -7,8 +7,8 @@
     <ProjectGuid>{2BF2B6DB-7E80-404F-9943-CEF8AA60142E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>mped_cs</RootNamespace>
-    <AssemblyName>mped_cs</AssemblyName>
+    <RootNamespace>at.mschwaig.mped.hl.plugin</RootNamespace>
+    <AssemblyName>at.mschwaig.mped.hl.plugin</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -85,18 +85,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alphabet.cs" />
-    <Compile Include="AlphabetMapping.cs" />
-    <Compile Include="Distance.cs" />
     <Compile Include="MpedBasicProblem.cs" />
-    <Compile Include="MpedProblemDefinition.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AString.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="mped_plugin_key.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mped_core\mped_core.csproj">
+      <Project>{f2ef6e76-a266-4e70-a849-8405e8a95ff6}</Project>
+      <Name>mped_core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
-namespace mped_cs
+using at.mschwaig.mped.definitions;
+
+namespace at.mschwaig.mped.core
 {
     public class Distance
     {
@@ -124,6 +124,14 @@ namespace mped_cs
                 int[,] distance_matrix = ed(a.getString(), b.getString(), mapping);
                 return distance_matrix[distance_matrix.GetLength(0) - 1, distance_matrix.GetLength(1) - 1];
             };
+        }
+
+        public static int mped(Problem p, Solution s)
+        {
+            var a = new Alphabet(p.a, 1);
+            var b = new Alphabet(p.b, 1);
+            var f = getAlphabetMappingEvaluationFunction(AString.create(a, p.s1), AString.create(b, p.s2));
+            return f(AlphabetMapping.getMapping(a, b, s.Permutation.Select(x => (byte)x).ToArray()));
         }
     }
 }

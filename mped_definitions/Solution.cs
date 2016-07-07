@@ -1,41 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace at.mschwaig.mped.definitions
 {
     public class Solution
     {
-        public static Solution create(Problem p, int[] permutation, int number_of_evals)
+        public int[] Permutation { get; }
+
+        public Solution(int [] permutation)
         {
-            return new Solution(p, permutation, number_of_evals);
+            this.Permutation = permutation;
         }
 
-        public static Solution create(Problem p, int[] a_permutation, int[] b_permutation, int number_of_evals)
+        public Solution(int[] a_permutation, int[] permutation_b)
         {
-            var permutation = a_permutation
-                .Zip(b_permutation, (x, y) => Tuple.Create(x, y))
+            this.Permutation = a_permutation
+                .Zip(permutation_b, (x, y) => Tuple.Create(x, y))
                 .OrderBy(x => x.Item1)
                 .Select(x => x.Item2)
                 .ToArray();
-            return new Solution(p, permutation, number_of_evals);
-
         }
-
-
-        private Solution(Problem problem, int[] permutation, int number_of_evals)
-        {
-            this.Problem = problem;
-            this.Permutation = permutation;
-            this.NumberOfEvalsToObtainSolution = number_of_evals;
-        }
-
-        Problem Problem { get; }
-
-        int[] Permutation { get; }
-
-        int NumberOfEvalsToObtainSolution { get; }
     }
 }

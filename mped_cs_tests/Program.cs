@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using mped_cs;
+﻿using System.Diagnostics;
+using at.mschwaig.mped.core;
 
-namespace mped_cs_tests
+namespace at.mschwaig.mped.tests
 {
     class Program
     {
