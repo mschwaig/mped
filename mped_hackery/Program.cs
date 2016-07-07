@@ -84,7 +84,23 @@ namespace mped_hackery
 
             for (int i = 0; i <= 0; i++) {
                 Console.WriteLine(i);
-            matrix_op(one_to_one_mappings, new int[alphabet_size], 0, i, false);
+                matrix_op(one_to_one_mappings, new int[alphabet_size], 0, i, false);
+            }
+        }
+
+        static void runProgressiveTest()
+        {
+            char[] alphabet = "ABCDEFGHIJKLMNOP".ToCharArray();
+            Problem p = new ProblemData(alphabet, alphabet, "FFMIIOEBKMDOEMIJAFHAKAKKABPKGDDMHADHIDKCHNIJFMHGCFKOPPKDCFMKJDNDNLGKKKBMDGAKHCIHDBKJFEDGLEFGMEMIHFNOGMEKIAFMPCDOMNMGLENFPDEODHFPCCFKKBPCDLDBELBFOANAENLDCGHHGAONABPEMOIDBNLNHBICFMDILAMJFACJOKIDDLJFEFHAANHCCGLFEHGGGMAOKHFEBEJNPHDLLEDJODLBKNOMAANOGGNNEPKMOODB", "NNBFFALHOBDALBFPGNIGOGOOGHJOEDDBIGDIFDOKIMFPNBIEKNOAJJODKNBOPDMDMCEOOOHBDEGOIKFIDHOPNLDECLNEBLBFINMAEBLOFGNBJKDABMBECLMNJDLADINJKKNOOHJKDCDHLCHNAGMGLMCDKEIIEGAMGHJLBAFDHMCMIHFKNBDFCGBPNGKPAOFDDCPNLNIGGMIKKECNLIEEEBGAOINLHLPMJIDCCLDPADCHOMABGGMAEEMMLJOBAADH");
+
+            CharacterMapping[,] one_to_one_mappings = generateMatrixOfOneToOneMappings(p);
+
+            printMatrix(p.a, p.b, one_to_one_mappings);
+
+            for (int i = 0; i <= 1; i++)
+            {
+                Console.WriteLine(i);
+                matrix_op(one_to_one_mappings, new int[alphabet.Length], 0, i, false);
             }
         }
 
@@ -211,6 +227,7 @@ namespace mped_hackery
         static void Main(string[] args)
         {
 
+            runProgressiveTest();
 
             var res = generateComparisonData();
 

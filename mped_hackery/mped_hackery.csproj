@@ -48,10 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterMappings.cs" />
+    <Compile Include="Heuristic.cs" />
     <Compile Include="Problem.cs" />
     <Compile Include="ProblemData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solution.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
