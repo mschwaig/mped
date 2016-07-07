@@ -9,6 +9,7 @@ using msclr::interop::marshal_as;
 
 using at::mschwaig::mped::definitions::Problem;
 using at::mschwaig::mped::definitions::Solution;
+using at::mschwaig::mped::definitions::Result;
 
 namespace at {
 namespace mschwaig {
@@ -21,7 +22,7 @@ namespace cpp {
 	public:
 		HeuristicBase() {}
 
-		virtual Solution^ applyTo(Problem^ p) {
+		virtual Result^ applyTo(Problem^ p) {
 
 			std::string s1 = marshal_as<std::string>(p->s1);
 			std::string s2 = marshal_as<std::string>(p->s2);
@@ -62,7 +63,8 @@ namespace cpp {
 
 			delete sigma2_int;
 
-			return Solution::create(p, permutation1, permutation2, h.getEvalCount());
+			Solution^ s = gcnew Solution(permutation1, permutation2);
+			return Result::create(p, s, h.getEvalCount());
 		}
 	};
 
