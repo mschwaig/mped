@@ -12,7 +12,8 @@ namespace at.mschwaig.mped.mincontribsort
 
     class Program
     {
-        public static CharacterMapping[,] generateMatrixOfOneToOneMappings(Problem p)
+        // TODO: remove
+        private static CharacterMapping[,] generateMatrixOfOneToOneMappings(Problem p)
         {
             char[] a = p.a, b = p.b;
             string s1 = p.s1, s2 = p.s2;
@@ -73,36 +74,6 @@ namespace at.mschwaig.mped.mincontribsort
             return exhaustivelyGenerateListOfPossibleMappings(one_to_one_mappings);
         }
 
-        static void generateDataForProgressiveTest(int alphabet_size, int length, double correlation)
-        {
-            Problem p = ProblemData.generateProblem(alphabet_size, length, correlation, new RNGCryptoServiceProvider());
-
-            CharacterMapping[,] one_to_one_mappings = generateMatrixOfOneToOneMappings(p);
-
-            printMatrix(p.a, p.b, one_to_one_mappings);
-
-            for (int i = 0; i <= 0; i++) {
-                Console.WriteLine(i);
-                matrix_op(one_to_one_mappings, new int[alphabet_size], 0, i, false);
-            }
-        }
-
-        static void runProgressiveTest()
-        {
-            char[] alphabet = "ABCDEFGHIJKLMNOP".ToCharArray();
-            Problem p = new ProblemData(alphabet, alphabet, "FFMIIOEBKMDOEMIJAFHAKAKKABPKGDDMHADHIDKCHNIJFMHGCFKOPPKDCFMKJDNDNLGKKKBMDGAKHCIHDBKJFEDGLEFGMEMIHFNOGMEKIAFMPCDOMNMGLENFPDEODHFPCCFKKBPCDLDBELBFOANAENLDCGHHGAONABPEMOIDBNLNHBICFMDILAMJFACJOKIDDLJFEFHAANHCCGLFEHGGGMAOKHFEBEJNPHDLLEDJODLBKNOMAANOGGNNEPKMOODB", "NNBFFALHOBDALBFPGNIGOGOOGHJOEDDBIGDIFDOKIMFPNBIEKNOAJJODKNBOPDMDMCEOOOHBDEGOIKFIDHOPNLDECLNEBLBFINMAEBLOFGNBJKDABMBECLMNJDLADINJKKNOOHJKDCDHLCHNAGMGLMCDKEIIEGAMGHJLBAFDHMCMIHFKNBDFCGBPNGKPAOFDDCPNLNIGGMIKKECNLIEEEBGAOINLHLPMJIDCCLDPADCHOMABGGMAEEMMLJOBAADH");
-
-            CharacterMapping[,] one_to_one_mappings = generateMatrixOfOneToOneMappings(p);
-
-            printMatrix(p.a, p.b, one_to_one_mappings);
-
-            for (int i = 0; i <= 1; i++)
-            {
-                Console.WriteLine(i);
-                matrix_op(one_to_one_mappings, new int[alphabet.Length], 0, i, false);
-            }
-        }
-
         static List<Problem> generateComparisonData() {
 
             List<Problem> problems = new List<Problem>();
@@ -121,53 +92,7 @@ namespace at.mschwaig.mped.mincontribsort
             return problems;
         }
 
-        static void matrix_op(CharacterMapping[,] mapping, int[] permutation, int i, int max_char_dist, bool contains_max)
-        {
-            for (int j = 0; j < mapping.GetLength(1); j++)
-            {
-                permutation[i] = j;
 
-                bool breakflag = false;
-                for (int k = 0; k < i; k++) {
-                    if (permutation[k] == j)
-                    {
-                        breakflag = true;
-                        break;
-                    }
-                }
-                if (breakflag)
-                {
-                    continue;
-                }
-
-                if (mapping[i, j].min_ed <= max_char_dist)
-                {
-                    if (i == 0)
-                    {
-                        contains_max = false;
-                    }
-
-                    if (mapping[i, j].min_ed == max_char_dist)
-                    {
-                        contains_max = true;
-                    }
-
-                    
-
-                    if (i < mapping.GetLength(0) - 1)
-                    {
-                        matrix_op(mapping, permutation, i + 1, max_char_dist, contains_max);
-                    }
-                    else
-                    {
-                        if (contains_max)
-                        {
-                            Console.WriteLine(String.Join(", ", permutation)+ " :" + String.Join(", ", permutation.Select((value, index) => mapping[index, value].min_ed)));
-                        }
-                    }
-                }
-            }
-        }
 
             static ExhaustiveExperimentResult processResultOfExhaustiveTest(SortedList<int, CharacterMapping> result, int alphabet_size)
         {
@@ -225,9 +150,6 @@ namespace at.mschwaig.mped.mincontribsort
 
         static void Main(string[] args)
         {
-
-            runProgressiveTest();
-
             var res = generateComparisonData();
 
             var asdf = Newtonsoft.Json.JsonConvert.SerializeObject(res);
