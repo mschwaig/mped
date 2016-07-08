@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using at.mschwaig.mped.definitions;
 
+// TODO: remove this file beause it duplicates at.mschwaig.mped.problemgen
 namespace at.mschwaig.mped.mincontribsort
 {
     public class ProblemData : Problem
@@ -79,7 +80,7 @@ namespace at.mschwaig.mped.mincontribsort
         public static ProblemData generateProblem(int alphabet_size, int string_length, double correlation, RandomNumberGenerator r)
         {
             // TODO: check this
-            return generateProblem(alphabet_size, string_length, (int)alphabet_size * correlation, r);
+            return generateProblem(alphabet_size, string_length, (int)(string_length * correlation), r);
         }
 
         public static ProblemData generateProblem(int alphabet_size, int string_length, int number_of_identical_characters, RandomNumberGenerator r)
@@ -146,5 +147,36 @@ namespace at.mschwaig.mped.mincontribsort
             return permutation;
         }
 
+    }
+
+    static class RandomNumberGeneratorExtensions
+    {
+        // Fisher-Yates shuffle as described here: http://stackoverflow.com/a/1262619/2066744
+        public static void Shuffle<T>(this RandomNumberGenerator rng, T[] array)
+        {
+            int n = array.Length;
+            while (n > 1)
+            {
+                int k = rng.Next<RandomNumberGenerator>(n--);
+                T temp = array[n];
+                array[n] = array[k];
+                array[k] = temp;
+            }
+        }
+
+        // convert random bytes to random int in range
+        public static int Next<T>(this RandomNumberGenerator rng, int max_number)
+        {
+            byte[] arr = new byte[4];
+            int result;
+            do
+            {
+                rng.GetBytes(arr);
+                arr[3] = (byte)(arr[3] & 0x7f); // eliminate sign bit
+                result = BitConverter.ToInt32(arr, 0) % max_number;
+            } while (result >= Int32.MaxValue - (Int32.MaxValue % max_number));
+
+            return result;
+        }
     }
 }
