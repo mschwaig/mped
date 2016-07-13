@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="at.mschwaig.mped.core">
+      <HintPath>..\dependencies\at.mschwaig.mped.core.dll</HintPath>
+    </Reference>
+    <Reference Include="at.mschwaig.mped.definitions">
+      <HintPath>..\dependencies\at.mschwaig.mped.definitions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mped_mincontribsort\mped_mincontribsort.csproj">
+      <Project>{49d756c9-fe1d-48fd-a379-828b036a4502}</Project>
+      <Name>mped_mincontribsort</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace at.mschwaig.mped.mincontribsort
 {
-    class MinContribSort : Heuristic
+    public class MinContribSort : Heuristic
     {
         Mode mode;
         SolutionSpaceSortingMethod solution_space_sorting_method;

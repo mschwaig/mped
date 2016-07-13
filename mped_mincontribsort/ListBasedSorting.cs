@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace at.mschwaig.mped.mincontribsort
 {
-    class ListBasedSorting : SolutionSpaceSortingMethod
+    public class ListBasedSorting : SolutionSpaceSortingMethod
     {
         public IEnumerable<Tuple<int, IEnumerable<Solution>>> sortByMinMaxContrib(CharacterMapping[,] one_to_one_mappings)
         {
