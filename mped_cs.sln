@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_core", "mped_core\mped
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_problemgen", "mped_problemgen\mped_problemgen.csproj", "{5B02D546-C778-4FA2-A64B-AA8A30568388}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "solution_space_visualization", "solution_space_visualization\solution_space_visualization.csproj", "{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5B02D546-C778-4FA2-A64B-AA8A30568388}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B02D546-C778-4FA2-A64B-AA8A30568388}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B02D546-C778-4FA2-A64B-AA8A30568388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
