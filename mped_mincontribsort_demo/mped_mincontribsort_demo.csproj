@@ -62,6 +62,10 @@
       <Project>{49d756c9-fe1d-48fd-a379-828b036a4502}</Project>
       <Name>mped_mincontribsort</Name>
     </ProjectReference>
+    <ProjectReference Include="..\mped_problemgen\mped_problemgen.csproj">
+      <Project>{5B02D546-C778-4FA2-A64B-AA8A30568388}</Project>
+      <Name>mped_problemgen</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

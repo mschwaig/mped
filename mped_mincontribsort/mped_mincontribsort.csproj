@@ -53,7 +53,6 @@
     <Compile Include="CharacterMappings.cs" />
     <Compile Include="LinearExactMaxiumumAssignmentBasedSorting.cs" />
     <Compile Include="ListBasedSorting.cs" />
-    <Compile Include="ProblemData.cs" />
     <Compile Include="MinContribSort.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolutionSpaceSortingMethod.cs" />
