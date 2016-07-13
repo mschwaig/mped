@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_hackery", "mped_hackery\mped_hackery.csproj", "{49D756C9-FE1D-48FD-A379-828B036A4502}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_mincontribsort_demo", "mped_mincontribsort_demo\mped_mincontribsort_demo.csproj", "{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_mincontribsort", "mped_mincontribsort\mped_mincontribsort.csproj", "{49D756C9-FE1D-48FD-A379-828B036A4502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{49D756C9-FE1D-48FD-A379-828B036A4502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{49D756C9-FE1D-48FD-A379-828B036A4502}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49D756C9-FE1D-48FD-A379-828B036A4502}.Release|Any CPU.ActiveCfg = Release|Any CPU
