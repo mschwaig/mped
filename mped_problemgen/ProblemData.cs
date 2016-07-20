@@ -79,7 +79,7 @@ namespace at.mschwaig.mped.problemgen
         public static ProblemData generateProblem(int alphabet_size, int string_length, double correlation, RandomNumberGenerator r)
         {
             // TODO: check this
-            return generateProblem(alphabet_size, string_length, (int)alphabet_size * correlation, r);
+            return generateProblem(alphabet_size, string_length, (int)(string_length * correlation), r);
         }
 
         public static ProblemData generateProblem(int alphabet_size, int string_length, int number_of_identical_characters, RandomNumberGenerator r)
@@ -120,8 +120,9 @@ namespace at.mschwaig.mped.problemgen
                 else
                 {
                     // chars are not related by construction
+                    // does not guarantee chars a not the same
                     int rnd_1 = r.Next<RandomNumberGenerator>(alphabet_size);
-                    int rnd_2 = r.Next<RandomNumberGenerator>(alphabet_size); // guarantee chars a not the same
+                    int rnd_2 = r.Next<RandomNumberGenerator>(alphabet_size);
                     s1[i] = alphabet[rnd_1];
                     s2[i] = alphabet[rnd_2];
                 }
