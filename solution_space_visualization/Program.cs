@@ -18,7 +18,7 @@ namespace solution_space_visualization
             int alphabet_size = 8;
             int string_length = 128;
 
-            Problem p = ProblemData.generateProblem(alphabet_size, string_length, string_length, new RNGCryptoServiceProvider());
+            Problem p = ProblemData.generateProblem(alphabet_size, string_length, 0.0d, new RNGCryptoServiceProvider());
 
             CharacterMapping[,] one_to_one_mappings = MinContribSort.generateMatrixOfOneToOneMappings(p);
 

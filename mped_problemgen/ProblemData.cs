@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 using at.mschwaig.mped.definitions;
+using System.Collections.Generic;
 
 namespace at.mschwaig.mped.problemgen
 {
@@ -10,7 +11,6 @@ namespace at.mschwaig.mped.problemgen
         public string a, b;
         public string s1, s2;
 
-        public int min_related_chars = 0;
         public string permutation;
 
         private char[] a_converted;
@@ -76,13 +76,7 @@ namespace at.mschwaig.mped.problemgen
             this.s2 = s2;
         }
 
-        public static ProblemData generateProblem(int alphabet_size, int string_length, double correlation, RandomNumberGenerator r)
-        {
-            // TODO: check this
-            return generateProblem(alphabet_size, string_length, (int)(string_length * correlation), r);
-        }
-
-        public static ProblemData generateProblem(int alphabet_size, int string_length, int number_of_identical_characters, RandomNumberGenerator r)
+        public static ProblemData generateProblem(int alphabet_size, int string1_length, double substitute_prob, RandomNumberGenerator r)
         {
             char[] alphabet = new char[alphabet_size];
             for (int i = 0; i < alphabet_size; i++)
@@ -97,42 +91,82 @@ namespace at.mschwaig.mped.problemgen
                 }
             }
 
-            int[] string_p = generate_index_permutation(r, string_length);
-            int[] alphabet_p = generate_index_permutation(r, alphabet_size);
+            // generate random numbers for first string
 
-
-
-
-            char[] s1 = new char[string_length];
-            char[] s2 = new char[string_length];
-
-            for (int permutation_index = 0; permutation_index < string_length; permutation_index++)
+            int[] s1_rnd = new int[string1_length];
+            for (int i = 0; i < string1_length; i++)
             {
-                int i = string_p[permutation_index];
+                int rnd = r.Next<RandomNumberGenerator>(alphabet_size);
+                s1_rnd[i] = rnd;
 
-                if (permutation_index < number_of_identical_characters)
+            }
+
+            // generate first string
+
+            char[] s1 = s1_rnd.Select(x => alphabet[x]).ToArray();
+
+            // generate operation sequence that leads to second string
+
+            int string2_length = string1_length;
+            List<char> operations = new List<char>();
+            for (int i = 0; i < string1_length; i++)
+            {
+                double action = substitute_prob;
+                if (action < substitute_prob)
                 {
-                    // chars are related by construction
-                    int rnd_1 = r.Next<RandomNumberGenerator>(alphabet_size);
-                    s1[i] = alphabet[rnd_1];
-                    s2[i] = alphabet[alphabet_p[rnd_1]];
+                    operations.Add('s');
                 }
                 else
                 {
-                    // chars are not related by construction
-                    // does not guarantee chars a not the same
-                    int rnd_1 = r.Next<RandomNumberGenerator>(alphabet_size);
-                    int rnd_2 = r.Next<RandomNumberGenerator>(alphabet_size);
-                    s1[i] = alphabet[rnd_1];
-                    s2[i] = alphabet[rnd_2];
+                    operations.Add('n');
                 }
             }
 
+            int[] alphabet_p = generate_index_permutation(r, alphabet_size);
+
+            // TODO: correct s2 length
+
+
+            // generate s2 from operation sequence
+
+            char[] s2 = new char[string2_length];
+
+            int s1_index = 0;
+            int s2_index = 0;
+
+            foreach (var operation in operations)
+            {
+                switch (operation)
+                {
+                    case 's':
+                        int rnd = r.Next<RandomNumberGenerator>(alphabet_size);
+                        // TODO: evaluate preventing accidental matches
+                        s2[s2_index] = alphabet[rnd];
+                        s1_index++;
+                        s2_index++;
+                        break;
+                    case 'n':
+                        s2[s2_index] = alphabet[alphabet_p[s1_rnd[s1_index]]];
+                        s1_index++;
+                        s2_index++;
+                        break;
+                    case 'i':
+                        rnd = r.Next<RandomNumberGenerator>(alphabet_size - 1);
+                        s2[s2_index] = alphabet[rnd];
+                        s2_index++;
+                        break;
+                    case 'd':
+                        s1_index++;
+                        break;
+                }
+
+            }
+
             ProblemData p = new ProblemData(alphabet, alphabet, new String(s1), new String(s2));
-            p.min_related_chars = number_of_identical_characters;
             p.permutation = String.Join(",", alphabet_p);
             return p;
         }
+
 
 
         private static int[] generate_index_permutation(RandomNumberGenerator r, int size)

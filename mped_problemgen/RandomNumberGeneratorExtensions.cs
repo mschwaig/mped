@@ -23,15 +23,25 @@ namespace at.mschwaig.mped.problemgen
         public static int Next<T>(this RandomNumberGenerator rng, int max_number)
         {
             byte[] arr = new byte[4];
-            int result;
+            int nonnegative_int;
             do
             {
                 rng.GetBytes(arr);
-                arr[3] = (byte)(arr[3] & 0x7f); // eliminate sign bit
-                result = BitConverter.ToInt32(arr, 0) % max_number;
-            } while (result >= Int32.MaxValue - (Int32.MaxValue % max_number));
+                int any_int = BitConverter.ToInt32(arr, 0);
+                nonnegative_int = Math.Abs(any_int);
+            } while (nonnegative_int >= Int32.MaxValue - (Int32.MaxValue % max_number));
 
-            return result;
+            return nonnegative_int % max_number;
+        }
+
+        // source: http://stackoverflow.com/a/2854635/2066744
+        public static double NextDouble<T>(this RandomNumberGenerator rng)
+        {
+            var bytes = new Byte[8];
+            rng.GetBytes(bytes);
+            // Step 2: bit-shift 11 and 53 based on double's mantissa bits
+            var ul = BitConverter.ToUInt64(bytes, 0) / (1 << 11);
+            return ul / (Double)(1UL << 53);
         }
     }
 }
