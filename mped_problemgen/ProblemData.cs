@@ -133,7 +133,7 @@ namespace at.mschwaig.mped.problemgen
             List<char> operations = new List<char>();
             for (int i = 0; i < string1_length; )
             {
-                double action = r.NextDouble<>();
+                double action = r.NextDouble<RandomNumberGenerator>();
                 if (action < substitute_prob_upper_limit)
                 {
                     operations.Add('s');
@@ -173,7 +173,7 @@ namespace at.mschwaig.mped.problemgen
                 case LengthCorrectionPolicy.DISTRIBUTE_CORRECTION:
                     foreach (var e in generate_correction_elems(string1_length, string2_length))
                     {
-                        operations.Insert(r.Next<>(operations.Count() + 1), e);
+                        operations.Insert(r.Next<RandomNumberGenerator>(operations.Count() + 1), e);
                     }
                     string2_length = string1_length;
                     break;
@@ -196,7 +196,7 @@ namespace at.mschwaig.mped.problemgen
                 switch (operation)
                 {
                     case 's':
-                        int rnd = r.Next<>(alphabet_size);
+                        int rnd = r.Next<RandomNumberGenerator>(alphabet_size);
                         // TODO: evaluate preventing accidental matches
                         s2[s2_index] = alphabet[rnd];
                         s1_index++;
@@ -208,7 +208,7 @@ namespace at.mschwaig.mped.problemgen
                         s2_index++;
                         break;
                     case 'i':
-                        rnd =r.Next<>(alphabet_size - 1);
+                        rnd =r.Next<RandomNumberGenerator>(alphabet_size - 1);
                         s2[s2_index] = alphabet[rnd];
                         s2_index++;
                         break;
