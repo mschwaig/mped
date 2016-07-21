@@ -78,6 +78,24 @@ namespace at.mschwaig.mped.problemgen
 
         public static ProblemData generateProblem(int alphabet_size, int string1_length, double substitute_prob, RandomNumberGenerator r)
         {
+            return generateProblem(alphabet_size, string1_length, substitute_prob, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, r);
+        }
+
+        public static ProblemData generateProblem(int alphabet_size, int string1_length, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction, RandomNumberGenerator r)
+        {
+            // checking probability parameters
+
+            if (substitute_prob < 0.0d || insert_prob < 0.0d || delete_prob < 0.0d)
+                throw new ArgumentException("probability value must be greater than 0.0d");
+
+            if (substitute_prob + insert_prob + delete_prob > 1.0d)
+                throw new ArgumentException("probability values must add up to something smaller than 1.0d");
+
+            if (insert_prob > 0.999d)
+                throw new ArgumentException("ridiculously high insertion probabiblities are forbidden to ensure termination");
+
+            // create alphabet
+
             char[] alphabet = new char[alphabet_size];
             for (int i = 0; i < alphabet_size; i++)
             {
@@ -107,25 +125,64 @@ namespace at.mschwaig.mped.problemgen
 
             // generate operation sequence that leads to second string
 
+            double substitute_prob_upper_limit = substitute_prob;
+            double insert_prob_upper_limit = substitute_prob_upper_limit + insert_prob;
+            double delete_prob_upper_limit = insert_prob_upper_limit + delete_prob;
+
             int string2_length = string1_length;
             List<char> operations = new List<char>();
-            for (int i = 0; i < string1_length; i++)
+            for (int i = 0; i < string1_length; )
             {
-                double action = substitute_prob;
-                if (action < substitute_prob)
+                double action = r.NextDouble<>();
+                if (action < substitute_prob_upper_limit)
                 {
                     operations.Add('s');
+                    i++;
+                }
+                else if (action < insert_prob_upper_limit)
+                {
+                    operations.Add('i');
+                    string2_length++;
+                }
+                else if (action < delete_prob_upper_limit)
+                {
+                    operations.Add('d');
+                    string2_length--;
+                    i++;
                 }
                 else
                 {
                     operations.Add('n');
+                    i++;
                 }
             }
 
             int[] alphabet_p = generate_index_permutation(r, alphabet_size);
 
-            // TODO: correct s2 length
-
+            // correct the length of s2 according to the set policy
+            switch (length_correction)
+            {
+                case LengthCorrectionPolicy.PREPEND_CORRECTION:
+                    operations.InsertRange(0, generate_correction_elems(string1_length, string2_length));
+                    string2_length = string1_length;
+                    break;
+                case LengthCorrectionPolicy.APPEND_CORRECTION:
+                    operations.AddRange(generate_correction_elems(string1_length, string2_length));
+                    string2_length = string1_length;
+                    break;
+                case LengthCorrectionPolicy.DISTRIBUTE_CORRECTION:
+                    foreach (var e in generate_correction_elems(string1_length, string2_length))
+                    {
+                        operations.Insert(r.Next<>(operations.Count() + 1), e);
+                    }
+                    string2_length = string1_length;
+                    break;
+                case LengthCorrectionPolicy.NO_CORRECTION:
+                    // nothing to do here
+                    break;
+                default:
+                    throw new ArgumentException("unknown correction policy");
+            }
 
             // generate s2 from operation sequence
 
@@ -139,7 +196,7 @@ namespace at.mschwaig.mped.problemgen
                 switch (operation)
                 {
                     case 's':
-                        int rnd = r.Next<RandomNumberGenerator>(alphabet_size);
+                        int rnd = r.Next<>(alphabet_size);
                         // TODO: evaluate preventing accidental matches
                         s2[s2_index] = alphabet[rnd];
                         s1_index++;
@@ -151,7 +208,7 @@ namespace at.mschwaig.mped.problemgen
                         s2_index++;
                         break;
                     case 'i':
-                        rnd = r.Next<RandomNumberGenerator>(alphabet_size - 1);
+                        rnd =r.Next<>(alphabet_size - 1);
                         s2[s2_index] = alphabet[rnd];
                         s2_index++;
                         break;
@@ -179,6 +236,28 @@ namespace at.mschwaig.mped.problemgen
             r.Shuffle(permutation);
 
             return permutation;
+        }
+
+        private static List<char> generate_correction_elems(int string1_length, int string2_length)
+        {
+            int length_diff = string2_length - string1_length;
+            int diff_element_count = Math.Abs(length_diff);
+
+            List<char> correction_elems = new List<char>();
+
+            for (int i = 0; i < diff_element_count; i++)
+            {
+                if (length_diff < 0)
+                {
+                    correction_elems.Add('i');
+                }
+                else
+                {
+                    correction_elems.Add('d');
+                }
+            }
+
+            return correction_elems;
         }
 
     }
