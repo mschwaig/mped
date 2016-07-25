@@ -1,10 +1,7 @@
 ﻿using at.mschwaig.mped.definitions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace at.mschwaig.mped.problemgen
 {
@@ -23,7 +20,7 @@ namespace at.mschwaig.mped.problemgen
                         int alphabet_size = 1 << alphabet_pow;
                         int string_length = 1 << (length_pow * 2);
                         int related_char_count = string_length * similarity / 8;
-                        problems.Add(ProblemData.generateProblem(alphabet_size, string_length, related_char_count, r));
+                        problems.Add(GeneratedProblem.generateProblem(alphabet_size, string_length, related_char_count, r));
                     }
 
             return problems;

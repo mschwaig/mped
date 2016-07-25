@@ -6,12 +6,16 @@ using System.Collections.Generic;
 
 namespace at.mschwaig.mped.problemgen
 {
-    public class ProblemData : Problem
+    public class GeneratedProblem : Problem
     {
         public string a, b;
         public string s1, s2;
 
         public string permutation;
+        double substitute_prob;
+        double insert_prob;
+        double delete_prob;
+        LengthCorrectionPolicy length_correction_policy;
 
         private char[] a_converted;
         private char[] b_converted;
@@ -58,7 +62,7 @@ namespace at.mschwaig.mped.problemgen
             get { return s2; }
         }
 
-        public ProblemData(char[] a, char[] b, string s1, string s2)
+        private GeneratedProblem(char[] a, char[] b, string s1, string s2, int[] permutation, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction_policy)
         {
             this.a = String.Concat(a.OrderBy(x => x));
             this.b = String.Concat(b.OrderBy(x => x));
@@ -74,14 +78,19 @@ namespace at.mschwaig.mped.problemgen
 
             this.s1 = s1;
             this.s2 = s2;
+            this.permutation = String.Join(",", permutation);
+            this.substitute_prob = substitute_prob;
+            this.insert_prob = insert_prob;
+            this.delete_prob = delete_prob;
+            this.length_correction_policy = length_correction_policy;
         }
 
-        public static ProblemData generateProblem(int alphabet_size, int string1_length, double substitute_prob, RandomNumberGenerator r)
+        public static GeneratedProblem generateProblem(int alphabet_size, int string1_length, double substitute_prob, RandomNumberGenerator r)
         {
             return generateProblem(alphabet_size, string1_length, substitute_prob, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, r);
         }
 
-        public static ProblemData generateProblem(int alphabet_size, int string1_length, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction, RandomNumberGenerator r)
+        public static GeneratedProblem generateProblem(int alphabet_size, int string1_length, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction, RandomNumberGenerator r)
         {
             // checking probability parameters
 
@@ -219,9 +228,7 @@ namespace at.mschwaig.mped.problemgen
 
             }
 
-            ProblemData p = new ProblemData(alphabet, alphabet, new String(s1), new String(s2));
-            p.permutation = String.Join(",", alphabet_p);
-            return p;
+            return new GeneratedProblem(alphabet, alphabet, new String(s1), new String(s2), alphabet_p, substitute_prob, insert_prob, delete_prob, length_correction);
         }
 
 
