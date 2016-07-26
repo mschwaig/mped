@@ -119,8 +119,8 @@ namespace at.mschwaig.mped.hl.plugin
         }
 
         private void Initialize() {
-            a_alphabet = new Alphabet(AlphabetA.Value.ToCharArray(), 1);
-            b_alphabet = new Alphabet(AlphabetB.Value.ToCharArray(), 1);
+            a_alphabet = new Alphabet(AlphabetA.Value.ToCharArray().Distinct().OrderBy(x => x).ToArray(), 1);
+            b_alphabet = new Alphabet(AlphabetB.Value.ToCharArray().Distinct().OrderBy(x => x).ToArray(), 1);
 
             AString a = a_alphabet.create(StringA.Value);
             AString b = b_alphabet.create(StringB.Value);
