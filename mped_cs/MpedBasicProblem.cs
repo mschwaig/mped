@@ -16,22 +16,23 @@ namespace at.mschwaig.mped.hl.plugin
 {
     [Item("Multi-Parameterized Edit-Distance computation", "colorful description")]
     [Creatable(CreatableAttribute.Categories.CombinatorialProblems, Priority = 100)]
+    [StorableClass]
     public class MpedBasicProblem : SingleObjectiveBasicProblem<PermutationEncoding>
     {
         #region Parameter Properties
-        public IValueParameter<StringValue> AlphabetAParameter
+        private IValueParameter<StringValue> AlphabetAParameter
         {
             get { return (IValueParameter<StringValue>)Parameters["AlphabetA"]; }
         }
-        public IValueParameter<StringValue> AlphabetBParameter
+        private IValueParameter<StringValue> AlphabetBParameter
         {
             get { return (IValueParameter<StringValue>)Parameters["AlphabetB"]; }
         }
-        public IValueParameter<StringValue> StringAParameter
+        private IValueParameter<StringValue> StringAParameter
         {
             get { return (IValueParameter<StringValue>)Parameters["StringA"]; }
         }
-        public IValueParameter<StringValue> StringBParameter
+        private IValueParameter<StringValue> StringBParameter
         {
             get { return (IValueParameter<StringValue>)Parameters["StringB"]; }
         }
@@ -118,7 +119,8 @@ namespace at.mschwaig.mped.hl.plugin
             StringB.ValueChanged += onParameterChanged;
         }
 
-        private void Initialize() {
+        private void Initialize()
+        {
             a_alphabet = new Alphabet(AlphabetA.Value.ToCharArray().Distinct().OrderBy(x => x).ToArray(), 1);
             b_alphabet = new Alphabet(AlphabetB.Value.ToCharArray().Distinct().OrderBy(x => x).ToArray(), 1);
 
@@ -127,10 +129,8 @@ namespace at.mschwaig.mped.hl.plugin
 
             int max_alphabet_length = Math.Max(a_alphabet.getCount(), b_alphabet.getCount()); // longer one of two alphabet lengths
 
-            this.Encoding.Length = max_alphabet_length;
+            this.Encoding.LengthParameter = new FixedValueParameter<IntValue>("Length", "The length of the permutation.", new IntValue(max_alphabet_length));
             alphabetMappingEval = Distance.getAlphabetMappingEvaluationFunction(a, b);
-
-
         }
 
         public override double Evaluate(Individual individual, IRandom random)
