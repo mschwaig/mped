@@ -3,23 +3,41 @@ using System.Linq;
 using System.Security.Cryptography;
 using at.mschwaig.mped.definitions;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace at.mschwaig.mped.problemgen
 {
+
+    [Table("GENERATED_PROBLEMS")]
     public class GeneratedProblem : Problem
     {
-        public string a, b;
-        public string s1, s2;
-
-        public string permutation;
-        double substitute_prob;
-        double insert_prob;
-        double delete_prob;
-        LengthCorrectionPolicy length_correction_policy;
-
         private char[] a_converted;
         private char[] b_converted;
 
+        [Key]
+        public int Id { get; private set; }
+        public int GeneratingRunId { get; private set; }
+
+        public string a { get; private set; }
+        public string b { get; private set; }
+
+        public string s1 { get; private set; }
+        public string s2 { get; private set; }
+
+        public double SubstituteProb { get; private set; }
+        public double InsertProb { get; private set; }
+        public double DeleteProb { get; private set; }
+        
+        
+        public string PermutationString { get; private set; }
+
+
+        public LengthCorrectionPolicy length_correction_policy { get; private set; }
+
+
+
+        [NotMapped]
         char[] Problem.a
         {
             get
@@ -36,6 +54,7 @@ namespace at.mschwaig.mped.problemgen
             }
         }
 
+        [NotMapped]
         char[] Problem.b
         {
             get
@@ -52,17 +71,7 @@ namespace at.mschwaig.mped.problemgen
             }
         }
 
-        string Problem.s1
-        {
-            get { return s1; }
-        }
-
-        string Problem.s2
-        {
-            get { return s2; }
-        }
-
-        private GeneratedProblem(char[] a, char[] b, string s1, string s2, int[] permutation, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction_policy)
+        private GeneratedProblem(char[] a, char[] b, string s1, string s2, int[] permutation, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction_policy, int generatring_run_id)
         {
             this.a = String.Concat(a.OrderBy(x => x));
             this.b = String.Concat(b.OrderBy(x => x));
@@ -78,19 +87,15 @@ namespace at.mschwaig.mped.problemgen
 
             this.s1 = s1;
             this.s2 = s2;
-            this.permutation = String.Join(",", permutation);
-            this.substitute_prob = substitute_prob;
-            this.insert_prob = insert_prob;
-            this.delete_prob = delete_prob;
+            this.PermutationString = String.Join(",", permutation);
+            this.SubstituteProb = substitute_prob;
+            this.InsertProb = insert_prob;
+            this.DeleteProb = delete_prob;
             this.length_correction_policy = length_correction_policy;
+            GeneratingRunId = generatring_run_id;
         }
 
-        public static GeneratedProblem generateProblem(int alphabet_size, int string1_length, double substitute_prob, RandomNumberGenerator r)
-        {
-            return generateProblem(alphabet_size, string1_length, substitute_prob, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, r);
-        }
-
-        public static GeneratedProblem generateProblem(int alphabet_size, int string1_length, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction, RandomNumberGenerator r)
+        public static GeneratedProblem generateProblem(int alphabet_size, int string1_length, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction, RandomNumberGenerator r, int runId)
         {
             // checking probability parameters
 
@@ -228,7 +233,7 @@ namespace at.mschwaig.mped.problemgen
 
             }
 
-            return new GeneratedProblem(alphabet, alphabet, new String(s1), new String(s2), alphabet_p, substitute_prob, insert_prob, delete_prob, length_correction);
+            return new GeneratedProblem(alphabet, alphabet, new String(s1), new String(s2), alphabet_p, substitute_prob, insert_prob, delete_prob, length_correction, runId);
         }
 
 

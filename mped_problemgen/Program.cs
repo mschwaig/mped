@@ -1,4 +1,5 @@
 ﻿using at.mschwaig.mped.definitions;
+using at.mschwaig.mped.problemgen;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
@@ -7,11 +8,13 @@ namespace at.mschwaig.mped.problemgen
 {
     class Program
     {
-        static List<Problem> generateComparisonData()
+        static List<GeneratedProblem> generateComparisonData()
         {
 
-            List<Problem> problems = new List<Problem>();
+            List<GeneratedProblem> problems = new List<GeneratedProblem>();
             RandomNumberGenerator r = new RNGCryptoServiceProvider();
+
+            int runId = r.Next<RandomNumberGenerator>(int.MaxValue);
 
             for (int alphabet_pow = 2; alphabet_pow <= 5; alphabet_pow++)
                 for (int length_pow = 4; length_pow <= 4; length_pow++)
@@ -19,8 +22,7 @@ namespace at.mschwaig.mped.problemgen
                     {
                         int alphabet_size = 1 << alphabet_pow;
                         int string_length = 1 << (length_pow * 2);
-                        int related_char_count = string_length * similarity / 8;
-                        problems.Add(GeneratedProblem.generateProblem(alphabet_size, string_length, related_char_count, r));
+                        problems.Add(GeneratedProblem.generateProblem(alphabet_size, string_length, similarity / 8.0d, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, r, runId));
                     }
 
             return problems;
@@ -30,8 +32,11 @@ namespace at.mschwaig.mped.problemgen
         {
             var res = generateComparisonData();
 
-            var asdf = Newtonsoft.Json.JsonConvert.SerializeObject(res);
-            System.IO.File.WriteAllText("test.txt", asdf);
+            using (var ctx = new ThesisDbContext())
+            {
+                ctx.Problems.AddRange(res);
+                ctx.SaveChanges();
+            }
         }
     }
 }
