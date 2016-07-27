@@ -145,18 +145,20 @@ namespace at.mschwaig.mped.problemgen
 
             int string2_length = string1_length;
             List<char> operations = new List<char>();
-            for (int i = 0; i < string1_length; )
+            for (int i = 0, j = 0; i < string1_length && (j < string1_length || length_correction == LengthCorrectionPolicy.NO_CORRECTION); )
             {
                 double action = r.NextDouble<RandomNumberGenerator>();
                 if (action < substitute_prob_upper_limit)
                 {
                     operations.Add('s');
                     i++;
+                    j++;
                 }
                 else if (action < insert_prob_upper_limit)
                 {
                     operations.Add('i');
                     string2_length++;
+                    j++;
                 }
                 else if (action < delete_prob_upper_limit)
                 {
@@ -168,6 +170,7 @@ namespace at.mschwaig.mped.problemgen
                 {
                     operations.Add('n');
                     i++;
+                    j++;
                 }
             }
 
@@ -198,6 +201,11 @@ namespace at.mschwaig.mped.problemgen
                     throw new ArgumentException("unknown correction policy");
             }
 
+            var match_count = operations.Count(x => x == 'n');
+            var mismatch_count = operations.Count(x => x == 's');
+            var insert_count = operations.Count(x => x == 'i');
+            var delete_count = operations.Count(x => x == 'd');
+
             // generate s2 from operation sequence
 
             char[] s2 = new char[string2_length];
@@ -211,7 +219,6 @@ namespace at.mschwaig.mped.problemgen
                 {
                     case 's':
                         int rnd = r.Next<RandomNumberGenerator>(alphabet_size);
-                        // TODO: evaluate preventing accidental matches
                         s2[s2_index] = alphabet[rnd];
                         s1_index++;
                         s2_index++;
@@ -222,7 +229,7 @@ namespace at.mschwaig.mped.problemgen
                         s2_index++;
                         break;
                     case 'i':
-                        rnd =r.Next<RandomNumberGenerator>(alphabet_size - 1);
+                        rnd =r.Next<RandomNumberGenerator>(alphabet_size);
                         s2[s2_index] = alphabet[rnd];
                         s2_index++;
                         break;

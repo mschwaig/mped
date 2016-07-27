@@ -16,14 +16,35 @@ namespace at.mschwaig.mped.problemgen
 
             int runId = r.Next<RandomNumberGenerator>(int.MaxValue);
 
-            for (int alphabet_pow = 2; alphabet_pow <= 5; alphabet_pow++)
-                for (int length_pow = 4; length_pow <= 4; length_pow++)
-                    for (int similarity = 0; similarity <= 8; similarity++)
-                    {
-                        int alphabet_size = 1 << alphabet_pow;
-                        int string_length = 1 << (length_pow * 2);
-                        problems.Add(GeneratedProblem.generateProblem(alphabet_size, string_length, similarity / 8.0d, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, r, runId));
-                    }
+            int[] alphabet_sizes = { 4, 6, 8, 10, 12, 16, 24, 32, 42 };
+            int[] string_lengths = { 256 };
+            double[] edit_probabilities = { .0d, .1d, .2d, .3d, .4d, .5d, .6d, .7d, .8d, .9d, 1.0d };
+            double[] insert_probabilities = { .0d, .1d, .2d, .3d, .4d, .5d, .6d, .7d, .8d, .9d };
+            double[] delete_probabilities = { .0d, .1d, .2d, .3d, .4d, .5d, .6d, .7d, .8d, .9d };
+
+
+            foreach (var alphabet_size in alphabet_sizes)
+            foreach (var string_length in string_lengths)
+            foreach (var edit_probability in edit_probabilities)
+            foreach (var insert_probability in insert_probabilities)
+            foreach (var delete_probability in delete_probabilities)
+            {
+                if (!(edit_probability + insert_probability + delete_probability > 1.0d))
+                {
+                    problems.Add(GeneratedProblem.generateProblem(alphabet_size, string_length, edit_probability, insert_probability, delete_probability, LengthCorrectionPolicy.NO_CORRECTION, r, runId));
+                }
+                if (!(edit_probability + insert_probability + delete_probability > 1.0d) && insert_probability <= .5d && delete_probability <= .5d)
+                {
+                    problems.Add(GeneratedProblem.generateProblem(alphabet_size, string_length, edit_probability, insert_probability, delete_probability, LengthCorrectionPolicy.PREPEND_CORRECTION, r, runId));
+                    problems.Add(GeneratedProblem.generateProblem(alphabet_size, string_length, edit_probability, insert_probability, delete_probability, LengthCorrectionPolicy.APPEND_CORRECTION, r, runId));
+                }
+                if (!(edit_probability > 1.0d) && delete_probability == .0d && insert_probability == .0d)
+                {
+                    // NOTE: equally distributed insertions and deletions cancel each other out
+                    problems.Add(GeneratedProblem.generateProblem(alphabet_size, string_length, edit_probability, insert_probability, insert_probability, LengthCorrectionPolicy.DISTRIBUTE_CORRECTION, r, runId));
+                }
+            }
+            
 
             return problems;
         }
