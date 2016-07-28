@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace at.mschwaig.mped.problemgen
+namespace at.mschwaig.mped.definitions
 {
-    class ThesisDbContext : DbContext
+    public class ThesisDbContext : DbContext
     {
         public ThesisDbContext() : base() { }
 
         public DbSet<GeneratedProblem> Problems { get; set; }
+
+        public DbSet<Solution> Solutions { get; set; }
     }
 }

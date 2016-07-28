@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace at.mschwaig.mped.problemgen
+namespace at.mschwaig.mped.definitions
 {
 
     [Table("GENERATED_PROBLEMS")]

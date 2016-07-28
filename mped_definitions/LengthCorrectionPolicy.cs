@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace at.mschwaig.mped.problemgen
+namespace at.mschwaig.mped.definitions
 {
     public enum LengthCorrectionPolicy
     {

@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 
 
-namespace at.mschwaig.mped.problemgen
+namespace at.mschwaig.mped.definitions
 {
-    static class RandomNumberGeneratorExtensions
+    public static class RandomNumberGeneratorExtensions
     {
         // Fisher-Yates shuffle as described here: http://stackoverflow.com/a/1262619/2066744
         public static void Shuffle<T>(this RandomNumberGenerator rng, T[] array)

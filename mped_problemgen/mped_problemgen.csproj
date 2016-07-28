@@ -52,12 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LengthCorrectionPolicy.cs" />
-    <Compile Include="GeneratedProblem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomNumberGeneratorExtensions.cs" />
-    <Compile Include="ThesisDbContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
