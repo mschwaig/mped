@@ -33,7 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,11 +57,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mped_problemgen\mped_problemgen.csproj">
-      <Project>{5b02d546-c778-4fa2-a64b-aa8a30568388}</Project>
-      <Name>mped_problemgen</Name>
+    <ProjectReference Include="..\mped_core\mped_core.csproj">
+      <Project>{f2ef6e76-a266-4e70-a849-8405e8a95ff6}</Project>
+      <Name>mped_core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mped_cpp\MPED.vcxproj">
+      <Project>{565cf8c3-e87f-44a0-bb51-b529dc890858}</Project>
+      <Name>MPED</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mped_definitions\mped_definitions.csproj">
+      <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
+      <Name>mped_definitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mped_mincontribsort\mped_mincontribsort.csproj">
+      <Project>{49d756c9-fe1d-48fd-a379-828b036a4502}</Project>
+      <Name>mped_mincontribsort</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

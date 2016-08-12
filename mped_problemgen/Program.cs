@@ -1,5 +1,4 @@
 ﻿using at.mschwaig.mped.definitions;
-using at.mschwaig.mped.problemgen;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
@@ -18,9 +17,9 @@ namespace at.mschwaig.mped.problemgen
 
             int[] alphabet_sizes = { 4, 6, 8, 10, 12, 16, 24, 32, 42 };
             int[] string_lengths = { 256 };
-            double[] edit_probabilities = { .0d, .1d, .2d, .3d, .4d, .5d, .6d, .7d, .8d, .9d, 1.0d };
-            double[] insert_probabilities = { .0d, .1d, .2d, .3d, .4d, .5d, .6d, .7d, .8d, .9d };
-            double[] delete_probabilities = { .0d, .1d, .2d, .3d, .4d, .5d, .6d, .7d, .8d, .9d };
+            double[] edit_probabilities = { .0d, .2d, .4d, .6d, .8d, 1.0d };
+            double[] insert_probabilities = { .0d, .2d, .4d,  .6d,  .8d};
+            double[] delete_probabilities = { .0d, .2d, .4d,  .6d,  .8d};
 
 
             foreach (var alphabet_size in alphabet_sizes)

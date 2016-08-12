@@ -7,6 +7,8 @@ namespace at.mschwaig.mped.definitions
     {
         public int[] Permutation { get; }
 
+        public Problem p;
+
         public Solution(int [] permutation)
         {
             this.Permutation = permutation;

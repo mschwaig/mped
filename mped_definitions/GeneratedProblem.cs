@@ -71,6 +71,10 @@ namespace at.mschwaig.mped.definitions
             }
         }
 
+        // used by EnitiyFramework
+        private GeneratedProblem() {
+        }
+
         private GeneratedProblem(char[] a, char[] b, string s1, string s2, int[] permutation, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction_policy, int generatring_run_id)
         {
             this.a = String.Concat(a.OrderBy(x => x));

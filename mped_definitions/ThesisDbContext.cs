@@ -13,6 +13,6 @@ namespace at.mschwaig.mped.definitions
 
         public DbSet<GeneratedProblem> Problems { get; set; }
 
-        public DbSet<Solution> Solutions { get; set; }
+        // public DbSet<Solution> Solutions { get; set; }
     }
 }

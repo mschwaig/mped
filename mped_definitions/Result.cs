@@ -14,10 +14,10 @@
             this.NumberOfEvalsToObtainSolution = number_of_evals;
         }
 
-        Problem Problem { get; }
+       public  Problem Problem { get; }
 
-        Solution Solution { get; }
+        public Solution Solution { get; }
 
-        int NumberOfEvalsToObtainSolution { get; }
+        public int NumberOfEvalsToObtainSolution { get; }
     }
 }

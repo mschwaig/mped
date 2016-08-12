@@ -7,7 +7,7 @@ using at.mschwaig.mped.definitions;
 
 namespace at.mschwaig.mped.mincontribsort
 {
-    class LinearExactMaxiumumAssignmentBasedSorting : SolutionSpaceSortingMethod
+    public class LinearExactMaxiumumAssignmentBasedSorting : SolutionSpaceSortingMethod
     {
         public IEnumerable<Tuple<int, IEnumerable<Solution>>> sortByMinMaxContrib(CharacterMapping[,] one_to_one_mappings)
         {
