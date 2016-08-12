@@ -22,6 +22,7 @@
     <ProjectGuid>{565CF8C3-E87F-44A0-BB51-B529DC890858}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>mped_cpp</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -100,27 +101,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\alignment\Alignment.cpp" />
-    <ClCompile Include="src\heuristic\HillClimbing.cpp" />
-    <ClCompile Include="src\heuristic\SimulatedAnnealing.cpp" />
-    <ClCompile Include="src\HeuristicWrapper.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\mped\MPED.cpp" />
-    <ClCompile Include="src\utility\SeqReader.cpp" />
+    <ClCompile Include="alignment\Alignment.cpp" />
+    <ClCompile Include="heuristic\HillClimbing.cpp" />
+    <ClCompile Include="heuristic\SimulatedAnnealing.cpp" />
+    <ClCompile Include="HeuristicWrapper.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mped\MPED.cpp" />
+    <ClCompile Include="utility\SeqReader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\alignment\Alignment.h" />
-    <ClInclude Include="src\heuristic\Heuristic.h" />
-    <ClInclude Include="src\heuristic\HillClimbing.h" />
-    <ClInclude Include="src\heuristic\SimulatedAnnealing.h" />
-    <ClInclude Include="src\mped\MPED.h" />
-    <ClInclude Include="src\utility\Matrix.h" />
-    <ClInclude Include="src\utility\SeqReader.h" />
+    <ClInclude Include="alignment\Alignment.h" />
+    <ClInclude Include="heuristic\Heuristic.h" />
+    <ClInclude Include="heuristic\HillClimbing.h" />
+    <ClInclude Include="heuristic\SimulatedAnnealing.h" />
+    <ClInclude Include="mped\MPED.h" />
+    <ClInclude Include="utility\Matrix.h" />
+    <ClInclude Include="utility\SeqReader.h" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="at.mschwaig.mped.definitions">
-      <HintPath>dependencies\at.mschwaig.mped.definitions.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\mped_definitions\mped_definitions.csproj">
+      <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
