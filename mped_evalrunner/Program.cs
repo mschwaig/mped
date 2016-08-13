@@ -31,7 +31,7 @@ namespace at.mschwaig.mped.evalrunner
                     watch.Restart();
 
                     var res = heuristic.applyTo(problem);
-                    Console.WriteLine(String.Format("Problem {0} took {1} miliseconds.", i, watch.ElapsedMilliseconds));
+                    Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, i, watch.ElapsedMilliseconds));
                     watch.Stop();
                     i += 1;
                     sum += Distance.mped(res.Problem, res.Solution);
