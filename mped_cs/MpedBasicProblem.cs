@@ -10,7 +10,7 @@ using HeuristicLab.Encodings.PermutationEncoding;
 using HeuristicLab.Persistence.Default.CompositeSerializers.Storable;
 using System.Collections.Generic;
 
-using at.mschwaig.mped.core;
+using at.mschwaig.mped.definitions;
 
 namespace at.mschwaig.mped.hl.plugin
 {

@@ -1,4 +1,4 @@
-﻿using at.mschwaig.mped.core;
+﻿using at.mschwaig.mped.definitions;
 using at.mschwaig.mped.cpp;
 using at.mschwaig.mped.definitions;
 using at.mschwaig.mped.mincontribsort;
@@ -25,12 +25,14 @@ namespace at.mschwaig.mped.evalrunner
             {
                 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-
-                foreach (var problem in ctx.Problems)
+                List<Problem> problemList = ctx.Problems.ToList();
+                foreach (var problem in problemList)
                 {
                     watch.Restart();
 
                     var res = heuristic.applyTo(problem);
+                    ctx.Results.Add(res);
+                    ctx.SaveChanges();
                     Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, i, watch.ElapsedMilliseconds));
                     watch.Stop();
                     i += 1;

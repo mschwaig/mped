@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_cs_tests", "mped_cs_te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_definitions", "mped_definitions\mped_definitions.csproj", "{188DFF60-6774-44A7-A060-BACE437FAFDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_core", "mped_core\mped_core.csproj", "{F2EF6E76-A266-4E70-A849-8405E8A95FF6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_problemgen", "mped_problemgen\mped_problemgen.csproj", "{5B02D546-C778-4FA2-A64B-AA8A30568388}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "solution_space_visualization", "solution_space_visualization\solution_space_visualization.csproj", "{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}"
@@ -21,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_mincontribsort_demo", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_evalrunner", "mped_evalrunner\mped_evalrunner.csproj", "{DC228E7A-2EF7-4F0B-9831-51EFD4BEE0F2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MPED", "mped_cpp\MPED.vcxproj", "{565CF8C3-E87F-44A0-BB51-B529DC890858}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mped_cpp", "mped_cpp\MPED.vcxproj", "{565CF8C3-E87F-44A0-BB51-B529DC890858}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,18 +67,6 @@ Global
 		{188DFF60-6774-44A7-A060-BACE437FAFDC}.Release|x64.Build.0 = Release|Any CPU
 		{188DFF60-6774-44A7-A060-BACE437FAFDC}.Release|x86.ActiveCfg = Release|Any CPU
 		{188DFF60-6774-44A7-A060-BACE437FAFDC}.Release|x86.Build.0 = Release|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Debug|x64.Build.0 = Debug|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Debug|x86.Build.0 = Debug|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Release|x64.ActiveCfg = Release|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Release|x64.Build.0 = Release|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Release|x86.ActiveCfg = Release|Any CPU
-		{F2EF6E76-A266-4E70-A849-8405E8A95FF6}.Release|x86.Build.0 = Release|Any CPU
 		{5B02D546-C778-4FA2-A64B-AA8A30568388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5B02D546-C778-4FA2-A64B-AA8A30568388}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B02D546-C778-4FA2-A64B-AA8A30568388}.Debug|x64.ActiveCfg = Debug|Any CPU

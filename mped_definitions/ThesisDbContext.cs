@@ -11,8 +11,10 @@ namespace at.mschwaig.mped.definitions
     {
         public ThesisDbContext() : base() { }
 
-        public DbSet<GeneratedProblem> Problems { get; set; }
+        public DbSet<Problem> Problems { get; set; }
 
-        // public DbSet<Solution> Solutions { get; set; }
+        public DbSet<Result> Results { get; set; }
+
+        public DbSet<Solution> Solutions { get; set; }
     }
 }

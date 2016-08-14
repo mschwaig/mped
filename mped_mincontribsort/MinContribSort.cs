@@ -2,7 +2,7 @@
 using at.mschwaig.mped.definitions;
 using System.Collections.Generic;
 
-using at.mschwaig.mped.core;
+using at.mschwaig.mped.definitions;
 using System.Linq;
 
 namespace at.mschwaig.mped.mincontribsort

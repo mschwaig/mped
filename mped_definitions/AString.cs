@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace at.mschwaig.mped.core
+namespace at.mschwaig.mped.definitions
 {
     public class AString
     {

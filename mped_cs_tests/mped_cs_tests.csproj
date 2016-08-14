@@ -50,10 +50,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mped_core\mped_core.csproj">
-      <Project>{f2ef6e76-a266-4e70-a849-8405e8a95ff6}</Project>
-      <Name>mped_core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\mped_cs\mped_cs.csproj">
       <Project>{2bf2b6db-7e80-404f-9943-cef8aa60142e}</Project>
       <Name>mped_cs</Name>

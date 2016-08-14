@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace at.mschwaig.mped.core
+namespace at.mschwaig.mped.definitions
 {
     public class AlphabetMapping
     {

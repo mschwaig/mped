@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using at.mschwaig.mped.core;
+using at.mschwaig.mped.definitions;
 
 namespace at.mschwaig.mped.tests
 {

@@ -60,10 +60,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mped_core\mped_core.csproj">
-      <Project>{f2ef6e76-a266-4e70-a849-8405e8a95ff6}</Project>
-      <Name>mped_core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\mped_cpp\MPED.vcxproj">
       <Project>{565cf8c3-e87f-44a0-bb51-b529dc890858}</Project>
       <Name>MPED</Name>

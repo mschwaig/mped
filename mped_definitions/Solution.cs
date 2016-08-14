@@ -1,27 +1,54 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace at.mschwaig.mped.definitions
 {
+
+    [Table("SOLUTIONS")]
     public class Solution
     {
-        public int[] Permutation { get; }
+        [Key]
+        public int Id { get; private set; }
 
-        public Problem p;
+        public string PermutationString { get; private set; }
+
+        public int[] Permutation
+        {
+            get
+            {
+                if (permutation_converted == null)
+                {
+                    return permutation_converted;
+                }
+                else
+                {
+                    permutation_converted = PermutationString.Split(',').Select(x => Int32.Parse(x)).ToArray();
+                    return permutation_converted;
+                }
+            }
+        }
+
+        int[] permutation_converted = null;
+
+        // Used by Entity Framework
+        private Solution() { }
 
         public Solution(int [] permutation)
         {
-            this.Permutation = permutation;
+            PermutationString = String.Join(",", permutation);
+            this.permutation_converted = permutation;
         }
 
-        public Solution(int[] a_permutation, int[] permutation_b)
-        {
-            this.Permutation = a_permutation
+        public Solution(int[] a_permutation, int[] permutation_b) : this (
+            a_permutation
                 .Zip(permutation_b, (x, y) => Tuple.Create(x, y))
                 .OrderBy(x => x.Item1)
                 .Select(x => x.Item2)
-                .ToArray();
-        }
+                .ToArray()){}
+
+
 
         // we are using the scheme described here
         // http://stackoverflow.com/a/20651773/2066744

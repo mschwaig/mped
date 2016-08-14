@@ -94,9 +94,9 @@
     <None Include="mped_plugin_key.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mped_core\mped_core.csproj">
-      <Project>{f2ef6e76-a266-4e70-a849-8405e8a95ff6}</Project>
-      <Name>mped_core</Name>
+    <ProjectReference Include="..\mped_definitions\mped_definitions.csproj">
+      <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
+      <Name>mped_definitions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

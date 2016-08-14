@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 
 using at.mschwaig.mped.definitions;
-using at.mschwaig.mped.core;
+using at.mschwaig.mped.definitions;
 using at.mschwaig.mped.problemgen;
 
 namespace at.mschwaig.mped.mincontribsort
@@ -62,7 +62,7 @@ namespace at.mschwaig.mped.mincontribsort
                     {
                         double correlation = 0.1d * correlation_step;
 
-                        Problem p = GeneratedProblem.generateProblem(alphabet_size, length, correlation, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, new RNGCryptoServiceProvider(), 0);
+                        Problem p = Problem.generateProblem(alphabet_size, length, correlation, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, new RNGCryptoServiceProvider(), 0);
 
                         CharacterMapping[,] one_to_one_mappings = MinContribSort.generateMatrixOfOneToOneMappings(p);
 
