@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 using at.mschwaig.mped.definitions;
 
-namespace at.mschwaig.mped.hl.plugin
+namespace at.mschwaig.mped.heuristiclab.plugin
 {
     [Item("Multi-Parameterized Edit-Distance computation", "colorful description")]
     [Creatable(CreatableAttribute.Categories.CombinatorialProblems, Priority = 100)]

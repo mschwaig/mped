@@ -4,8 +4,6 @@ using System.Linq;
 using System.Security.Cryptography;
 
 using at.mschwaig.mped.definitions;
-using at.mschwaig.mped.definitions;
-using at.mschwaig.mped.problemgen;
 
 namespace at.mschwaig.mped.mincontribsort
 {

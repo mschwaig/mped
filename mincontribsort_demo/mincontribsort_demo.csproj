@@ -50,17 +50,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mped_definitions\mped_definitions.csproj">
+    <ProjectReference Include="..\cpp_heuristics\cpp_heuristics.vcxproj">
+      <Project>{565cf8c3-e87f-44a0-bb51-b529dc890858}</Project>
+      <Name>cpp_heuristics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\definitions\definitions.csproj">
       <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
-      <Name>mped_definitions</Name>
+      <Name>definitions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mped_mincontribsort\mped_mincontribsort.csproj">
+    <ProjectReference Include="..\mincontribsort\mincontribsort.csproj">
       <Project>{49d756c9-fe1d-48fd-a379-828b036a4502}</Project>
-      <Name>mped_mincontribsort</Name>
+      <Name>mincontribsort</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mped_problemgen\mped_problemgen.csproj">
+    <ProjectReference Include="..\problemgen\problemgen.csproj">
       <Project>{5B02D546-C778-4FA2-A64B-AA8A30568388}</Project>
-      <Name>mped_problemgen</Name>
+      <Name>problemgen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

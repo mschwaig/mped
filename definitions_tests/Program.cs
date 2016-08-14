@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using at.mschwaig.mped.definitions;
 
-namespace at.mschwaig.mped.tests
+namespace at.mschwaig.mped.definitions.tests
 {
     class Program
     {

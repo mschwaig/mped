@@ -14,7 +14,7 @@ using at::mschwaig::mped::definitions::Result;
 namespace at {
 namespace mschwaig {
 namespace mped {
-namespace cpp {
+namespace cpp_heuristics {
 
 
 	template <typename heuristic>

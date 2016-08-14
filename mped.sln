@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_cs", "mped_cs\mped_cs.csproj", "{2BF2B6DB-7E80-404F-9943-CEF8AA60142E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "heuristiclab_plugin", "heuristiclab_plugin\heuristiclab_plugin.csproj", "{2BF2B6DB-7E80-404F-9943-CEF8AA60142E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_cs_tests", "mped_cs_tests\mped_cs_tests.csproj", "{06A2B7A0-C424-43DF-BD8D-1CC9C0977BD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "definitions_tests", "definitions_tests\definitions_tests.csproj", "{06A2B7A0-C424-43DF-BD8D-1CC9C0977BD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_definitions", "mped_definitions\mped_definitions.csproj", "{188DFF60-6774-44A7-A060-BACE437FAFDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "definitions", "definitions\definitions.csproj", "{188DFF60-6774-44A7-A060-BACE437FAFDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_problemgen", "mped_problemgen\mped_problemgen.csproj", "{5B02D546-C778-4FA2-A64B-AA8A30568388}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "problemgen", "problemgen\problemgen.csproj", "{5B02D546-C778-4FA2-A64B-AA8A30568388}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "solution_space_visualization", "solution_space_visualization\solution_space_visualization.csproj", "{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_mincontribsort", "mped_mincontribsort\mped_mincontribsort.csproj", "{49D756C9-FE1D-48FD-A379-828B036A4502}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mincontribsort", "mincontribsort\mincontribsort.csproj", "{49D756C9-FE1D-48FD-A379-828B036A4502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_mincontribsort_demo", "mped_mincontribsort_demo\mped_mincontribsort_demo.csproj", "{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mincontribsort_demo", "mincontribsort_demo\mincontribsort_demo.csproj", "{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mped_evalrunner", "mped_evalrunner\mped_evalrunner.csproj", "{DC228E7A-2EF7-4F0B-9831-51EFD4BEE0F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evalrunner", "evalrunner\evalrunner.csproj", "{DC228E7A-2EF7-4F0B-9831-51EFD4BEE0F2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mped_cpp", "mped_cpp\MPED.vcxproj", "{565CF8C3-E87F-44A0-BB51-B529DC890858}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_heuristics", "cpp_heuristics\cpp_heuristics.vcxproj", "{565CF8C3-E87F-44A0-BB51-B529DC890858}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

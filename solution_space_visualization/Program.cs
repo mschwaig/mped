@@ -1,12 +1,10 @@
 ﻿using at.mschwaig.mped.definitions;
-using at.mschwaig.mped.definitions;
 using at.mschwaig.mped.mincontribsort;
-using at.mschwaig.mped.problemgen;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace solution_space_visualization
+namespace at.mschwaig.mped.solution_space_visualization
 {
     class Program
     {

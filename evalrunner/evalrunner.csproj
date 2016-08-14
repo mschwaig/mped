@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5B02D546-C778-4FA2-A64B-AA8A30568388}</ProjectGuid>
+    <ProjectGuid>{DC228E7A-2EF7-4F0B-9831-51EFD4BEE0F2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>at.mschwaig.mped.problemgen</RootNamespace>
-    <AssemblyName>at.mschwaig.mped.problemgen</AssemblyName>
+    <RootNamespace>at.mschwaig.mped.evalrunner</RootNamespace>
+    <AssemblyName>at.mschwaig.mped.evalrunner</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -60,9 +60,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mped_definitions\mped_definitions.csproj">
+    <ProjectReference Include="..\cpp_heuristics\cpp_heuristics.vcxproj">
+      <Project>{565cf8c3-e87f-44a0-bb51-b529dc890858}</Project>
+      <Name>cpp_heuristics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\definitions\definitions.csproj">
       <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
-      <Name>mped_definitions</Name>
+      <Name>definitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mincontribsort\mincontribsort.csproj">
+      <Project>{49d756c9-fe1d-48fd-a379-828b036a4502}</Project>
+      <Name>mincontribsort</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

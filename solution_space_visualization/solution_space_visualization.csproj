@@ -7,8 +7,8 @@
     <ProjectGuid>{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>solution_space_visualization</RootNamespace>
-    <AssemblyName>solution_space_visualization</AssemblyName>
+    <RootNamespace>at.mschwaig.mped.solution_space_visualization</RootNamespace>
+    <AssemblyName>at.mschwaig.mped.solution_space_visualization</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,17 +50,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mped_definitions\mped_definitions.csproj">
+    <ProjectReference Include="..\definitions\definitions.csproj">
       <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
-      <Name>mped_definitions</Name>
+      <Name>definitions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mped_mincontribsort\mped_mincontribsort.csproj">
+    <ProjectReference Include="..\mincontribsort\mincontribsort.csproj">
       <Project>{49D756C9-FE1D-48FD-A379-828B036A4502}</Project>
-      <Name>mped_mincontribsort</Name>
+      <Name>mincontribsort</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mped_problemgen\mped_problemgen.csproj">
+    <ProjectReference Include="..\problemgen\problemgen.csproj">
       <Project>{5B02D546-C778-4FA2-A64B-AA8A30568388}</Project>
-      <Name>mped_problemgen</Name>
+      <Name>problemgen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
