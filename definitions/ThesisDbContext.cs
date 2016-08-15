@@ -16,5 +16,7 @@ namespace at.mschwaig.mped.definitions
         public DbSet<Result> Results { get; set; }
 
         public DbSet<Solution> Solutions { get; set; }
+
+        public DbSet<HeuristicRun> HeuristicRun { get; set; }
     }
 }

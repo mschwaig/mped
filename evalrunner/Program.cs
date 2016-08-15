@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using at.mschwaig.mped.heuristiclab.heuristic;
 
 namespace at.mschwaig.mped.evalrunner
 {
@@ -14,7 +15,9 @@ namespace at.mschwaig.mped.evalrunner
         static void Main(string[] args)
         {
             // Heuristic heuristic = new MinContribSort(MinContribSort.Mode.FIRST_GUESS, new LinearExactMaxiumumAssignmentBasedSorting());
-            Heuristic heuristic = new SimulatedAnnealing();
+            Heuristic heuristic = new SimulatedAnnealing(new HeuristicRun(HeuristicRun.AlgorithmType.CPP_SIMULATEDANNEALING, DateTime.Now, "",  "", true));
+
+            // Heuristic heuristic = new HLHeuristic();
 
             int i = 0;
             int sum = 0;

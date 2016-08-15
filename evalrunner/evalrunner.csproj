@@ -41,6 +41,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="HeuristicLab.Algorithms.GeneticAlgorithm-3.3">
+      <HintPath>..\dependencies\HeuristicLab.Algorithms.GeneticAlgorithm-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -67,6 +70,10 @@
     <ProjectReference Include="..\definitions\definitions.csproj">
       <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
       <Name>definitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\heuristiclab_heuristic\heuristiclab_heuristic.csproj">
+      <Project>{1df7d173-64dc-47cf-bc45-5b3de7ac154f}</Project>
+      <Name>heuristiclab_heuristic</Name>
     </ProjectReference>
     <ProjectReference Include="..\mincontribsort\mincontribsort.csproj">
       <Project>{49d756c9-fe1d-48fd-a379-828b036a4502}</Project>

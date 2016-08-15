@@ -46,13 +46,13 @@ namespace at.mschwaig.mped.mincontribsort
                     case Mode.FIRST_GUESS:
                         if (best != null)
                         {
-                            return Result.create(p, best, p.a.Length * p.b.Length + eval_counter);
+                            return Result.create(p, best, null, p.a.Length * p.b.Length + eval_counter);
                         }
                         break;
                     case Mode.PROVE:
                         if (min_dist <= max_contrib_section.Item1)
                         {
-                            return Result.create(p, best, p.a.Length * p.b.Length + eval_counter);
+                            return Result.create(p, best, null, p.a.Length * p.b.Length + eval_counter);
                         }
                         break;
                 }

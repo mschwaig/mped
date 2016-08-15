@@ -60,6 +60,7 @@
     <Compile Include="AlphabetMapping.cs" />
     <Compile Include="AString.cs" />
     <Compile Include="Distance.cs" />
+    <Compile Include="HeuristicRun.cs" />
     <Compile Include="Problem.cs" />
     <Compile Include="Heuristic.cs" />
     <Compile Include="LengthCorrectionPolicy.cs" />

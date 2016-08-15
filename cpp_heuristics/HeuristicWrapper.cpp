@@ -10,6 +10,7 @@ using msclr::interop::marshal_as;
 using at::mschwaig::mped::definitions::Problem;
 using at::mschwaig::mped::definitions::Solution;
 using at::mschwaig::mped::definitions::Result;
+using at::mschwaig::mped::definitions::HeuristicRun;
 
 namespace at {
 namespace mschwaig {
@@ -20,7 +21,9 @@ namespace cpp_heuristics {
 	template <typename heuristic>
 	public ref class HeuristicBase : at::mschwaig::mped::definitions::Heuristic {
 	public:
-		HeuristicBase() {}
+		HeuristicBase(HeuristicRun^ run_) {
+			run = run_;
+		}
 
 		virtual Result^ applyTo(Problem^ p) {
 
@@ -64,16 +67,23 @@ namespace cpp_heuristics {
 			delete sigma2_int;
 
 			Solution^ s = gcnew Solution(permutation1, permutation2);
-			return Result::create(p, s, h.getEvalCount());
+			return Result::create(p, s, run, h.getEvalCount());
 		}
+
+	private:
+		HeuristicRun^ run;
 	};
 
 
 
 	public ref class HillClimbing : HeuristicBase<::HillClimbing> {
+	public:
+		HillClimbing(HeuristicRun^ run) : HeuristicBase(run) {}
 	};
 
 	public ref class SimulatedAnnealing : HeuristicBase<::SimulatedAnnealing> {
+	public:
+		SimulatedAnnealing(HeuristicRun^ run) : HeuristicBase(run) {}
 	};
 }
 }
