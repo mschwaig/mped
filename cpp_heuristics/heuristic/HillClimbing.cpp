@@ -173,13 +173,13 @@ void HillClimbing::compute() {
 				this->computed_sigma2 = new unsigned short[sgl2];
 				copy(sigma2_min_min, sigma2_min_min + sgl2, this->computed_sigma2);
 
-				cout << ">> MPED SCHEMA: ";
+				/* cout << ">> MPED SCHEMA: ";
 				for (size_t i = 0; i < sgl1; i++)
 					cout << this->mped->get_Sigma1()[computed_sigma1[i]];
 				cout << " - ";
 				for (size_t i = 0; i < sgl2; i++)
 					cout << this->mped->get_Sigma2()[computed_sigma2[i]];
-				cout << endl;
+				cout << endl; */
 
 				this->result = min_dist;
 			}

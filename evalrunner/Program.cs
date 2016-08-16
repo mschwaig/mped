@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using at.mschwaig.mped.heuristiclab.heuristic;
+using System.Threading;
 
 namespace at.mschwaig.mped.evalrunner
 {
@@ -15,33 +16,38 @@ namespace at.mschwaig.mped.evalrunner
         static void Main(string[] args)
         {
             // Heuristic heuristic = new MinContribSort(MinContribSort.Mode.FIRST_GUESS, new LinearExactMaxiumumAssignmentBasedSorting());
-            Heuristic heuristic = new SimulatedAnnealing(new HeuristicRun(HeuristicRun.AlgorithmType.CPP_SIMULATEDANNEALING, DateTime.Now, "",  "", true));
 
-            // Heuristic heuristic = new HLHeuristic();
+            HeuristicRun run = new HeuristicRun(HeuristicRun.AlgorithmType.CPP_SIMULATEDANNEALING, DateTime.Now, "", "", true);
+            Heuristic heuristic = new HillClimbing(run);
 
-            int i = 0;
             int sum = 0;
             long evals = 0;
 
+            List<Problem> problemList;
             using (var ctx = new ThesisDbContext())
             {
-                var watch = System.Diagnostics.Stopwatch.StartNew();
+                ctx.HeuristicRun.Add(run);
+                ctx.SaveChanges();
+                problemList = ctx.Problems.Where(x => !ctx.Results.Where(r => r.Problem == x).Any()).ToList();
+            }
 
-                List<Problem> problemList = ctx.Problems.ToList();
-                foreach (var problem in problemList)
+
+            Parallel.ForEach(problemList, (problem) =>
                 {
-                    watch.Restart();
+                    var watch = System.Diagnostics.Stopwatch.StartNew();
 
                     var res = heuristic.applyTo(problem);
-                    ctx.Results.Add(res);
-                    ctx.SaveChanges();
-                    Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, i, watch.ElapsedMilliseconds));
+                    using (var ctx = new ThesisDbContext())
+                    {
+                        ctx.Results.Add(res);
+                        ctx.SaveChanges();
+                    }
+                    Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, problem.Id, watch.ElapsedMilliseconds));
                     watch.Stop();
-                    i += 1;
                     sum += Distance.mped(res.Problem, res.Solution);
                     evals += res.NumberOfEvalsToObtainSolution;
-                }
-            }
+                });
+            
         }
     }
 }
