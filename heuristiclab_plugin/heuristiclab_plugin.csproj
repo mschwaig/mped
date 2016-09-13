@@ -40,7 +40,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>mped_plugin_key.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>HeuristicLab.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HeuristicLab.Collections-3.3">
@@ -59,6 +59,10 @@
     </Reference>
     <Reference Include="HeuristicLab.Encodings.PermutationEncoding-3.3">
       <HintPath>..\dependencies\HeuristicLab.Encodings.PermutationEncoding-3.3.dll</HintPath>
+    </Reference>
+    <Reference Include="HeuristicLab.Operators-3.3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=ba48961d6f65dcec, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\HeuristicLab.Operators-3.3.dll</HintPath>
     </Reference>
     <Reference Include="HeuristicLab.Optimization-3.3">
       <HintPath>..\dependencies\HeuristicLab.Optimization-3.3.dll</HintPath>
@@ -91,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="mped_plugin_key.pfx" />
+    <None Include="HeuristicLab.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\definitions\definitions.csproj">
@@ -99,6 +103,7 @@
       <Name>definitions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
