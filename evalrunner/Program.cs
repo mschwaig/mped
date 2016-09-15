@@ -16,7 +16,7 @@ namespace at.mschwaig.mped.evalrunner
         static void Main(string[] args)
         {
 
-            Heuristic heuristic = new MinContribSort(new LinearExactMaxiumumAssignmentBasedSorting());
+            Heuristic heuristic = new MinContribSortBasedGuess();
 
             int sum = 0;
             long evals = 0;
