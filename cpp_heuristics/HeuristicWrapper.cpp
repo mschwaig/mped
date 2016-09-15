@@ -21,11 +21,11 @@ namespace cpp_heuristics {
 	template <typename heuristic>
 	public ref class HeuristicBase : at::mschwaig::mped::definitions::Heuristic {
 	public:
-		HeuristicBase(HeuristicRun^ run_) {
+		HeuristicBase(HeuristicRun^ run_, HeuristicRun::AlgorithmType type) : at::mschwaig::mped::definitions::Heuristic(type) {
 			run = run_;
 		}
 
-		virtual Result^ applyTo(Problem^ p) {
+		 virtual Result^ applyTo(Problem^ p) override {
 
 			std::string s1 = marshal_as<std::string>(p->s1);
 			std::string s2 = marshal_as<std::string>(p->s2);
@@ -78,12 +78,12 @@ namespace cpp_heuristics {
 
 	public ref class HillClimbing : HeuristicBase<::HillClimbing> {
 	public:
-		HillClimbing(HeuristicRun^ run) : HeuristicBase(run) {}
+		HillClimbing(HeuristicRun^ run) : HeuristicBase(run, HeuristicRun::AlgorithmType::CPP_HILLCLIMBING) {}
 	};
 
 	public ref class SimulatedAnnealing : HeuristicBase<::SimulatedAnnealing> {
 	public:
-		SimulatedAnnealing(HeuristicRun^ run) : HeuristicBase(run) {}
+		SimulatedAnnealing(HeuristicRun^ run) : HeuristicBase(run, HeuristicRun::AlgorithmType::CPP_SIMULATEDANNEALING) {}
 	};
 }
 }

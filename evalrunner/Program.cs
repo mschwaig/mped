@@ -15,10 +15,8 @@ namespace at.mschwaig.mped.evalrunner
     {
         static void Main(string[] args)
         {
-            // Heuristic heuristic = new MinContribSort(MinContribSort.Mode.FIRST_GUESS, new LinearExactMaxiumumAssignmentBasedSorting());
 
-            HeuristicRun run = new HeuristicRun(HeuristicRun.AlgorithmType.CPP_SIMULATEDANNEALING, DateTime.Now, "", "", true);
-            Heuristic heuristic = new HillClimbing(run);
+            Heuristic heuristic = new MinContribSort(new LinearExactMaxiumumAssignmentBasedSorting());
 
             int sum = 0;
             long evals = 0;
@@ -26,8 +24,6 @@ namespace at.mschwaig.mped.evalrunner
             List<Problem> problemList;
             using (var ctx = new ThesisDbContext())
             {
-                ctx.HeuristicRun.Add(run);
-                ctx.SaveChanges();
                 problemList = ctx.Problems.Where(x => !ctx.Results.Where(r => r.Problem == x).Any()).ToList();
             }
 

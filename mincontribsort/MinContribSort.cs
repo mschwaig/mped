@@ -13,13 +13,13 @@ namespace at.mschwaig.mped.mincontribsort
 
         public enum Mode { FIRST_GUESS, PROVE };
 
-        public MinContribSort(Mode mode, SolutionSpaceSortingMethod solution_space_sorting_method)
+        public MinContribSort(SolutionSpaceSortingMethod solution_space_sorting_method) : base(HeuristicRun.AlgorithmType.MINCONTRIBSORT_FIRSTGUESS)
         {
-            this.mode = mode;
+            this.mode = Mode.FIRST_GUESS;
             this.solution_space_sorting_method = solution_space_sorting_method;
         }
 
-        public Result applyTo(Problem p)
+        public override Result applyTo(Problem p)
         {
             CharacterMapping[,] one_to_one_mappings = generateMatrixOfOneToOneMappings(p);
 
@@ -46,13 +46,13 @@ namespace at.mschwaig.mped.mincontribsort
                     case Mode.FIRST_GUESS:
                         if (best != null)
                         {
-                            return Result.create(p, best, null, p.a.Length * p.b.Length + eval_counter);
+                            return Result.create(p, best, run, p.a.Length * p.b.Length + eval_counter);
                         }
                         break;
                     case Mode.PROVE:
                         if (min_dist <= max_contrib_section.Item1)
                         {
-                            return Result.create(p, best, null, p.a.Length * p.b.Length + eval_counter);
+                            return Result.create(p, best, run, p.a.Length * p.b.Length + eval_counter);
                         }
                         break;
                 }

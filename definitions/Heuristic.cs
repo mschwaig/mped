@@ -1,7 +1,22 @@
-﻿namespace at.mschwaig.mped.definitions
+﻿using System;
+using System.Diagnostics;
+
+namespace at.mschwaig.mped.definitions
 {
-    public interface Heuristic
+    public abstract class Heuristic
     {
-        Result applyTo(Problem p);
+        public HeuristicRun run;
+
+        public Heuristic(HeuristicRun.AlgorithmType type)
+        {
+            run = new HeuristicRun(type, DateTime.Now, "", "", true);
+            using (var ctx = new ThesisDbContext())
+            {
+                ctx.HeuristicRun.Add(run);
+                ctx.SaveChanges();
+            }
+        }
+
+        public abstract Result applyTo(Problem p);
     }
 }
