@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HeuristicLab.Algorithms.OffspringSelectionGeneticAlgorithm;
-using at.mschwaig.mped.heuristiclab.plugin;
+using HeuristicLab.Problems.MultiParameterizedEditDistance;
 using HeuristicLab.Optimization;
 using HeuristicLab.Core;
 using System.Threading;

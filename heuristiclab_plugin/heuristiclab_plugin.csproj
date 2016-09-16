@@ -7,8 +7,8 @@
     <ProjectGuid>{2BF2B6DB-7E80-404F-9943-CEF8AA60142E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>at.mschwaig.mped.heuristiclab.plugin</RootNamespace>
-    <AssemblyName>at.mschwaig.mped.heuristiclab.plugin</AssemblyName>
+    <RootNamespace>HeuristicLab.Problems.MultiParameterizedEditDistance</RootNamespace>
+    <AssemblyName>HeuristicLab.Problems.MultiParameterizedEditDistance</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

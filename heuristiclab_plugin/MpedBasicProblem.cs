@@ -12,9 +12,13 @@ using System.Collections.Generic;
 
 using at.mschwaig.mped.definitions;
 
-namespace at.mschwaig.mped.heuristiclab.plugin
+namespace HeuristicLab.Problems.MultiParameterizedEditDistance
 {
-    [Item("Multi-Parameterized Edit-Distance computation", "colorful description")]
+    [Item(
+        "Multi-Parameterized Edit-Distance computation (MPED)",
+        "A distance metric for the comparison of two strings, which can be defined" +
+        "on distinct alphabets. Relies on a mapping function from one alphabet to the other."
+        )]
     [Creatable(CreatableAttribute.Categories.CombinatorialProblems, Priority = 100)]
     [StorableClass]
     public class MpedBasicProblem : SingleObjectiveBasicProblem<PermutationEncoding>
