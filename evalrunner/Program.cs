@@ -16,7 +16,7 @@ namespace at.mschwaig.mped.evalrunner
         static void Main(string[] args)
         {
 
-            Heuristic heuristic = new MinContribSortBasedGuess();
+            Heuristic heuristic = new OffspringSelectionGeneticAlgorithmHeuristic();
 
             int sum = 0;
             long evals = 0;

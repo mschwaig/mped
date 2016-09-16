@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evalrunner", "evalrunner\ev
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_heuristics", "cpp_heuristics\cpp_heuristics.vcxproj", "{565CF8C3-E87F-44A0-BB51-B529DC890858}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "heuristiclab_heuristic", "heuristiclab_heuristic\heuristiclab_heuristic.csproj", "{1DF7D173-64DC-47CF-BC45-5B3DE7AC154F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

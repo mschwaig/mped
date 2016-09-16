@@ -279,5 +279,13 @@ namespace at.mschwaig.mped.definitions
             return correction_elems;
         }
 
+        public AString s1ToAString() {
+            return AString.create(new Alphabet(a, 1), s1);
+        }
+
+        public AString s2ToAString()
+        {
+            return AString.create(new Alphabet(b, 1), s2);
+        }
     }
 }

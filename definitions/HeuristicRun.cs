@@ -14,6 +14,7 @@ namespace at.mschwaig.mped.definitions
             CPP_HILLCLIMBING,
             CPP_SIMULATEDANNEALING,
             MINCONTRIBSORT_FIRSTGUESS,
+            HL_OSGA,
             TESTING
         }
 
