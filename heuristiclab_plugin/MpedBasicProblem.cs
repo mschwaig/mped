@@ -143,6 +143,15 @@ namespace at.mschwaig.mped.heuristiclab.plugin
 
         public override void Analyze(Individual[] individuals, double[] qualities, ResultCollection results, IRandom random)
         {
+            base.Analyze(individuals, qualities, results, random);
+            var orderedIndividuals = individuals.Zip(qualities, (i, q) => new { Individual = i, Quality = q }).OrderBy(z => z.Quality);
+            var best = orderedIndividuals.First().Individual;
+
+            if (!results.ContainsKey("Best Solution"))
+            {
+                results.Add(new HeuristicLab.Optimization.Result("Best Solution", typeof(Permutation)));
+            }
+            results["Best Solution"].Value = (IItem)best.Permutation().Clone();
         }
 
         public override IEnumerable<Individual> GetNeighbors(Individual individual, IRandom random)
