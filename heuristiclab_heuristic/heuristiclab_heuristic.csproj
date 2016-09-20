@@ -41,6 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dependencies\HeuristicLab.Algorithms.OffspringSelectionGeneticAlgorithm-3.3.dll</HintPath>
     </Reference>
+    <Reference Include="HeuristicLab.Algorithms.SimulatedAnnealing-3.3">
+      <HintPath>..\dependencies\HeuristicLab.Algorithms.SimulatedAnnealing-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="HeuristicLab.Analysis-3.3">
       <HintPath>..\dependencies\HeuristicLab.Analysis-3.3.dll</HintPath>
     </Reference>
@@ -112,6 +115,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SimulatedAnnealingHeuristic.cs" />
     <Compile Include="OffspringSelectionGeneticAlgorithmHeuristic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

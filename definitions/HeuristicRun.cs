@@ -15,6 +15,7 @@ namespace at.mschwaig.mped.definitions
             CPP_SIMULATEDANNEALING,
             MINCONTRIBSORT_FIRSTGUESS,
             HL_OSGA,
+            HL_SA,
             TESTING
         }
 
