@@ -167,7 +167,8 @@ void MPED::computeExternalAlignment(unsigned short* n_sigma1, unsigned short* n_
 	}
 
 
-	this->printInfo();
+	// this->printInfo();
+
 	// so the new strings all1 and all2 start at "start+1" and end at "2*max_length-1"
 	this->external = new Alignment(all1, all2, start+1, 2*max_length, d(_l1,_l2), _sigma1, _sigma2, false, self_identity, _l1, _l2, weights, n_sigma1, n_sigma2);
 
