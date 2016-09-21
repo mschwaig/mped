@@ -15,35 +15,43 @@ namespace at.mschwaig.mped.evalrunner
     {
         static void Main(string[] args)
         {
+            var heuristics = new List<Heuristic>();
+            heuristics.Add(new MinContribSortBasedGuess());
+            heuristics.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
 
-            Heuristic heuristic = new OffspringSelectionGeneticAlgorithmHeuristic();
-
-            int sum = 0;
-            long evals = 0;
-
-            List<Problem> problemList;
-            using (var ctx = new ThesisDbContext())
+            foreach (var heuristic in heuristics)
             {
-                problemList = ctx.Problems.Where(x => !ctx.Results.Where(r => r.Problem == x).Any()).ToList();
-            }
+                int sum = 0;
+                long evals = 0;
 
-
-            Parallel.ForEach(problemList, (problem) =>
+                List<Problem> problemList;
+                using (var ctx = new ThesisDbContext())
                 {
-                    var watch = System.Diagnostics.Stopwatch.StartNew();
+                    problemList = ctx.Problems.Where(x => !ctx.Results.Where(r => r.Problem == x && r.Run.Algorithm == heuristic.run.Algorithm).Any()).ToList();
+                }
 
-                    var res = heuristic.applyTo(problem);
-                    using (var ctx = new ThesisDbContext())
+
+                Parallel.ForEach(problemList, (problem) =>
                     {
-                        ctx.Results.Add(res);
-                        ctx.SaveChanges();
-                    }
-                    Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, problem.Id, watch.ElapsedMilliseconds));
-                    watch.Stop();
-                    sum += Distance.mped(res.Problem, res.Solution);
-                    evals += res.NumberOfEvalsToObtainSolution;
-                });
-            
+                        var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                        var res = heuristic.applyTo(problem);
+                        using (var ctx = new ThesisDbContext())
+                        {
+                            ctx.Problems.Attach(res.Problem);
+                            ctx.HeuristicRun.Attach(res.Run);
+                            ctx.Results.Add(res);
+                            ctx.SaveChanges();
+                        }
+                        Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, problem.Id, watch.ElapsedMilliseconds));
+                        watch.Stop();
+                        sum += Distance.mped(res.Problem, res.Solution);
+                        evals += res.NumberOfEvalsToObtainSolution;
+                    });
+
+                }
+
+
+            }
         }
-    }
 }

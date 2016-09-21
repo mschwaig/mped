@@ -60,7 +60,7 @@ namespace at.mschwaig.mped.mincontribsort
                     {
                         double correlation = 0.1d * correlation_step;
 
-                        Problem p = Problem.generateProblem(alphabet_size, length, correlation, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, new RNGCryptoServiceProvider(), 0);
+                        Problem p = Problem.generateProblem(null, alphabet_size, length, correlation, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, new RNGCryptoServiceProvider(), 0);
 
                         CharacterMapping[,] one_to_one_mappings = MinContribSort.generateMatrixOfOneToOneMappings(p);
 

@@ -17,6 +17,9 @@ namespace at.mschwaig.mped.definitions
 
         [Key]
         public int Id { get; private set; }
+
+        public Experiment Experiement { get; private set; }
+
         public int GeneratingRunId { get; private set; }
 
         public string aString { get; private set; }
@@ -71,8 +74,9 @@ namespace at.mschwaig.mped.definitions
         private Problem() {
         }
 
-        private Problem(char[] a, char[] b, string s1, string s2, int[] permutation, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction_policy, int generatring_run_id)
+        private Problem(Experiment experiment, char[] a, char[] b, string s1, string s2, int[] permutation, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction_policy, int generatring_run_id)
         {
+            this.Experiement = experiment;
             this.aString = String.Concat(a.OrderBy(x => x));
             this.bString = String.Concat(b.OrderBy(x => x));
 
@@ -95,7 +99,7 @@ namespace at.mschwaig.mped.definitions
             GeneratingRunId = generatring_run_id;
         }
 
-        public static Problem generateProblem(int alphabet_size, int string1_length, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction, RandomNumberGenerator r, int runId)
+        public static Problem generateProblem(Experiment experiment, int alphabet_size, int string1_length, double substitute_prob, double insert_prob, double delete_prob, LengthCorrectionPolicy length_correction, RandomNumberGenerator r, int runId)
         {
             // checking probability parameters
 
@@ -240,7 +244,7 @@ namespace at.mschwaig.mped.definitions
 
             }
 
-            return new Problem(alphabet, alphabet, new String(s1), new String(s2), alphabet_p, substitute_prob, insert_prob, delete_prob, length_correction, runId);
+            return new Problem(experiment, alphabet, alphabet, new String(s1), new String(s2), alphabet_p, substitute_prob, insert_prob, delete_prob, length_correction, runId);
         }
 
 

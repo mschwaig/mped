@@ -13,7 +13,7 @@ namespace at.mschwaig.mped.solution_space_visualization
             int alphabet_size = 8;
             int string_length = 128;
 
-            Problem p = Problem.generateProblem(alphabet_size, string_length, 0.0d, 0.1d, 0.1d, LengthCorrectionPolicy.PREPEND_CORRECTION, new RNGCryptoServiceProvider(), 0);
+            Problem p = Problem.generateProblem(null, alphabet_size, string_length, 0.0d, 0.1d, 0.1d, LengthCorrectionPolicy.PREPEND_CORRECTION, new RNGCryptoServiceProvider(), 0);
 
             CharacterMapping[,] one_to_one_mappings = MinContribSort.generateMatrixOfOneToOneMappings(p);
 
