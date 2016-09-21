@@ -17,7 +17,10 @@ namespace at.mschwaig.mped.evalrunner
         {
             var heuristics = new List<Heuristic>();
             heuristics.Add(new MinContribSortBasedGuess());
+            heuristics.Add(new SimulatedAnnealingHeuristic());
             heuristics.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
+            heuristics.Add(new CPPHillClimbingHeuristic());
+            heuristics.Add(new CPPSimulatedAnnealingHeuristic());
 
             foreach (var heuristic in heuristics)
             {

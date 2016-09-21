@@ -21,9 +21,7 @@ namespace cpp_heuristics {
 	template <typename heuristic>
 	public ref class HeuristicBase : at::mschwaig::mped::definitions::Heuristic {
 	public:
-		HeuristicBase(HeuristicRun^ run_, HeuristicRun::AlgorithmType type) : at::mschwaig::mped::definitions::Heuristic(type) {
-			run = run_;
-		}
+		HeuristicBase(HeuristicRun::AlgorithmType type) : at::mschwaig::mped::definitions::Heuristic(type) {}
 
 		 virtual Result^ applyTo(Problem^ p) override {
 
@@ -69,21 +67,18 @@ namespace cpp_heuristics {
 			Solution^ s = gcnew Solution(permutation1, permutation2);
 			return Result::create(p, s, run, h.getEvalCount());
 		}
-
-	private:
-		HeuristicRun^ run;
 	};
 
 
 
-	public ref class HillClimbing : HeuristicBase<::HillClimbing> {
+	public ref class CPPHillClimbingHeuristic : HeuristicBase<::HillClimbing> {
 	public:
-		HillClimbing(HeuristicRun^ run) : HeuristicBase(run, HeuristicRun::AlgorithmType::CPP_HILLCLIMBING) {}
+		CPPHillClimbingHeuristic() : HeuristicBase(HeuristicRun::AlgorithmType::CPP_HILLCLIMBING) {}
 	};
 
-	public ref class SimulatedAnnealing : HeuristicBase<::SimulatedAnnealing> {
+	public ref class CPPSimulatedAnnealingHeuristic : HeuristicBase<::SimulatedAnnealing> {
 	public:
-		SimulatedAnnealing(HeuristicRun^ run) : HeuristicBase(run, HeuristicRun::AlgorithmType::CPP_SIMULATEDANNEALING) {}
+		CPPSimulatedAnnealingHeuristic() : HeuristicBase(HeuristicRun::AlgorithmType::CPP_SIMULATEDANNEALING) {}
 	};
 }
 }
