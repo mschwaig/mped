@@ -10,7 +10,10 @@ namespace at.mschwaig.mped.definitions
     public class Solution
     {
         [Key]
-        public int Id { get; private set; }
+        [ForeignKey("Result")]
+        public int ResultId { get; set; }
+
+        public virtual Result Result { get; set; }
 
         public string PermutationString { get; private set; }
 

@@ -9,11 +9,16 @@ namespace at.mschwaig.mped.definitions
         [Key]
         public int Id { get; private set; }
 
-        public Problem Problem { get; private set; }
+        public int ProblemId { get; private set; }
 
-        public Solution Solution { get; private set; }
+        public virtual Problem Problem { get; private set; }
 
-        public HeuristicRun Run { get; private set; }
+        [Required]
+        public virtual Solution Solution { get; private set; }
+
+        public int RunId { get; set; }
+
+        public HeuristicRun Run { get; set; }
 
         public int NumberOfEvalsToObtainSolution { get; private set; }
 

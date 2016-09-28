@@ -13,7 +13,12 @@ namespace at.mschwaig.mped.definitions
         [Key]
         public int Id { get; private set; }
 
+        [StringLength(60)]
+        [Index(IsUnique = true)]
         public string Name { get; private set; }
+
+        // Used by Entity Framework
+        private Experiment() { }
 
         public Experiment(string name)
         {

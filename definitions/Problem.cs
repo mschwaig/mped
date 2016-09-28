@@ -36,6 +36,9 @@ namespace at.mschwaig.mped.definitions
         public string PermutationString { get; private set; }
 
 
+        public virtual ICollection<Result> Results { get; set; }
+        
+
         public LengthCorrectionPolicy length_correction_policy { get; private set; }
 
         public char[] a

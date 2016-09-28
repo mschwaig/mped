@@ -27,6 +27,11 @@ namespace at.mschwaig.mped.definitions
         public string GitHash { get; private set; }
         public bool UncommittedChanges { get; private set; }
 
+        public virtual ICollection<Result> Results { get; set; }
+
+        // Used by Entity Framework
+        private HeuristicRun() { }
+
         public HeuristicRun(AlgorithmType algorithm, DateTime startTime, string parameters, string git_hash, bool uncommitted_changes) {
             this.Algorithm = algorithm;
             this.StartTime = startTime;
