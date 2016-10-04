@@ -1,47 +1,20 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace at.mschwaig.mped.definitions
 {
 
-    [Table("SOLUTIONS")]
     public class Solution
     {
-        [Key]
-        [ForeignKey("Result")]
-        public int ResultId { get; set; }
-
-        public virtual Result Result { get; set; }
-
-        public string PermutationString { get; private set; }
-
         public int[] Permutation
         {
-            get
-            {
-                if (permutation_converted == null)
-                {
-                    return permutation_converted;
-                }
-                else
-                {
-                    permutation_converted = PermutationString.Split(',').Select(x => Int32.Parse(x)).ToArray();
-                    return permutation_converted;
-                }
-            }
+            get; private set;
         }
 
-        int[] permutation_converted = null;
 
-        // Used by Entity Framework
-        private Solution() { }
-
-        public Solution(int [] permutation)
+        public Solution(int[] permutation)
         {
-            PermutationString = String.Join(",", permutation);
-            this.permutation_converted = permutation;
+            this.Permutation = (int[])permutation.Clone();
         }
 
         public Solution(int[] a_permutation, int[] permutation_b) : this (
@@ -51,6 +24,11 @@ namespace at.mschwaig.mped.definitions
                 .Select(x => x.Item2)
                 .ToArray()){}
 
+        public Solution(string permutation_string) : this (
+            permutation_string
+            .Split(',')
+            .Select(x => Int32.Parse(x))
+            .ToArray()){}
 
 
         // we are using the scheme described here

@@ -62,9 +62,43 @@ namespace at.mschwaig.mped.problemgen
 
             int runId = r.Next<RandomNumberGenerator>(int.MaxValue);
 
-           problems.Add(Problem.generateProblem(experiment, 10, 256, .0d, .1d, .0d, LengthCorrectionPolicy.APPEND_CORRECTION, r, runId));
-           problems.Add(Problem.generateProblem(experiment, 10, 256, .0d, .1d, .0d, LengthCorrectionPolicy.PREPEND_CORRECTION, r, runId));
-           problems.Add(Problem.generateProblem(experiment, 10, 256, .2d, .0d, .0d, LengthCorrectionPolicy.NO_CORRECTION, r, runId));
+            double[] edit_probabilities = { .0d, .2d, .4d, .6d, .8d, 1.0d };
+            double[] insert_probabilities = { .0d, .2d, .4d, .6d, .8d };
+
+            foreach (var edit_probability in edit_probabilities)
+            foreach (var insert_probability in insert_probabilities)
+            if(edit_probability + insert_probability <= 1.0d)
+            { 
+                problems.Add(Problem.generateProblem(experiment, 10, 256, edit_probability, insert_probability, .0d, LengthCorrectionPolicy.APPEND_CORRECTION, r, runId));
+            }
+
+
+
+
+            using (var ctx = new ThesisDbContext())
+            {
+                ctx.Problems.AddRange(problems);
+                ctx.Experiments.Add(experiment);
+                ctx.SaveChanges();
+            }
+        }
+
+
+        static void generateSizeScalingExperiment()
+        {
+            Experiment experiment = new Experiment("SizeScaling");
+
+            List<Problem> problems = new List<Problem>();
+            RandomNumberGenerator r = new RNGCryptoServiceProvider();
+
+            int runId = r.Next<RandomNumberGenerator>(int.MaxValue);
+
+            int[] alphabet_sizes = { 4, 6, 8, 10, 12, 16, 24, 32, 42 };
+
+            foreach (var alphabet_size in alphabet_sizes)
+            {
+                problems.Add(Problem.generateProblem(experiment, alphabet_size, 256, 1.0d, .0d, .0d, LengthCorrectionPolicy.NO_CORRECTION, r, runId));
+            }
 
 
 
@@ -82,6 +116,7 @@ namespace at.mschwaig.mped.problemgen
         {
             // createExhaustiveComparisonExperiment()
             generateInsertExperiment();
+            // generateSizeScalingExperiment();
         }
     }
 }

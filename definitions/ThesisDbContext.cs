@@ -9,13 +9,14 @@ namespace at.mschwaig.mped.definitions
 {
     public class ThesisDbContext : DbContext
     {
-        public ThesisDbContext() : base() { }
+        public ThesisDbContext() : base()
+        {
+            this.Configuration.LazyLoadingEnabled = true;
+        }
 
         public DbSet<Problem> Problems { get; set; }
 
         public DbSet<Result> Results { get; set; }
-
-        public DbSet<Solution> Solutions { get; set; }
 
         public DbSet<HeuristicRun> HeuristicRun { get; set; }
 

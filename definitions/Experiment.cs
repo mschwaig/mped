@@ -10,12 +10,13 @@ namespace at.mschwaig.mped.definitions
     [Table("EXPERIMENTS")]
     public class Experiment
     {
-        [Key]
-        public int Id { get; private set; }
+        public int ExperimentId { get; private set; }
 
         [StringLength(60)]
         [Index(IsUnique = true)]
         public string Name { get; private set; }
+
+        public virtual List<Problem> Problems { get; set; }
 
         // Used by Entity Framework
         private Experiment() { }

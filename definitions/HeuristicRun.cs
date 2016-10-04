@@ -19,7 +19,7 @@ namespace at.mschwaig.mped.definitions
             TESTING
         }
 
-        public int Id { get; private set; }
+        public int HeuristicRunId { get; private set; }
 
         public AlgorithmType Algorithm { get; private set; }
         public DateTime StartTime { get; private set; }

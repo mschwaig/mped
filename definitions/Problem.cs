@@ -15,10 +15,11 @@ namespace at.mschwaig.mped.definitions
         private char[] a_converted;
         private char[] b_converted;
 
-        [Key]
-        public int Id { get; private set; }
+        public int ProblemId { get; private set; }
 
-        public Experiment Experiement { get; private set; }
+        public int ExperimentId { get; set; }
+
+        public virtual Experiment Experiement { get; set; }
 
         public int GeneratingRunId { get; private set; }
 
@@ -36,7 +37,7 @@ namespace at.mschwaig.mped.definitions
         public string PermutationString { get; private set; }
 
 
-        public virtual ICollection<Result> Results { get; set; }
+        public virtual List<Result> Results { get; set; }
         
 
         public LengthCorrectionPolicy length_correction_policy { get; private set; }
