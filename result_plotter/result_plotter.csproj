@@ -64,6 +64,10 @@
       <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
       <Name>definitions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\persistence\persistence.csproj">
+      <Project>{95876d67-e7a1-4d88-8a8e-5c7f4f843f31}</Project>
+      <Name>persistence</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

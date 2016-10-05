@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 
 using at.mschwaig.mped.definitions;
+using at.mschwaig.mped.persistence;
 
 namespace at.mschwaig.mped.mincontribsort
 {
@@ -30,7 +31,7 @@ namespace at.mschwaig.mped.mincontribsort
 
                 foreach (var r in group.Item2)
                 {
-                    int dist = Distance.mped(p, r);
+                    int dist = DistanceUtil.mped(p, r);
                     if (dist < minimum_ed)
                     {
                         minimum_ed = dist;

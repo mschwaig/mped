@@ -3,6 +3,7 @@ using at.mschwaig.mped.definitions;
 using System.Collections.Generic;
 
 using System.Linq;
+using at.mschwaig.mped.persistence;
 
 namespace at.mschwaig.mped.mincontribsort
 {

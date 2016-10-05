@@ -6,10 +6,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace at.mschwaig.mped.definitions
+namespace at.mschwaig.mped.persistence
 {
-
-    [Table("GENERATED_PROBLEMS")]
     public class Problem
     {
         private char[] a_converted;

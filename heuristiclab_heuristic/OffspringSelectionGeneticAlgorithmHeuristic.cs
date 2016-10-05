@@ -12,17 +12,18 @@ using System.Threading;
 using HeuristicLab.SequentialEngine;
 using HeuristicLab.Encodings.PermutationEncoding;
 using HeuristicLab.Data;
+using at.mschwaig.mped.persistence;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
     public class OffspringSelectionGeneticAlgorithmHeuristic : Heuristic
     {
 
-        public OffspringSelectionGeneticAlgorithmHeuristic() : base(HeuristicRun.AlgorithmType.HL_OSGA) {
+        public OffspringSelectionGeneticAlgorithmHeuristic() : base(AlgorithmType.HL_OSGA) {
 
         }
 
-        public override definitions.Result applyTo(definitions.Problem p)
+        public override persistence.Result applyTo(persistence.Problem p)
         {
             var trigger = new ManualResetEvent(false);
 
@@ -42,7 +43,7 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                 var permutation = ((Permutation)alg.Results["Best Solution"].Value).ToArray();
                 var number_of_evals = ((IntValue)alg.Results["EvaluatedSolutions"].Value).Value;
                 var solution = new Solution(permutation);
-                return definitions.Result.create(p, solution, run, number_of_evals);
+                return persistence.Result.create(p, solution, run, number_of_evals);
             }
             finally
             {

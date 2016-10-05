@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
-namespace at.mschwaig.mped.definitions
+namespace at.mschwaig.mped.persistence
 {
-    [Table("EXPERIMENTS")]
     public class Experiment
     {
         public int ExperimentId { get; private set; }

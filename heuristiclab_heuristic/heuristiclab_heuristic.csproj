@@ -128,6 +128,10 @@
       <Project>{2bf2b6db-7e80-404f-9943-cef8aa60142e}</Project>
       <Name>heuristiclab_plugin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\persistence\persistence.csproj">
+      <Project>{95876D67-E7A1-4D88-8A8E-5C7F4F843F31}</Project>
+      <Name>persistence</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

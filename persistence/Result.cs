@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using at.mschwaig.mped.definitions;
 
-namespace at.mschwaig.mped.definitions
+namespace at.mschwaig.mped.persistence
 {
-    [Table("RESULTS")]
     public class Result
     {
         public int ResultId { get; private set; }
@@ -56,7 +55,7 @@ namespace at.mschwaig.mped.definitions
             this.PermutationString = string.Join(",", solution.Permutation); 
             this.HeuristicRun = run;
             this.NumberOfEvalsToObtainSolution = number_of_evals;
-            this.Mped = Distance.mped(problem, solution);
+            this.Mped = DistanceUtil.mped(problem, solution);
         }
     }
 }

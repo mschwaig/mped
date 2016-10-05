@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using at.mschwaig.mped.heuristiclab.heuristic;
 using System.Threading;
+using at.mschwaig.mped.persistence;
 
 namespace at.mschwaig.mped.evalrunner
 {
@@ -50,7 +51,7 @@ namespace at.mschwaig.mped.evalrunner
 
                         Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, problem.ProblemId, watch.ElapsedMilliseconds));
                         watch.Stop();
-                        sum += Distance.mped(res.Problem, res.Solution);
+                        sum += DistanceUtil.mped(res.Problem, res.Solution);
                         evals += res.NumberOfEvalsToObtainSolution;
                     });
 

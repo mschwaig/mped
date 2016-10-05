@@ -1,13 +1,13 @@
-﻿using System;
-using System.Diagnostics;
+﻿using at.mschwaig.mped.definitions;
+using System;
 
-namespace at.mschwaig.mped.definitions
+namespace at.mschwaig.mped.persistence
 {
     public abstract class Heuristic
     {
         public HeuristicRun run;
 
-        public Heuristic(HeuristicRun.AlgorithmType type)
+        public Heuristic(AlgorithmType type)
         {
             run = new HeuristicRun(type, DateTime.Now, "", "", true);
             using (var ctx = new ThesisDbContext())

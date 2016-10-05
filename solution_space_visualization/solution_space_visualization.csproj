@@ -58,6 +58,10 @@
       <Project>{49D756C9-FE1D-48FD-A379-828B036A4502}</Project>
       <Name>mincontribsort</Name>
     </ProjectReference>
+    <ProjectReference Include="..\persistence\persistence.csproj">
+      <Project>{95876d67-e7a1-4d88-8a8e-5c7f4f843f31}</Project>
+      <Name>persistence</Name>
+    </ProjectReference>
     <ProjectReference Include="..\problemgen\problemgen.csproj">
       <Project>{5B02D546-C778-4FA2-A64B-AA8A30568388}</Project>
       <Name>problemgen</Name>

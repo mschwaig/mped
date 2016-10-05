@@ -6,6 +6,8 @@ using System.Linq;
 using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
+using at.mschwaig.mped.persistence;
 
 namespace result_plotter
 {
@@ -47,9 +49,9 @@ namespace result_plotter
                 {
                     foreach (var problem in ex.Problems)
                     {
-                        var mincontribsort_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm == HeuristicRun.AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Select(x => x.Mped).First();
-                        var min_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm != HeuristicRun.AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x=> x.Mped);
-                        file.WriteLine("{0} {1} {2}", problem.InsertProb, problem.SubstituteProb, mincontribsort_mped <= min_mped ? 1 : 0);
+                        var mincontribsort_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm == AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Select(x => x.Mped).First();
+                        var min_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm != AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x=> x.Mped);
+                        file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", problem.InsertProb, problem.SubstituteProb, mincontribsort_mped <= min_mped ? 1 : 0));
                     }
                 }
             }

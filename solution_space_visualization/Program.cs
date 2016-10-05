@@ -1,5 +1,6 @@
 ﻿using at.mschwaig.mped.definitions;
 using at.mschwaig.mped.mincontribsort;
+using at.mschwaig.mped.persistence;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
@@ -19,7 +20,7 @@ namespace at.mschwaig.mped.solution_space_visualization
 
             var sorter = new ListBasedSorting();
             var result_list = sorter.sortByMinMaxContrib(one_to_one_mappings);
-            var sorted_solution_space = result_list.Select(x => x.Item2).SelectMany(x => x).Select(x => Tuple.Create(x, Distance.mped(p, x))).OrderBy(x => x.Item2);
+            var sorted_solution_space = result_list.Select(x => x.Item2).SelectMany(x => x).Select(x => Tuple.Create(x, DistanceUtil.mped(p, x))).OrderBy(x => x.Item2);
             var best = sorted_solution_space.First().Item1;
             
             int[,] matrix = new int[string_length, alphabet_size];

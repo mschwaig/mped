@@ -1,24 +1,14 @@
-﻿using System;
+﻿using at.mschwaig.mped.definitions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
-namespace at.mschwaig.mped.definitions
+namespace at.mschwaig.mped.persistence
 {
-    [Table("HEURISTIC_RUN")]
     public class HeuristicRun
     {
-        public enum AlgorithmType
-        {
-            CPP_HILLCLIMBING,
-            CPP_SIMULATEDANNEALING,
-            MINCONTRIBSORT_FIRSTGUESS,
-            HL_OSGA,
-            HL_SA,
-            TESTING
-        }
-
         public int HeuristicRunId { get; private set; }
 
         public AlgorithmType Algorithm { get; private set; }

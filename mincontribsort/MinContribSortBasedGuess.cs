@@ -1,9 +1,11 @@
-﻿using at.mschwaig.mped.definitions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using at.mschwaig.mped.definitions;
+using at.mschwaig.mped.persistence;
 
 namespace at.mschwaig.mped.mincontribsort
 {
@@ -11,7 +13,7 @@ namespace at.mschwaig.mped.mincontribsort
     {
         SolutionSpaceSortingMethod solution_space_sorting_method = new LinearExactMaxiumumAssignmentBasedSorting();
 
-        public MinContribSortBasedGuess() : base(HeuristicRun.AlgorithmType.MINCONTRIBSORT_FIRSTGUESS){}
+        public MinContribSortBasedGuess() : base(AlgorithmType.MINCONTRIBSORT_FIRSTGUESS){}
 
         public override Result applyTo(Problem p)
         {
@@ -25,7 +27,7 @@ namespace at.mschwaig.mped.mincontribsort
             var max_contrib_section = sorted_solution_space.First();
             foreach (var s in max_contrib_section.Item2.Take(5))
             {
-                int dist = Distance.mped(p, s);
+                int dist = DistanceUtil.mped(p, s);
                 eval_counter++;
                 if (dist < min_dist)
                 {

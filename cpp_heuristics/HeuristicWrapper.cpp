@@ -7,10 +7,11 @@
 using System::Runtime::InteropServices::Marshal;
 using msclr::interop::marshal_as;
 
-using at::mschwaig::mped::definitions::Problem;
+using at::mschwaig::mped::definitions::AlgorithmType;
 using at::mschwaig::mped::definitions::Solution;
-using at::mschwaig::mped::definitions::Result;
-using at::mschwaig::mped::definitions::HeuristicRun;
+using at::mschwaig::mped::persistence::Problem;
+using at::mschwaig::mped::persistence::Result;
+using at::mschwaig::mped::persistence::HeuristicRun;
 
 namespace at {
 namespace mschwaig {
@@ -19,9 +20,9 @@ namespace cpp_heuristics {
 
 
 	template <typename heuristic>
-	public ref class HeuristicBase : at::mschwaig::mped::definitions::Heuristic {
+	public ref class HeuristicBase : at::mschwaig::mped::persistence::Heuristic {
 	public:
-		HeuristicBase(HeuristicRun::AlgorithmType type) : at::mschwaig::mped::definitions::Heuristic(type) {}
+		HeuristicBase(AlgorithmType type) : at::mschwaig::mped::persistence::Heuristic(type) {}
 
 		 virtual Result^ applyTo(Problem^ p) override {
 
@@ -73,12 +74,12 @@ namespace cpp_heuristics {
 
 	public ref class CPPHillClimbingHeuristic : HeuristicBase<::HillClimbing> {
 	public:
-		CPPHillClimbingHeuristic() : HeuristicBase(HeuristicRun::AlgorithmType::CPP_HILLCLIMBING) {}
+		CPPHillClimbingHeuristic() : HeuristicBase(AlgorithmType::CPP_HILLCLIMBING) {}
 	};
 
 	public ref class CPPSimulatedAnnealingHeuristic : HeuristicBase<::SimulatedAnnealing> {
 	public:
-		CPPSimulatedAnnealingHeuristic() : HeuristicBase(HeuristicRun::AlgorithmType::CPP_SIMULATEDANNEALING) {}
+		CPPSimulatedAnnealingHeuristic() : HeuristicBase(AlgorithmType::CPP_SIMULATEDANNEALING) {}
 	};
 }
 }
