@@ -29,9 +29,11 @@ namespace at.mschwaig.mped.evalrunner
                 long evals = 0;
 
                 List<Problem> problemList;
+                Experiment ex;
                 using (var ctx = new ThesisDbContext())
                 {
-                    problemList = ctx.Problems.Include("Results").Where(x => !x.Results.Where(r => r.HeuristicRun.Algorithm == heuristic.run.Algorithm).Any()).ToList();
+                    ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Insert").First();
+                    problemList = ex.Problems.Where(x => !x.Results.Where(r => r.HeuristicRun.Algorithm == heuristic.run.Algorithm).Any()).ToList();
                 }
 
 
