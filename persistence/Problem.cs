@@ -17,6 +17,7 @@ namespace at.mschwaig.mped.persistence
 
         public int ExperimentId { get; set; }
 
+        [Required]
         public virtual Experiment Experiement { get; set; }
 
         public int GeneratingRunId { get; private set; }

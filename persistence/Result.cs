@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using at.mschwaig.mped.definitions;
+using System.ComponentModel.DataAnnotations;
 
 namespace at.mschwaig.mped.persistence
 {
@@ -9,6 +10,7 @@ namespace at.mschwaig.mped.persistence
 
         public int ProblemId { get; set; }
 
+        [Required]
         public virtual Problem Problem { get; set; }
 
         public string PermutationString { get; private set; }
@@ -31,6 +33,7 @@ namespace at.mschwaig.mped.persistence
 
         public int HeuristicRunId { get; set; }
 
+        [Required]
         public virtual HeuristicRun HeuristicRun { get; set; }
 
         public int NumberOfEvalsToObtainSolution { get; private set; }
