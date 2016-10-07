@@ -112,12 +112,43 @@ namespace at.mschwaig.mped.problemgen
             }
         }
 
+        static void generateCompareExperiment()
+        {
+            Experiment experiment = new Experiment("Compare");
+
+            List<Problem> problems = new List<Problem>();
+            RandomNumberGenerator r = new RNGCryptoServiceProvider();
+
+            int runId = r.Next<RandomNumberGenerator>(int.MaxValue);
+            
+            int[] alphabet_sizes = { 8, 12, 16 };
+
+            foreach (var alphabet_size in alphabet_sizes)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    problems.Add(Problem.generateProblem(experiment, alphabet_size, 256, 1.0d, .0d, .0d, LengthCorrectionPolicy.NO_CORRECTION, r, runId));
+                }
+            }
+
+
+
+
+            using (var ctx = new ThesisDbContext())
+            {
+                ctx.Problems.AddRange(problems);
+                ctx.Experiments.Add(experiment);
+                ctx.SaveChanges();
+            }
+        }
+
 
         static void Main(string[] args)
         {
             // createExhaustiveComparisonExperiment()
             generateInsertExperiment();
             // generateSizeScalingExperiment();
+            generateCompareExperiment();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace at.mschwaig.mped.definitions
@@ -29,6 +30,23 @@ namespace at.mschwaig.mped.definitions
             .Split(',')
             .Select(x => Int32.Parse(x))
             .ToArray()){}
+
+
+        public IEnumerable<Solution> getAllNeighbours()
+        {
+            for (int i = 0; i < Permutation.Length - 1; i++)
+            {
+                for (int j = i+1; j < Permutation.Length; j++)
+                {
+                    var neighbour = (int[])Permutation.Clone();
+                    int tmp = neighbour[i];
+                    neighbour[i] = neighbour[j];
+                    neighbour[j] = tmp;
+
+                    yield return new Solution(neighbour);
+                }
+            }
+        }
 
 
         // we are using the scheme described here

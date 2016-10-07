@@ -24,6 +24,8 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
 
             Exception ex = null;
             var alg = new SimulatedAnnealing();
+            // adapted number of iterations to value from C++ implementation to compare the two
+            alg.MaximumIterations = new IntValue((p.a.Length*p.s1.Length + p.b.Length*p.s1.Length)/alg.InnerIterations.Value);
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
             alg.Engine = new SequentialEngine();
             alg.Stopped += (sender, args) => { trigger.Set(); };

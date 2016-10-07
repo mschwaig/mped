@@ -16,13 +16,29 @@ namespace at.mschwaig.mped.evalrunner
     {
         static void Main(string[] args)
         {
+
+            // insert experiment
             var heuristics = new List<Heuristic>();
             heuristics.Add(new MinContribSortBasedGuess());
             // heuristics.Add(new SimulatedAnnealingHeuristic());
             // heuristics.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
             heuristics.Add(new CPPHillClimbingHeuristic());
             // heuristics.Add(new CPPSimulatedAnnealingHeuristic());
+           // runExperiment("Insert", heuristics);
 
+
+            // SA vs CPP SA experiment
+            var heuristics1 = new List<Heuristic>();
+            // heuristics1.Add(new MinContribSortBasedGuess());
+            heuristics1.Add(new SimulatedAnnealingHeuristic());
+            // heuristics1.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
+            // heuristics1.Add(new CPPHillClimbingHeuristic());
+            heuristics1.Add(new CPPSimulatedAnnealingHeuristic());
+            runExperiment("Compare", heuristics1);
+        }
+
+        static void runExperiment(string experiment_name, List<Heuristic> heuristics)
+        {
             foreach (var heuristic in heuristics)
             {
                 int sum = 0;
@@ -32,33 +48,32 @@ namespace at.mschwaig.mped.evalrunner
                 Experiment ex;
                 using (var ctx = new ThesisDbContext())
                 {
-                    ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Insert").First();
+                    ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == experiment_name).First();
                     problemList = ex.Problems.Where(x => !x.Results.Where(r => r.HeuristicRun.Algorithm == heuristic.run.Algorithm).Any()).ToList();
                 }
 
 
                 Parallel.ForEach(problemList, (problem) =>
+                {
+                    var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                    var res = heuristic.applyTo(problem);
+
+                    using (var ctx = new ThesisDbContext())
                     {
-                        var watch = System.Diagnostics.Stopwatch.StartNew();
+                        ctx.Problems.Attach(res.Problem);
+                        ctx.HeuristicRun.Attach(res.HeuristicRun);
+                        ctx.Results.Add(res);
+                        ctx.SaveChanges();
+                    }
 
-                        var res = heuristic.applyTo(problem);
-
-                        using (var ctx = new ThesisDbContext())
-                        {
-                            ctx.Problems.Attach(res.Problem);
-                            ctx.HeuristicRun.Attach(res.HeuristicRun);
-                            ctx.Results.Add(res);
-                            ctx.SaveChanges();
-                        }
-
-                        Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, problem.ProblemId, watch.ElapsedMilliseconds));
-                        watch.Stop();
-                        sum += DistanceUtil.mped(res.Problem, res.Solution);
-                        evals += res.NumberOfEvalsToObtainSolution;
-                    });
+                    Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, problem.ProblemId, watch.ElapsedMilliseconds));
+                    watch.Stop();
+                    sum += DistanceUtil.mped(res.Problem, res.Solution);
+                    evals += res.NumberOfEvalsToObtainSolution;
+                });
 
             }
-
         }
     }
 }

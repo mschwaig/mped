@@ -6,7 +6,7 @@ namespace at.mschwaig.mped.persistence
 {
     public class Result
     {
-        public int ResultId { get; private set; }
+        public int ResultId { get; set; }
 
         public int ProblemId { get; set; }
 
