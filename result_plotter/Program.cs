@@ -17,7 +17,6 @@ namespace result_plotter
         {
             evaluateExperimentResultsByProblem();
             evaluateInsertExperiment();
-
         }
 
         static void evaluateExperimentResultsByProblem()
@@ -47,11 +46,28 @@ namespace result_plotter
 
                 using (StreamWriter file = new StreamWriter("mincontrib.txt"))
                 {
-                    foreach (var problem in ex.Problems)
+                    var grouped = ex.Problems.GroupBy(x => new { x.InsertProb, x.SubstituteProb });
+                    foreach (var group in grouped)
                     {
-                        var mincontribsort_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm == AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Select(x => x.Mped).First();
-                        var min_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm != AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x=> x.Mped);
-                        file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", problem.InsertProb, problem.SubstituteProb, mincontribsort_mped <= min_mped ? 1 : 0));
+                        int mincontrib_good = 0;
+                        int mincontrib_bad = 0;
+
+                        foreach (var problem in group)
+                        {
+                            var mincontribsort_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm == AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x => x.Mped);
+                            var min_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm != AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x => x.Mped);
+                            if (mincontribsort_mped <= min_mped)
+                            {
+                                mincontrib_good++;
+                            }
+                            else
+                            {
+                                mincontrib_bad++;
+                            }
+
+                        }
+                        
+                        file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2} {3} {4}", group.Key.InsertProb, group.Key.SubstituteProb, mincontrib_good, mincontrib_bad, mincontrib_good + mincontrib_bad));
                     }
                 }
             }
