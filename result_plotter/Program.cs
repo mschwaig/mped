@@ -44,9 +44,9 @@ namespace result_plotter
             {
                 Experiment ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Insert").First();
 
-                using (StreamWriter file = new StreamWriter("mincontrib.txt"))
+                using (StreamWriter file = new StreamWriter("insert_rate_impact.dat"))
                 {
-                    var grouped = ex.Problems.GroupBy(x => new { x.InsertProb, x.SubstituteProb });
+                    var grouped = ex.Problems.GroupBy(x => new {  x.SubstituteProb, x.InsertProb });
                     foreach (var group in grouped)
                     {
                         int mincontrib_good = 0;
@@ -67,7 +67,7 @@ namespace result_plotter
 
                         }
                         
-                        file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2} {3} {4}", group.Key.InsertProb, group.Key.SubstituteProb, mincontrib_good, mincontrib_bad, mincontrib_good + mincontrib_bad));
+                        file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2} {3} {4}", group.Key.SubstituteProb, group.Key.InsertProb, mincontrib_good, mincontrib_bad, mincontrib_good + mincontrib_bad));
                     }
                 }
             }
