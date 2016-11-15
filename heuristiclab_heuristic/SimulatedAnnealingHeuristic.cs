@@ -18,14 +18,16 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
 
         }
 
-        public override persistence.Result applyTo(persistence.Problem p)
+        public override persistence.Result applyTo(persistence.Problem p, int max_evaluation_number)
         {
             var trigger = new ManualResetEvent(false);
 
             Exception ex = null;
             var alg = new SimulatedAnnealing();
-            // adapted number of iterations to value from C++ implementation to compare the two
-            alg.MaximumIterations = new IntValue((p.a.Length*p.s1.Length + p.b.Length*p.s1.Length)/alg.InnerIterations.Value);
+            if (max_evaluation_number > 0)
+            {
+                alg.MaximumIterations = new IntValue(max_evaluation_number);
+            }
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
             alg.Engine = new SequentialEngine();
             alg.Stopped += (sender, args) => { trigger.Set(); };

@@ -17,6 +17,6 @@ namespace at.mschwaig.mped.persistence
             }
         }
 
-        public abstract Result applyTo(Problem p);
+        public abstract Result applyTo(Problem p, int max_evaluation_number = 0);
     }
 }

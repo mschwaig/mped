@@ -12,7 +12,7 @@ private:
 	static const size_t _SHUFFLE_TRIES = 30;
 
 public:
-	HillClimbing(MPED& mped) { this->mped = &mped; }
+	HillClimbing(MPED& mped, int max_evaluation_number) : Heuristic(max_evaluation_number) { this->mped = &mped; }
 	const unsigned getResult() const { return this->result; }
 
 	void compute();

@@ -23,12 +23,16 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
 
         }
 
-        public override persistence.Result applyTo(persistence.Problem p)
+        public override persistence.Result applyTo(persistence.Problem p, int max_evaluation_number)
         {
             var trigger = new ManualResetEvent(false);
 
             Exception ex = null;
             var alg = new OffspringSelectionGeneticAlgorithm();
+            if (max_evaluation_number > 0)
+            {
+                alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
+            }
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
             alg.Engine = new SequentialEngine();
             alg.Stopped += (sender, args) => { trigger.Set(); };

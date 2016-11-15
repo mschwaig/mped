@@ -15,7 +15,7 @@ namespace at.mschwaig.mped.mincontribsort
 
         public MinContribSortBasedGuess() : base(AlgorithmType.MINCONTRIBSORT_FIRSTGUESS){}
 
-        public override Result applyTo(Problem p)
+        public override Result applyTo(Problem p, int max_evaluation_number)
         {
             CharacterMapping[,] one_to_one_mappings = MinContribSort.generateMatrixOfOneToOneMappings(p);
 
@@ -35,6 +35,10 @@ namespace at.mschwaig.mped.mincontribsort
                     best = s;
                 }
             }
+
+            int eval_number = p.a.Length * p.b.Length + eval_counter;
+            if (max_evaluation_number != 0 && max_evaluation_number < eval_number)
+                throw new ArgumentException("cannot make a guess with so few evaluations");
 
 
             return Result.create(p, best, run, p.a.Length * p.b.Length + eval_counter);

@@ -9,7 +9,7 @@ private:
 	void randomNext(unsigned short*, unsigned short*);
 
 public:
-	SimulatedAnnealing(MPED& mped) { this->mped = &mped; }
+	SimulatedAnnealing(MPED& mped, int max_evaluation_number) : Heuristic(max_evaluation_number) { this->mped = &mped; }
 	const unsigned getResult() const { return this->result; }
 
 	void compute();

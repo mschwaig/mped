@@ -59,7 +59,7 @@ namespace at.mschwaig.mped.evalrunner
                     {
                         var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                        var res = heuristic.applyTo(problem);
+                        var res = heuristic.applyTo(problem, 100);
 
 
                         //    ctx.HeuristicRun.Attach(res.HeuristicRun);

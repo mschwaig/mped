@@ -48,6 +48,7 @@ void SimulatedAnnealing::compute() {
 		temperature--;
 		// stop if temperature is zero
 		if (!temperature) break;
+		if (eval_count == max_eval_count) break;
 
 		// TODO: which shuffling algorithm implements random_shuffle?
 		// random shuffle

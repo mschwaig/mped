@@ -21,13 +21,13 @@ int main() {
 	//Alignment* identity = mped.getIdentityAligment();
 	//identity->print_out();
 
-	HillClimbing h(mped);
+	HillClimbing h(mped, 0);
 	h.computeAndAlign();
 	Alignment* external = mped.getExternalAlignment();
 	external->print_out();
 	delete external;
 
-	SimulatedAnnealing s(mped);
+	SimulatedAnnealing s(mped, 0);
 	s.computeAndAlign();
 	external = mped.getExternalAlignment();
 	external->print_out();

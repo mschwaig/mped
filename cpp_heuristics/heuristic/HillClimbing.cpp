@@ -98,19 +98,20 @@ void HillClimbing::compute() {
 							copy(sigma2_t, sigma2_t + sgl2, sigma2_o);
 							temp = sigma2_o[ipp]; sigma2_o[ipp] = sigma2_o[jpp]; sigma2_o[jpp] = temp;
 
-							// then we have the distance
-							d = this->mped->computeExternalEditDistance(this->mped->get_Sigma1(), this->mped->get_Sigma2(),
-									sigma1_o, sigma2_o, mped->getS1(), mped->getS2());
-							this->eval_count++;
+							if (eval_count < max_eval_count){
+								// then we have the distance
+								d = this->mped->computeExternalEditDistance(this->mped->get_Sigma1(), this->mped->get_Sigma2(),
+										sigma1_o, sigma2_o, mped->getS1(), mped->getS2());
+								this->eval_count++;
 
-							if (d < min_dist) {
-								min_dist = d;
+								if (d < min_dist) {
+									min_dist = d;
 
-								improved = true;
-								copy(sigma1_o, sigma1_o + sgl1, sigma1_min);
-								copy(sigma2_o, sigma2_o + sgl2, sigma2_min);
-							}
-
+									improved = true;
+									copy(sigma1_o, sigma1_o + sgl1, sigma1_min);
+									copy(sigma2_o, sigma2_o + sgl2, sigma2_min);
+								}
+							} 
 						}
 
 						copy(sigma2_t, sigma2_t + sgl2, sigma2_o);
