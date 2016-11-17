@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <time.h>
 #include <algorithm>
+#include <limits.h>
 
 using namespace std;
 
@@ -19,6 +20,9 @@ void SimulatedAnnealing::computeAndAlign() {
 
 // that's the random-restart steepest ascent hill climbing
 void SimulatedAnnealing::compute() {
+
+	if (max_eval_count < 1) max_eval_count = std::numeric_limits<int>::max();
+
 	srand(time(NULL));
 	this->eval_count = 0;
 

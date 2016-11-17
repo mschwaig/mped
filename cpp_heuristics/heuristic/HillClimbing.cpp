@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
+#include <limits>
 
 using namespace std;
 
@@ -53,6 +54,8 @@ void HillClimbing::compute() {
 
 	srand(time(NULL));
 	this->eval_count = 0;
+
+	if (max_eval_count < 1) max_eval_count = std::numeric_limits<int>::max();
 
 	unsigned d = this->mped->computeEditDistance();
 	unsigned min_dist = d, min_min_dist = d;

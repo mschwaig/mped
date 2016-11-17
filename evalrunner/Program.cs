@@ -26,17 +26,17 @@ namespace at.mschwaig.mped.evalrunner
             // heuristics.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
             heuristics.Add(new CPPHillClimbingHeuristic());
             // heuristics.Add(new CPPSimulatedAnnealingHeuristic());
-            runExperiment("Insert", heuristics);
+            //runExperiment("Insert", heuristics);
 
 
             // SA vs CPP SA experiment
-            // var heuristics1 = new List<Heuristic>();
-            // heuristics1.Add(new MinContribSortBasedGuess());
-            // heuristics1.Add(new SimulatedAnnealingHeuristic());
-            // heuristics1.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
-            // heuristics1.Add(new CPPHillClimbingHeuristic());
-            // heuristics1.Add(new CPPSimulatedAnnealingHeuristic());
-            // runExperiment("Compare", heuristics1);
+            var heuristics1 = new List<Heuristic>();
+             //heuristics1.Add(new MinContribSortBasedGuess());
+             heuristics1.Add(new SimulatedAnnealingHeuristic());
+             heuristics1.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
+             heuristics1.Add(new CPPHillClimbingHeuristic());
+             heuristics1.Add(new CPPSimulatedAnnealingHeuristic());
+             runExperiment("Compare", heuristics1);
         }
 
         static void runExperiment(string experiment_name, List<Heuristic> heuristics)

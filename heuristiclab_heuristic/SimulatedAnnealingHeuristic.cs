@@ -26,7 +26,8 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             var alg = new SimulatedAnnealing();
             if (max_evaluation_number > 0)
             {
-                alg.MaximumIterations = new IntValue(max_evaluation_number);
+                alg.InnerIterations = new IntValue(p.a.Length + p.b.Length);
+                alg.MaximumIterations = new IntValue(max_evaluation_number/alg.InnerIterations.Value);
             }
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
             alg.Engine = new SequentialEngine();
