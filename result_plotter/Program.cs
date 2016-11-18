@@ -44,11 +44,11 @@ namespace result_plotter
             {
                 Experiment ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Compare").First();
 
-                var problem_param_groups = ex.Problems.GroupBy(x => new { x.SubstituteProb, x.a.Length });
+                var problem_param_groups = ex.Problems.GroupBy(x => new { Correlation = 1-x.SubstituteProb, x.a.Length });
 
                 foreach (var group in problem_param_groups)
                 {
-                    using (StreamWriter file = new StreamWriter("comp-" + group.Key.Length + "-" + group.Key.SubstituteProb + ".txt"))
+                    using (StreamWriter file = new StreamWriter("comp-" + group.Key.Length + "-" + group.Key.Correlation + ".dat"))
                     {
                         var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm).Select(grp => new {
                             Name = grp.Key,
