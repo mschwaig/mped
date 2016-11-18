@@ -59,11 +59,10 @@ namespace at.mschwaig.mped.evalrunner
                     {
                         var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                        var res = heuristic.applyTo(problem, 100);
+                        var lenghth_product = problem.a.Length * problem.b.Length;
 
+                        var res = heuristic.applyTo(problem, lenghth_product * lenghth_product);
 
-                        //    ctx.HeuristicRun.Attach(res.HeuristicRun);
-                        //    ctx.Problems.Attach(res.Problem);
                         lock (dblock)
                         { 
                             ctx.Results.Add(res);

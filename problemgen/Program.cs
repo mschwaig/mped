@@ -141,6 +141,11 @@ namespace at.mschwaig.mped.problemgen
                 {
                     problems.Add(Problem.generateProblem(experiment, alphabet_size, 256, 1.0d, .0d, .0d, LengthCorrectionPolicy.NO_CORRECTION, r, runId));
                 }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    problems.Add(Problem.generateProblem(experiment, alphabet_size, 256, 0.0d, .0d, .0d, LengthCorrectionPolicy.NO_CORRECTION, r, runId));
+                }
             }
 
 

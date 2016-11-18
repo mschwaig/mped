@@ -15,8 +15,8 @@ namespace result_plotter
     {
         static void Main(string[] args)
         {
-            evaluateExperimentResultsByProblem();
-            evaluateInsertExperiment();
+            // evaluateInsertExperiment();
+            evaluateCompareExperiment();
         }
 
         static void evaluateExperimentResultsByProblem()
@@ -32,6 +32,38 @@ namespace result_plotter
                         foreach (var result in problem.Results)
                         {
                             file.WriteLine("{0} {1} {2}", result.HeuristicRun.Algorithm.ToString(), result.Mped, result.NumberOfEvalsToObtainSolution);
+                        }
+                    }
+                }
+            }
+        }
+
+        static void evaluateCompareExperiment()
+        {
+            using (var ctx = new ThesisDbContext())
+            {
+                Experiment ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Compare").First();
+
+                var problem_param_groups = ex.Problems.GroupBy(x => new { x.SubstituteProb, x.a.Length });
+
+                foreach (var group in problem_param_groups)
+                {
+                    using (StreamWriter file = new StreamWriter("comp-" + group.Key.Length + "-" + group.Key.SubstituteProb + ".txt"))
+                    {
+                        var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm).Select(grp => new {
+                            Name = grp.Key,
+                            MinMped = grp.Min(x => x.Mped),
+                            MaxMped = grp.Max(x => x.Mped),
+                            AvgMped = grp.Average(x => x.Mped),
+                            MinEvals = grp.Min(x => x.NumberOfEvalsToObtainSolution),
+                            MaxEvals = grp.Max(x => x.NumberOfEvalsToObtainSolution),
+                            AvgEvals = grp.Average(x => x.NumberOfEvalsToObtainSolution)
+                        });
+
+                        foreach (var alg in res)
+                        {
+                            file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2} {3} {4} {5} {6}",
+                                alg.Name, alg.MinMped, alg.AvgMped, alg.MaxMped, alg.MinEvals, alg.AvgEvals, alg.MaxEvals));
                         }
                     }
                 }
