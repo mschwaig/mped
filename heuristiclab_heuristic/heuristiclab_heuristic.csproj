@@ -44,6 +44,9 @@
     <Reference Include="HeuristicLab.Algorithms.SimulatedAnnealing-3.3">
       <HintPath>..\dependencies\HeuristicLab.Algorithms.SimulatedAnnealing-3.3.dll</HintPath>
     </Reference>
+    <Reference Include="HeuristicLab.Algorithms.VariableNeighborhoodSearch-3.3">
+      <HintPath>..\dependencies\HeuristicLab.Algorithms.VariableNeighborhoodSearch-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="HeuristicLab.Analysis-3.3">
       <HintPath>..\dependencies\HeuristicLab.Analysis-3.3.dll</HintPath>
     </Reference>
@@ -118,6 +121,7 @@
     <Compile Include="SimulatedAnnealingHeuristic.cs" />
     <Compile Include="OffspringSelectionGeneticAlgorithmHeuristic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VariableNeighborhoodSearchHeuristic.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\definitions\definitions.csproj">

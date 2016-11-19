@@ -12,6 +12,7 @@ namespace at.mschwaig.mped.definitions
         MINCONTRIBSORT_FIRSTGUESS,
         HL_OSGA,
         HL_SA,
+        HL_VNS,
         TESTING
     }
 }

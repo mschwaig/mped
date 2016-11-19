@@ -48,7 +48,7 @@ namespace result_plotter
 
                 foreach (var group in problem_param_groups)
                 {
-                    using (StreamWriter file = new StreamWriter("comp-" + group.Key.Length + "-" + group.Key.Correlation + ".dat"))
+                    using (StreamWriter file = new StreamWriter("comp_" + group.Key.Length + "_" + group.Key.Correlation + ".dat"))
                     {
                         var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm).Select(grp => new {
                             Name = grp.Key,
