@@ -31,7 +31,17 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             var alg = new OffspringSelectionGeneticAlgorithm();
             if (max_evaluation_number > 0)
             {
-                alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
+                int pop_size_suggestion = p.a.Length + p.b.Length;
+
+                if (max_evaluation_number / pop_size_suggestion > 0) {
+                    alg.PopulationSize = new IntValue(pop_size_suggestion);
+                    alg.MaximumGenerations = new IntValue(max_evaluation_number / pop_size_suggestion);
+                    alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
+                } else {
+                    alg.PopulationSize = new IntValue(1);
+                    alg.MaximumGenerations = new IntValue(max_evaluation_number);
+                    alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
+                }
             }
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
             alg.Engine = new SequentialEngine();

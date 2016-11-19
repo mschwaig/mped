@@ -13,6 +13,7 @@ namespace at.mschwaig.mped.definitions
         HL_OSGA,
         HL_SA,
         HL_VNS,
+        HL_LS,
         TESTING
     }
 }
