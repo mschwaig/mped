@@ -37,6 +37,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HeuristicLab.Algorithms.GeneticAlgorithm-3.3">
+      <HintPath>..\dependencies\HeuristicLab.Algorithms.GeneticAlgorithm-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="HeuristicLab.Algorithms.LocalSearch-3.3">
       <HintPath>..\dependencies\HeuristicLab.Algorithms.LocalSearch-3.3.dll</HintPath>
     </Reference>
@@ -121,6 +124,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneticAlgorithmHeuristic.cs" />
     <Compile Include="LocalSearchHeuristic.cs" />
     <Compile Include="SimulatedAnnealingHeuristic.cs" />
     <Compile Include="OffspringSelectionGeneticAlgorithmHeuristic.cs" />

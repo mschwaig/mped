@@ -14,6 +14,7 @@ namespace at.mschwaig.mped.definitions
         HL_SA,
         HL_VNS,
         HL_LS,
+        HL_GA,
         TESTING
     }
 }
