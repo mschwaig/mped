@@ -35,13 +35,7 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                 alg.LocalImprovementMaximumIterations = inner_iteration_count;
                 alg.MaximumIterations = max_evaluation_number / inner_iteration_count;
 
-               var search_op = new LocalSearchImprovementOperator();
-                search_op.MoveEvaluator = new SingleObjectiveMoveEvaluator();
-                search_op.MoveGenerator = new SingleObjectiveMoveGenerator();
-                search_op.MoveMaker = new SingleObjectiveMoveMaker();
-                search_op.Problem = alg.Problem;
-
-                alg.LocalImprovement = search_op;
+                alg.LocalImprovement = alg.LocalImprovementParameter.ValidValues.OfType<LocalSearchImprovementOperator>().Single();
             }
 
             alg.Engine = new SequentialEngine();

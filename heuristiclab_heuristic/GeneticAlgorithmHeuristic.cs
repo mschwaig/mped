@@ -31,8 +31,7 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             if (max_evaluation_number > 0)
             {
                 int population_size = (p.a.Length + p.b.Length)*10;
-                // TODO: set corssover operator to cyclic (crashes right now)
-                // alg.Crossover = new CyclicCrossover();
+                alg.Crossover = alg.CrossoverParameter.ValidValues.OfType<CyclicCrossover>().Single();
                 alg.MaximumGenerations = new IntValue(max_evaluation_number / population_size);
             }
 
