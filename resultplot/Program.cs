@@ -1,15 +1,11 @@
 ﻿using at.mschwaig.mped.definitions;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Data.Entity;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 using at.mschwaig.mped.persistence;
 
-namespace result_plotter
+namespace at.mschwaig.mped.resultplotter
 {
     class Program
     {

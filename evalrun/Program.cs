@@ -1,16 +1,13 @@
-﻿using at.mschwaig.mped.definitions;
-using at.mschwaig.mped.cpp_heuristics;
-using at.mschwaig.mped.mincontribsort;
+﻿using at.mschwaig.mped.cpp_heuristics;
+using at.mschwaig.mped.contribution_sorting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using at.mschwaig.mped.heuristiclab.heuristic;
-using System.Threading;
 using at.mschwaig.mped.persistence;
 
-namespace at.mschwaig.mped.evalrunner
+namespace at.mschwaig.mped.evalrun
 {
     class Program
     {
@@ -31,12 +28,12 @@ namespace at.mschwaig.mped.evalrunner
 
             // SA vs CPP SA experiment
             var heuristics1 = new List<Heuristic>();
-             //heuristics1.Add(new MinContribSortBasedGuess());
-             heuristics1.Add(new SimulatedAnnealingHeuristic());
-             heuristics1.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
-             heuristics1.Add(new CPPHillClimbingHeuristic());
-             heuristics1.Add(new CPPSimulatedAnnealingHeuristic());
-             runExperiment("Compare", heuristics1);
+            //heuristics1.Add(new MinContribSortBasedGuess());
+            heuristics1.Add(new SimulatedAnnealingHeuristic());
+            heuristics1.Add(new OffspringSelectionGeneticAlgorithmHeuristic());
+            heuristics1.Add(new CPPHillClimbingHeuristic());
+            heuristics1.Add(new CPPSimulatedAnnealingHeuristic());
+            runExperiment("Compare", heuristics1);
         }
 
         static void runExperiment(string experiment_name, List<Heuristic> heuristics)

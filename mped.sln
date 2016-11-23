@@ -13,17 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "problemgen", "problemgen\pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "solution_space_visualization", "solution_space_visualization\solution_space_visualization.csproj", "{499E547F-9CC0-4024-8CAC-345DD2DA8FAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mincontribsort", "mincontribsort\mincontribsort.csproj", "{49D756C9-FE1D-48FD-A379-828B036A4502}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "contribution_sorting", "contribution_sorting\contribution_sorting.csproj", "{49D756C9-FE1D-48FD-A379-828B036A4502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mincontribsort_demo", "mincontribsort_demo\mincontribsort_demo.csproj", "{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "contribution_sorting_demo", "contribution_sorting_demo\contribution_sorting_demo.csproj", "{BEFAD515-D677-44DF-80CC-DC7F8CC71A6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evalrunner", "evalrunner\evalrunner.csproj", "{DC228E7A-2EF7-4F0B-9831-51EFD4BEE0F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evalrun", "evalrun\evalrun.csproj", "{DC228E7A-2EF7-4F0B-9831-51EFD4BEE0F2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp_heuristics", "cpp_heuristics\cpp_heuristics.vcxproj", "{565CF8C3-E87F-44A0-BB51-B529DC890858}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "heuristiclab_heuristic", "heuristiclab_heuristic\heuristiclab_heuristic.csproj", "{1DF7D173-64DC-47CF-BC45-5B3DE7AC154F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "result_plotter", "result_plotter\result_plotter.csproj", "{39943DF5-96F2-4401-BB92-9FC88FD17287}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "resultplot", "resultplot\resultplot.csproj", "{39943DF5-96F2-4401-BB92-9FC88FD17287}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "persistence", "persistence\persistence.csproj", "{95876D67-E7A1-4D88-8A8E-5C7F4F843F31}"
 EndProject

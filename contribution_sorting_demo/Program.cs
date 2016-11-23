@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
-
+using at.mschwaig.mped.contribution_sorting;
 using at.mschwaig.mped.definitions;
 using at.mschwaig.mped.persistence;
 
-namespace at.mschwaig.mped.mincontribsort
+namespace at.mschwaig.mped.contribution_sorting_demo
 {
     class Program
     {
@@ -63,7 +63,7 @@ namespace at.mschwaig.mped.mincontribsort
 
                         Problem p = Problem.generateProblem(null, alphabet_size, length, correlation, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, new RNGCryptoServiceProvider(), 0);
 
-                        CharacterMapping[,] one_to_one_mappings = MinContribSort.generateMatrixOfOneToOneMappings(p);
+                        CharacterMapping[,] one_to_one_mappings = ContributionSorting.generateMatrixOfOneToOneMappings(p);
 
                         var sorter = new ListBasedSorting();
                         var result_list = sorter.sortByMinMaxContrib(one_to_one_mappings);

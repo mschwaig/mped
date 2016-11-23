@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using at.mschwaig.mped.definitions;
 
-namespace at.mschwaig.mped.mincontribsort
+namespace at.mschwaig.mped.contribution_sorting
 {
     public class LinearExactMaxiumumAssignmentBasedSorting : SolutionSpaceSortingMethod
     {

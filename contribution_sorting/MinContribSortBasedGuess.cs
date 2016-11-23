@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 using at.mschwaig.mped.definitions;
 using at.mschwaig.mped.persistence;
 
-namespace at.mschwaig.mped.mincontribsort
+namespace at.mschwaig.mped.contribution_sorting
 {
-    public class MinContribSortBasedGuess : Heuristic
+    public class ContributionSortingHeuristic : Heuristic
     {
         SolutionSpaceSortingMethod solution_space_sorting_method = new LinearExactMaxiumumAssignmentBasedSorting();
 
-        public MinContribSortBasedGuess() : base(AlgorithmType.MINCONTRIBSORT_FIRSTGUESS){}
+        public ContributionSortingHeuristic() : base(AlgorithmType.MINCONTRIBSORT_FIRSTGUESS){}
 
         public override Result applyTo(Problem p, int max_evaluation_number)
         {
-            CharacterMapping[,] one_to_one_mappings = MinContribSort.generateMatrixOfOneToOneMappings(p);
+            CharacterMapping[,] one_to_one_mappings = ContributionSorting.generateMatrixOfOneToOneMappings(p);
 
             Solution best = null;
             int min_dist = Int32.MaxValue;

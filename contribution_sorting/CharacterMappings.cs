@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace at.mschwaig.mped.mincontribsort
+namespace at.mschwaig.mped.contribution_sorting
 {
     public class CharacterMapping
     {

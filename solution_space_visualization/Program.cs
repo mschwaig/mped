@@ -1,5 +1,5 @@
 ﻿using at.mschwaig.mped.definitions;
-using at.mschwaig.mped.mincontribsort;
+using at.mschwaig.mped.contribution_sorting;
 using at.mschwaig.mped.persistence;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace at.mschwaig.mped.solution_space_visualization
 
             Problem p = Problem.generateProblem(null, alphabet_size, string_length, 0.0d, 0.1d, 0.1d, LengthCorrectionPolicy.PREPEND_CORRECTION, new RNGCryptoServiceProvider(), 0);
 
-            CharacterMapping[,] one_to_one_mappings = MinContribSort.generateMatrixOfOneToOneMappings(p);
+            CharacterMapping[,] one_to_one_mappings = ContributionSorting.generateMatrixOfOneToOneMappings(p);
 
             var sorter = new ListBasedSorting();
             var result_list = sorter.sortByMinMaxContrib(one_to_one_mappings);

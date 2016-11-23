@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace at.mschwaig.mped.mincontribsort
+namespace at.mschwaig.mped.contribution_sorting
 {
     public interface SolutionSpaceSortingMethod
     {

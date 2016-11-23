@@ -7,8 +7,8 @@
     <ProjectGuid>{39943DF5-96F2-4401-BB92-9FC88FD17287}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>result_plotter</RootNamespace>
-    <AssemblyName>result_plotter</AssemblyName>
+    <RootNamespace>at.mschwaig.mped.resultplot</RootNamespace>
+    <AssemblyName>at.mschwaig.mped.resultplot</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

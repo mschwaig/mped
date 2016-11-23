@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using at.mschwaig.mped.persistence;
 
-namespace at.mschwaig.mped.mincontribsort
+namespace at.mschwaig.mped.contribution_sorting
 {
-    public class MinContribSort
+    public class ContributionSorting
     {
 
         public static CharacterMapping[,] generateMatrixOfOneToOneMappings(Problem p)

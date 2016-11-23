@@ -54,9 +54,9 @@
       <Project>{188dff60-6774-44a7-a060-bace437fafdc}</Project>
       <Name>definitions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mincontribsort\mincontribsort.csproj">
+    <ProjectReference Include="..\contribution_sorting\contribution_sorting.csproj">
       <Project>{49D756C9-FE1D-48FD-A379-828B036A4502}</Project>
-      <Name>mincontribsort</Name>
+      <Name>contribution_sorting</Name>
     </ProjectReference>
     <ProjectReference Include="..\persistence\persistence.csproj">
       <Project>{95876d67-e7a1-4d88-8a8e-5c7f4f843f31}</Project>
