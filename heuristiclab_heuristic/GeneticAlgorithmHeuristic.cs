@@ -32,6 +32,7 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             {
                 int population_size = (p.a.Length + p.b.Length)*10;
                 alg.Crossover = alg.CrossoverParameter.ValidValues.OfType<CyclicCrossover>().Single();
+                alg.PopulationSize =new IntValue(population_size);
                 alg.MaximumGenerations = new IntValue(max_evaluation_number / population_size);
             }
 

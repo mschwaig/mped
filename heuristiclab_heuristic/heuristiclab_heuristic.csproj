@@ -43,6 +43,9 @@
     <Reference Include="HeuristicLab.Algorithms.LocalSearch-3.3">
       <HintPath>..\dependencies\HeuristicLab.Algorithms.LocalSearch-3.3.dll</HintPath>
     </Reference>
+    <Reference Include="HeuristicLab.Algorithms.OffspringSelectionEvolutionStrategy-3.3">
+      <HintPath>..\dependencies\HeuristicLab.Algorithms.OffspringSelectionEvolutionStrategy-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="HeuristicLab.Algorithms.OffspringSelectionGeneticAlgorithm-3.3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=ba48961d6f65dcec, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dependencies\HeuristicLab.Algorithms.OffspringSelectionGeneticAlgorithm-3.3.dll</HintPath>
@@ -129,6 +132,7 @@
   <ItemGroup>
     <Compile Include="GeneticAlgorithmHeuristic.cs" />
     <Compile Include="LocalSearchHeuristic.cs" />
+    <Compile Include="OffspringSelectionEvolutionStrategy.cs" />
     <Compile Include="ScatterSearchHeuristic.cs" />
     <Compile Include="SimulatedAnnealingHeuristic.cs" />
     <Compile Include="OffspringSelectionGeneticAlgorithmHeuristic.cs" />

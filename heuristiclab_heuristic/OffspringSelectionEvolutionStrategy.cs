@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HeuristicLab.Algorithms.OffspringSelectionGeneticAlgorithm;
+using HeuristicLab.Algorithms.OffspringSelectionEvolutionStrategy;
 using HeuristicLab.Problems.MultiParameterizedEditDistance;
 using HeuristicLab.Optimization;
 using HeuristicLab.Core;
@@ -16,10 +16,9 @@ using at.mschwaig.mped.persistence;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
-    public class OffspringSelectionGeneticAlgorithmHeuristic : Heuristic
+    public class OffspringSelectionEvolutionStrategyHeuristic : Heuristic
     {
-
-        public OffspringSelectionGeneticAlgorithmHeuristic() : base(AlgorithmType.HL_OSGA) {
+        public OffspringSelectionEvolutionStrategyHeuristic() : base(AlgorithmType.HL_OSES) {
 
         }
 
@@ -28,20 +27,21 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             var trigger = new ManualResetEvent(false);
 
             Exception ex = null;
-            var alg = new OffspringSelectionGeneticAlgorithm();
+            var alg = new OffspringSelectionEvolutionStrategy();
             if (max_evaluation_number > 0)
             {
                 int pop_size_suggestion = p.a.Length + p.b.Length;
 
-                if (max_evaluation_number / pop_size_suggestion > 0) {
+                if (max_evaluation_number / pop_size_suggestion > 0)
+                {
                     alg.PopulationSize = new IntValue(pop_size_suggestion);
-                    alg.MaximumGenerations = new IntValue(max_evaluation_number / pop_size_suggestion);
-                    alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
-                } else {
-                    alg.PopulationSize = new IntValue(1);
-                    alg.MaximumGenerations = new IntValue(max_evaluation_number);
-                    alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
+
                 }
+                else
+                {
+                    alg.PopulationSize = new IntValue(1);
+                }
+                alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
                 alg.MaximumSelectionPressure = new DoubleValue(1000);
             }
 
