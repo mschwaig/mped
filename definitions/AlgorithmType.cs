@@ -17,6 +17,7 @@ namespace at.mschwaig.mped.definitions
         HL_GA,
         HL_SCATTER,
         HL_OSES,
+        HL_ALPS,
         TESTING
     }
 }
