@@ -42,7 +42,7 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                     alg.MaximumGenerations = new IntValue(max_evaluation_number);
                     alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
                 }
-                alg.MaximumSelectionPressure = new DoubleValue(1000);
+                alg.MaximumSelectionPressure = new DoubleValue(10000000);
             }
 
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());

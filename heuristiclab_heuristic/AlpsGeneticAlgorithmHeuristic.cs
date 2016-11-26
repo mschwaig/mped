@@ -32,10 +32,11 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
             if (max_evaluation_number > 0)
             {
-                int population_size = (p.a.Length + p.b.Length) * 10;
+                int population_size = (p.a.Length + p.b.Length)*2;
                 alg.PopulationSize = new IntValue(population_size);
                 var evalTerminator = alg.Terminators.Operators.Where(x => x.Name == "Evaluations").Single() as ComparisonTerminator<IntValue>;
                 evalTerminator.ThresholdParameter = new FixedValueParameter<IntValue>("Threshold", new IntValue(max_evaluation_number));
+                alg.Terminators.Operators.SetItemCheckedState(evalTerminator, true);
                 alg.Crossover = alg.CrossoverParameter.ValidValues.OfType<PartiallyMatchedCrossover>().Single();
             }
 
