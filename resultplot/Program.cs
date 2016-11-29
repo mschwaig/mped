@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Globalization;
 using at.mschwaig.mped.persistence;
+using System.Reflection;
+using System.ComponentModel;
+using at.mschwaig.mped.resultplotter;
 
 namespace at.mschwaig.mped.resultplotter
 {
@@ -40,26 +43,28 @@ namespace at.mschwaig.mped.resultplotter
             {
                 Experiment ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Compare").First();
 
-                var problem_param_groups = ex.Problems.GroupBy(x => new { Correlation = 1-x.SubstituteProb, x.a.Length });
+                var problem_param_groups = ex.Problems.GroupBy(x => new { Correlation = 1 - x.SubstituteProb, x.a.Length });
 
                 foreach (var group in problem_param_groups)
                 {
                     using (StreamWriter file = new StreamWriter("comp_" + group.Key.Length + "_" + group.Key.Correlation + ".dat"))
                     {
                         var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm).Select(grp => new {
-                            Name = grp.Key,
+                            Enum = grp.Key,
+                            Name = grp.Key.GetDescription(),
                             MinMped = grp.Min(x => x.Mped),
                             MaxMped = grp.Max(x => x.Mped),
                             AvgMped = grp.Average(x => x.Mped),
                             MinEvals = grp.Min(x => x.NumberOfEvalsToObtainSolution),
                             MaxEvals = grp.Max(x => x.NumberOfEvalsToObtainSolution),
                             AvgEvals = grp.Average(x => x.NumberOfEvalsToObtainSolution)
-                        });
+                        }).OrderBy(x => x.Name);
 
                         foreach (var alg in res)
                         {
-                            file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2} {3} {4} {5} {6}",
+                            file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0,-25} {1,11} {2,11} {3,11} {4,11} {5,11} {6,11}",
                                 alg.Name, alg.MinMped, alg.AvgMped, alg.MaxMped, alg.MinEvals, alg.AvgEvals, alg.MaxEvals));
+                            file.WriteLine();
                         }
                     }
                 }
@@ -74,7 +79,7 @@ namespace at.mschwaig.mped.resultplotter
 
                 using (StreamWriter file = new StreamWriter("insert_rate_impact.dat"))
                 {
-                    var grouped = ex.Problems.GroupBy(x => new {  x.SubstituteProb, x.InsertProb });
+                    var grouped = ex.Problems.GroupBy(x => new { x.SubstituteProb, x.InsertProb });
                     foreach (var group in grouped)
                     {
                         int mincontrib_good = 0;
@@ -94,11 +99,22 @@ namespace at.mschwaig.mped.resultplotter
                             }
 
                         }
-                        
+
                         file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2} {3} {4}", group.Key.SubstituteProb, group.Key.InsertProb, mincontrib_good, mincontrib_bad, mincontrib_good + mincontrib_bad));
                     }
                 }
             }
+        }
+    }
+
+    static class Extensions {
+        public static string GetDescription(this AlgorithmType value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+
+            DescriptionAttribute description = ((DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false)).FirstOrDefault();
+
+            return description != null ? description.Description : value.ToString();
         }
     }
 }

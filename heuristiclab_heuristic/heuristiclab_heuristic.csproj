@@ -40,6 +40,9 @@
     <Reference Include="HeuristicLab.Algorithms.ALPS-3.3">
       <HintPath>..\dependencies\HeuristicLab.Algorithms.ALPS-3.3.dll</HintPath>
     </Reference>
+    <Reference Include="HeuristicLab.Algorithms.EvolutionStrategy-3.3">
+      <HintPath>..\dependencies\HeuristicLab.Algorithms.EvolutionStrategy-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="HeuristicLab.Algorithms.GeneticAlgorithm-3.3">
       <HintPath>..\dependencies\HeuristicLab.Algorithms.GeneticAlgorithm-3.3.dll</HintPath>
     </Reference>
@@ -134,9 +137,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlpsGeneticAlgorithmHeuristic.cs" />
+    <Compile Include="EvolutionStrategyHeuristic.cs" />
     <Compile Include="GeneticAlgorithmHeuristic.cs" />
     <Compile Include="LocalSearchHeuristic.cs" />
-    <Compile Include="OffspringSelectionEvolutionStrategy.cs" />
+    <Compile Include="OffspringSelectionEvolutionStrategyHeuristic.cs" />
     <Compile Include="ScatterSearchHeuristic.cs" />
     <Compile Include="SimulatedAnnealingHeuristic.cs" />
     <Compile Include="OffspringSelectionGeneticAlgorithmHeuristic.cs" />
