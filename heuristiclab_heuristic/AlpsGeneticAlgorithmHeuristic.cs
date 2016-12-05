@@ -52,8 +52,11 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                 if (ex != null) throw ex;
                 var permutation = ((Permutation)alg.Results["Best Solution"].Value).ToArray();
                 var number_of_evals = ((IntValue)alg.Results["EvaluatedSolutions"].Value).Value;
-                var solution = new Solution(permutation);
-                return persistence.Result.create(p, solution, run, number_of_evals);
+                persistence.Result r = new persistence.Result(p, run);
+
+                r.Solutions.Add(new BestSolution(r, permutation, number_of_evals));
+
+                return r;
             }
             finally
             {

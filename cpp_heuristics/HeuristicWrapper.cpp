@@ -8,7 +8,7 @@ using System::Runtime::InteropServices::Marshal;
 using msclr::interop::marshal_as;
 
 using at::mschwaig::mped::definitions::AlgorithmType;
-using at::mschwaig::mped::definitions::Solution;
+using at::mschwaig::mped::persistence::BestSolution;
 using at::mschwaig::mped::persistence::Problem;
 using at::mschwaig::mped::persistence::Result;
 using at::mschwaig::mped::persistence::HeuristicRun;
@@ -65,8 +65,12 @@ namespace cpp_heuristics {
 
 			delete sigma2_int;
 
-			Solution^ s = gcnew Solution(permutation1, permutation2);
-			return Result::create(p, s, run, h.getEvalCount());
+			persistence::Result^ r = gcnew persistence::Result(p, run);
+
+			r->Solutions->Add(gcnew BestSolution(r, permutation1, permutation2, h.getEvalCount()));
+
+			return r;
+
 		}
 	};
 

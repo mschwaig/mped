@@ -18,25 +18,27 @@ namespace at.mschwaig.mped.definitions
             this.Permutation = (int[])permutation.Clone();
         }
 
-        public Solution(int[] a_permutation, int[] permutation_b) : this (
+        public Solution(int[] a_permutation, int[] permutation_b) : this(
             a_permutation
                 .Zip(permutation_b, (x, y) => Tuple.Create(x, y))
                 .OrderBy(x => x.Item1)
                 .Select(x => x.Item2)
-                .ToArray()){}
+                .ToArray())
+        { }
 
-        public Solution(string permutation_string) : this (
+        public Solution(string permutation_string) : this(
             permutation_string
             .Split(',')
             .Select(x => Int32.Parse(x))
-            .ToArray()){}
+            .ToArray())
+        { }
 
 
         public IEnumerable<Solution> getAllNeighbours()
         {
             for (int i = 0; i < Permutation.Length - 1; i++)
             {
-                for (int j = i+1; j < Permutation.Length; j++)
+                for (int j = i + 1; j < Permutation.Length; j++)
                 {
                     var neighbour = (int[])Permutation.Clone();
                     int tmp = neighbour[i];

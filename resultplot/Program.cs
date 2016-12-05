@@ -30,7 +30,7 @@ namespace at.mschwaig.mped.resultplotter
                     {
                         foreach (var result in problem.Results)
                         {
-                            file.WriteLine("{0} {1} {2}", result.HeuristicRun.Algorithm.ToString(), result.Mped, result.NumberOfEvalsToObtainSolution);
+                            file.WriteLine("{0} {1} {2}", result.HeuristicRun.Algorithm.ToString(), result.Solutions.Single().Mped, result.NumberOfEvalsToObtainSolution);
                         }
                     }
                 }
@@ -41,7 +41,7 @@ namespace at.mschwaig.mped.resultplotter
         {
             using (var ctx = new ThesisDbContext())
             {
-                Experiment ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Compare").First();
+                Experiment ex = ctx.Experiments.Include("Problems.Results.Solutions").Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Compare").First();
 
                 var problem_param_groups = ex.Problems.GroupBy(x => new { Correlation = 1 - x.SubstituteProb, x.a.Length });
 
@@ -52,9 +52,9 @@ namespace at.mschwaig.mped.resultplotter
                         var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm).Select(grp => new {
                             Enum = grp.Key,
                             Name = grp.Key.GetDescription(),
-                            MinMped = grp.Min(x => x.Mped),
-                            MaxMped = grp.Max(x => x.Mped),
-                            AvgMped = grp.Average(x => x.Mped),
+                            MinMped = grp.Min(x => x.Solutions.Single().Mped),
+                            MaxMped = grp.Max(x => x.Solutions.Single().Mped),
+                            AvgMped = grp.Average(x => x.Solutions.Single().Mped),
                             MinEvals = grp.Min(x => x.NumberOfEvalsToObtainSolution),
                             MaxEvals = grp.Max(x => x.NumberOfEvalsToObtainSolution),
                             AvgEvals = grp.Average(x => x.NumberOfEvalsToObtainSolution)
@@ -87,8 +87,8 @@ namespace at.mschwaig.mped.resultplotter
 
                         foreach (var problem in group)
                         {
-                            var mincontribsort_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm == AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x => x.Mped);
-                            var min_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm != AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x => x.Mped);
+                            var mincontribsort_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm == AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x => x.Solutions.Single().Mped);
+                            var min_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm != AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x => x.Solutions.Single().Mped);
                             if (mincontribsort_mped <= min_mped)
                             {
                                 mincontrib_good++;

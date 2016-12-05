@@ -14,6 +14,8 @@ namespace at.mschwaig.mped.persistence
 
         public DbSet<Result> Results { get; set; }
 
+        public DbSet<BestSolution> BestSolutions { get; set; }
+
         public DbSet<HeuristicRun> HeuristicRun { get; set; }
 
         public DbSet<Experiment> Experiments { get; set; }

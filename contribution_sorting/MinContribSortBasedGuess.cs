@@ -27,7 +27,7 @@ namespace at.mschwaig.mped.contribution_sorting
             var max_contrib_section = sorted_solution_space.First();
             foreach (var s in max_contrib_section.Item2.Take(5))
             {
-                int dist = DistanceUtil.mped(p, s);
+                int dist = DistanceUtil.mped(p, s.Permutation);
                 eval_counter++;
                 if (dist < min_dist)
                 {
@@ -41,7 +41,11 @@ namespace at.mschwaig.mped.contribution_sorting
                 throw new ArgumentException("cannot make a guess with so few evaluations");
 
 
-            return Result.create(p, best, run, p.a.Length * p.b.Length + eval_counter);
+            Result r = new Result(p, run);
+
+            r.Solutions.Add(new BestSolution(r, best, p.a.Length * p.b.Length + eval_counter));
+
+            return r;
         }
     }
 }
