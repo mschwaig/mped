@@ -17,35 +17,9 @@ namespace at.mschwaig.mped.persistence
         [Required]
         public virtual Result Result { get; set; }
 
-
-        [NotMapped]
-        public int[] Permutation
-        {
-            get
-            {
-                if (permutation_converted != null)
-                {
-                    return permutation_converted;
-                }
-                else
-                {
-                    permutation_converted = PermutationString
-                        .Split(',')
-                        .Select(x => Int32.Parse(x))
-                        .ToArray();
-                    return permutation_converted;
-                }
-            }
-        }
-
-        private string PermutationString { get; set; }
-
         public int EvalCount { get; private set; }
 
         public int Mped { get; private set; }
-
-
-        private int[] permutation_converted;
 
         // Used by Entity Framework
         private BestSolution() { }
@@ -53,15 +27,15 @@ namespace at.mschwaig.mped.persistence
 
         public BestSolution(Result result, Solution solution, int eval_count) : this(
             result,
-            String.Join(",", solution.Permutation),
+            solution.Permutation,
             eval_count
             )
         { }
 
         public BestSolution(Result result, int[] permutation, int eval_count) : this (
             result,
-            String.Join(",", permutation),
-            eval_count
+            eval_count,
+            DistanceUtil.mped(result.Problem, permutation)
             ) {}
 
         public BestSolution(Result result, int[] a_permutation, int[] permutation_b, int eval_count) : this (
@@ -74,11 +48,10 @@ namespace at.mschwaig.mped.persistence
             eval_count
             ){ }
 
-        public BestSolution(Result result, string permutation_string, int eval_count)
+        public BestSolution(Result result, int eval_count, int mped)
         {
             this.Result = result;
-            this.PermutationString = permutation_string;
-            this.Mped = DistanceUtil.mped(result.Problem, this.Permutation);
+            this.Mped = mped;
             this.EvalCount = eval_count;
 
         }

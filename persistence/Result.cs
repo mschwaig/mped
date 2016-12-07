@@ -24,8 +24,6 @@ namespace at.mschwaig.mped.persistence
         [Required]
         public virtual HeuristicRun HeuristicRun { get; set; }
 
-        public int NumberOfEvalsToObtainSolution { get; private set; }
-
         // Used by Entity Framework
         private Result(){ }
 
