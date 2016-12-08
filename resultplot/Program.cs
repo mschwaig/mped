@@ -30,7 +30,7 @@ namespace at.mschwaig.mped.resultplotter
                     {
                         foreach (var result in problem.Results)
                         {
-                            file.WriteLine("{0} {1} {2}", result.HeuristicRun.Algorithm.ToString(), result.Solutions.Single().Mped, result.NumberOfEvalsToObtainSolution);
+                            file.WriteLine("{0} {1} {2}", result.HeuristicRun.Algorithm.ToString(), result.Solutions.Single().Mped, result.Solutions.Single().EvalCount);
                         }
                     }
                 }
@@ -55,9 +55,9 @@ namespace at.mschwaig.mped.resultplotter
                             MinMped = grp.Min(x => x.Solutions.Single().Mped),
                             MaxMped = grp.Max(x => x.Solutions.Single().Mped),
                             AvgMped = grp.Average(x => x.Solutions.Single().Mped),
-                            MinEvals = grp.Min(x => x.NumberOfEvalsToObtainSolution),
-                            MaxEvals = grp.Max(x => x.NumberOfEvalsToObtainSolution),
-                            AvgEvals = grp.Average(x => x.NumberOfEvalsToObtainSolution)
+                            MinEvals = grp.Min(x => x.Solutions.Single().EvalCount),
+                            MaxEvals = grp.Max(x => x.Solutions.Single().EvalCount),
+                            AvgEvals = grp.Average(x => x.Solutions.Single().EvalCount)
                         }).OrderBy(x => x.Name);
 
                         foreach (var alg in res)
