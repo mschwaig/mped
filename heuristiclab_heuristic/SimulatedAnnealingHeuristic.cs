@@ -8,6 +8,7 @@ using HeuristicLab.SequentialEngine;
 using HeuristicLab.Encodings.PermutationEncoding;
 using HeuristicLab.Data;
 using at.mschwaig.mped.persistence;
+using HeuristicLab.Analysis;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
@@ -44,7 +45,13 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                 var number_of_evals = ((IntValue)alg.Results["EvaluatedMoves"].Value).Value;
                 persistence.Result r = new persistence.Result(p, run);
 
-                r.Solutions.Add(new BestSolution(r, permutation, number_of_evals));
+                var qualities = ((DataTable)alg.Results["Qualities"].Value).Rows["BestQuality"].Values.ToArray();
+                var evals_per_generations = alg.InnerIterations.Value;
+
+                for (int g = 0; g < qualities.Length; g++)
+                {
+                    r.Solutions.Add(new BestSolution(r, g * evals_per_generations, (int)qualities[g]));
+                }
 
                 return r;
             }
