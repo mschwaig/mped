@@ -85,6 +85,12 @@ void HillClimbing::compute() {
 
 		improved = false;
 
+		if (min_dist < min_min_dist){
+			reportMpedAndEvalCount(min_dist, eval_count);
+		} else {
+			reportMpedAndEvalCount(min_min_dist, eval_count);
+		}
+
 		for (size_t ip = 0; ip < sgl1; ip++) {
 			for (size_t jp = ip; jp < sgl1; jp++) {
 
@@ -189,4 +195,6 @@ void HillClimbing::compute() {
 			}
 		}
 	}
+
+	reportMpedAndEvalCount(min_min_dist, eval_count);
 }

@@ -4,6 +4,8 @@
 #include <string>
 #include <msclr\marshal_cppstd.h>
 
+using namespace System;
+using namespace System::Runtime::InteropServices;
 using System::Runtime::InteropServices::Marshal;
 using msclr::interop::marshal_as;
 
@@ -13,11 +15,27 @@ using at::mschwaig::mped::persistence::Problem;
 using at::mschwaig::mped::persistence::Result;
 using at::mschwaig::mped::persistence::HeuristicRun;
 
+delegate void managedReportDelegate(int mped, int eval_count);
+
 namespace at {
 namespace mschwaig {
 namespace mped {
 namespace cpp_heuristics {
 
+	public ref class ReportDelegate
+	{
+	private:
+		persistence::Result^ result;
+	public:
+		ReportDelegate(persistence::Result^ result) {
+			this->result = result;
+		}
+
+		void report(int mped, int eval_count) {
+			System::Console::WriteLine(mped + " " + eval_count);
+			result->Solutions->Add(gcnew BestSolution(result, mped, eval_count));
+		}
+	};
 
 	template <typename heuristic>
 	public ref class HeuristicBase : at::mschwaig::mped::persistence::Heuristic {
@@ -35,9 +53,17 @@ namespace cpp_heuristics {
 			prob.setAttempts(1);
 			prob.setSelfIdentity(false);
 			prob.debug();
+			
+			persistence::Result^ result = gcnew persistence::Result(p, run);
+			ReportDelegate^ report_del = gcnew ReportDelegate(result);
 
+		    managedReportDelegate ^d = gcnew managedReportDelegate(report_del, &ReportDelegate::report);
 
-			heuristic h(prob, max_evaluation_number);
+			GCHandle gch = GCHandle::Alloc(d);
+			IntPtr ip = Marshal::GetFunctionPointerForDelegate(d);
+			report_cb cb = static_cast<report_cb>(ip.ToPointer());
+
+			heuristic h(prob, max_evaluation_number, cb);
 			h.computeAndAlign();
 
 			const unsigned short * sigma1 = h.getComputedSigma1();
@@ -65,11 +91,7 @@ namespace cpp_heuristics {
 
 			delete sigma2_int;
 
-			persistence::Result^ r = gcnew persistence::Result(p, run);
-
-			r->Solutions->Add(gcnew BestSolution(r, permutation1, permutation2, h.getEvalCount()));
-
-			return r;
+			return result;
 
 		}
 	};

@@ -13,6 +13,9 @@ private:
 
 public:
 	HillClimbing(MPED& mped, int max_evaluation_number) : Heuristic(max_evaluation_number) { this->mped = &mped; }
+
+	HillClimbing(MPED& mped, int max_evaluation_number , report_cb cb) : Heuristic(max_evaluation_number, cb) { this->mped = &mped; }
+
 	const unsigned getResult() const { return this->result; }
 
 	void compute();

@@ -46,6 +46,8 @@ void SimulatedAnnealing::compute() {
 	unsigned short* sigma1_b = new unsigned short[sgl1]; copy(this->mped->getSigma1(), this->mped->getSigma1() + sgl1, sigma1_b);
 	unsigned short* sigma2_b = new unsigned short[sgl2]; copy(this->mped->getSigma2(), this->mped->getSigma2() + sgl2, sigma2_b);
 
+	reportMpedAndEvalCount(dist, eval_count);
+
 	int temperature = (l1 * sgl1) + (l2 * sgl2);
 	while (temperature) {
 		// TODO: define coherent decrement for temperature
@@ -74,12 +76,17 @@ void SimulatedAnnealing::compute() {
 			current_dist = next_dist;
 
 			if (dist < best_dist) {
+
+				reportMpedAndEvalCount(dist, eval_count);
+
 				best_dist = dist;
 				copy(sigma1_c, sigma1_c + sgl1, sigma1_b);
 				copy(sigma2_c, sigma2_c + sgl2, sigma2_b);
 			}
 
 		}
+
+
 	}
 
 	// finalize, best_dist is our minimum distance and sigma(1|2)_b is the matching schema
