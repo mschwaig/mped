@@ -27,14 +27,14 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             var DataTableValuesCollector = analyzer.OperatorGraph.Operators.OfType<DataTableValuesCollector>().Single();
             var resultsCollector = analyzer.OperatorGraph.Operators.OfType<ResultsCollector>().Single();
 
-            var numberOfSelectedParentsCalculator = new ExpressionCalculator() { Name =  "1.0" };
+            var intValueToDoubleValueConverter = new ExpressionCalculator() { Name = numberOfEvalsParameterName + " 1.0 *" };
 
-            DataTableValuesCollector.Successor = numberOfSelectedParentsCalculator;
+            DataTableValuesCollector.Successor = intValueToDoubleValueConverter;
 
-            numberOfSelectedParentsCalculator.CollectedValues.Add(new LookupParameter<IntValue>(numberOfEvalsParameterName));
-            numberOfSelectedParentsCalculator.ExpressionResultParameter.ActualName = "EvaluationCountDouble";
-            numberOfSelectedParentsCalculator.ExpressionParameter.Value = new StringValue("1.0");
-            numberOfSelectedParentsCalculator.Successor = resultsCollector;
+            intValueToDoubleValueConverter.CollectedValues.Add(new LookupParameter<IntValue>(numberOfEvalsParameterName));
+            intValueToDoubleValueConverter.ExpressionResultParameter.ActualName = "EvaluationCountDouble";
+            intValueToDoubleValueConverter.ExpressionParameter.Value = new StringValue(numberOfEvalsParameterName + " 1.0 *");
+            intValueToDoubleValueConverter.Successor = resultsCollector;
 
             return analyzer;
         }
