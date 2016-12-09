@@ -43,6 +43,10 @@
     <AssemblyOriginatorKeyFile>HeuristicLab.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HeuristicLab.Analysis-3.3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=ba48961d6f65dcec, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\HeuristicLab.Analysis-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="HeuristicLab.Collections-3.3">
       <HintPath>..\dependencies\HeuristicLab.Collections-3.3.dll</HintPath>
     </Reference>
@@ -67,6 +71,10 @@
     <Reference Include="HeuristicLab.Optimization-3.3">
       <HintPath>..\dependencies\HeuristicLab.Optimization-3.3.dll</HintPath>
     </Reference>
+    <Reference Include="HeuristicLab.Optimization.Operators-3.3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=ba48961d6f65dcec, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\HeuristicLab.Optimization.Operators-3.3.dll</HintPath>
+    </Reference>
     <Reference Include="HeuristicLab.Parameters-3.3">
       <HintPath>..\dependencies\HeuristicLab.Parameters-3.3.dll</HintPath>
     </Reference>
@@ -89,6 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntValueAnalyzer.cs" />
     <Compile Include="MpedBasicProblem.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

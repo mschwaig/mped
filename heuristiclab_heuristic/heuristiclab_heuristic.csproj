@@ -56,9 +56,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dependencies\HeuristicLab.Algorithms.OffspringSelectionGeneticAlgorithm-3.3.dll</HintPath>
     </Reference>
-    <Reference Include="HeuristicLab.Algorithms.ScatterSearch-3.3">
-      <HintPath>..\dependencies\HeuristicLab.Algorithms.ScatterSearch-3.3.dll</HintPath>
-    </Reference>
     <Reference Include="HeuristicLab.Algorithms.SimulatedAnnealing-3.3">
       <HintPath>..\dependencies\HeuristicLab.Algorithms.SimulatedAnnealing-3.3.dll</HintPath>
     </Reference>
