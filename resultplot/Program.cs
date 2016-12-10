@@ -15,7 +15,8 @@ namespace at.mschwaig.mped.resultplotter
         static void Main(string[] args)
         {
             // evaluateInsertExperiment();
-            evaluateCompareExperiment();
+            // evaluateCompareExperiment();
+            evaluateCompareExperimentLineGraph();
         }
 
         static void evaluateExperimentResultsByProblem()
@@ -37,6 +38,38 @@ namespace at.mschwaig.mped.resultplotter
             }
         }
 
+        static void evaluateCompareExperimentLineGraph()
+        {
+            using (var ctx = new ThesisDbContext())
+            {
+                Experiment ex = ctx.Experiments.Include("Problems.Results.Solutions").Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Compare").First();
+
+                var problem_param_groups = ex.Problems.GroupBy(x => new { Correlation = 1 - x.SubstituteProb, x.a.Length });
+
+                foreach (var group in problem_param_groups)
+                {
+                    using (StreamWriter file = new StreamWriter(
+                        String.Format(CultureInfo.InvariantCulture, "linecomp_{0}_{1}.dat", group.Key.Length, group.Key.Correlation)))
+                    {
+                        var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm);
+
+                        foreach (var alg in res)
+                        {
+                            file.WriteLine("\"" + alg.Key.GetDescription() + "\"");
+
+                            var resultset = alg.Single();
+
+                            foreach (var entry in resultset.Solutions) {
+                                file.WriteLine(entry.EvalCount + " " + entry.Mped);
+                            }
+                            file.WriteLine();
+                            file.WriteLine();
+                        }
+                    }
+                }
+            }
+        }
+
         static void evaluateCompareExperiment()
         {
             using (var ctx = new ThesisDbContext())
@@ -47,17 +80,22 @@ namespace at.mschwaig.mped.resultplotter
 
                 foreach (var group in problem_param_groups)
                 {
-                    using (StreamWriter file = new StreamWriter("comp_" + group.Key.Length + "_" + group.Key.Correlation + ".dat"))
+                    using (StreamWriter file = new StreamWriter(
+                        String.Format(CultureInfo.InvariantCulture, "comp_{0}_{1}.dat", group.Key.Length, group.Key.Correlation)))
                     {
-                        var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm).Select(grp => new {
-                            Enum = grp.Key,
-                            Name = grp.Key.GetDescription(),
-                            MinMped = grp.Min(x => x.Solutions.Single().Mped),
-                            MaxMped = grp.Max(x => x.Solutions.Single().Mped),
-                            AvgMped = grp.Average(x => x.Solutions.Single().Mped),
-                            MinEvals = grp.Min(x => x.Solutions.Single().EvalCount),
-                            MaxEvals = grp.Max(x => x.Solutions.Single().EvalCount),
-                            AvgEvals = grp.Average(x => x.Solutions.Single().EvalCount)
+                        var res = group.SelectMany(x => x.Results).Select(x => new {
+                            solution = x.Solutions.OrderBy(y => y.Mped).First(),
+                            algorithm = x.HeuristicRun.Algorithm
+                        })
+                            .GroupBy(x => x.algorithm).Select(grp => new {
+                                Enum = grp.Key,
+                                Name = grp.Key.GetDescription(),
+                                MinMped = grp.Min(x => x.solution.Mped),
+                                MaxMped = grp.Max(x => x.solution.Mped),
+                                AvgMped = grp.Average(x => x.solution.Mped),
+                                MinEvals = grp.Min(x => x.solution.EvalCount),
+                                MaxEvals = grp.Max(x => x.solution.EvalCount),
+                                AvgEvals = grp.Average(x => x.solution.EvalCount)
                         }).OrderBy(x => x.Name);
 
                         foreach (var alg in res)
