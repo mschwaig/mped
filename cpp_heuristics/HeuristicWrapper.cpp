@@ -32,8 +32,7 @@ namespace cpp_heuristics {
 		}
 
 		void report(int mped, int eval_count) {
-			System::Console::WriteLine(mped + " " + eval_count);
-			result->Solutions->Add(gcnew BestSolution(result, mped, eval_count));
+			result->Solutions->Add(gcnew BestSolution(result, eval_count, mped));
 		}
 	};
 

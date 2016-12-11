@@ -12,7 +12,8 @@ namespace at.mschwaig.mped.definitions
         CPP_HILLCLIMBING,
         [Description("C++ Simulated Annealing")]
         CPP_SIMULATEDANNEALING,
-        MINCONTRIBSORT_FIRSTGUESS,
+        [Description("Contribution Sorting Guess")]
+        CONTRIBUTION_SORTING_GUESS,
         [Description("HL Offspring Selection GA")]
         HL_OSGA,
         [Description("HL Simulated Annealing")]

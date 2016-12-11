@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using at.mschwaig.mped.heuristiclab.heuristic;
 using at.mschwaig.mped.persistence;
 
+
 namespace at.mschwaig.mped.evalrun
 {
     class Program
@@ -40,7 +41,6 @@ namespace at.mschwaig.mped.evalrun
         {
             foreach (var heuristic in heuristics)
             {
-                int sum = 0;
                 long evals = 0;
 
                 List<Problem> problemList;
@@ -68,8 +68,7 @@ namespace at.mschwaig.mped.evalrun
 
                         Console.WriteLine(String.Format("{0:HH:mm:ss}: Problem {1} took {2} miliseconds.", DateTime.Now, problem.ProblemId, watch.ElapsedMilliseconds));
                         watch.Stop();
-                        sum += DistanceUtil.mped(res.Problem, res.Solution);
-                        evals += res.NumberOfEvalsToObtainSolution;
+                        evals += res.Solutions.Select(x => x.EvalCount).Max();
                     });
 
                 }

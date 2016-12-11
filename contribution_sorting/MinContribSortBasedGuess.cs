@@ -13,7 +13,7 @@ namespace at.mschwaig.mped.contribution_sorting
     {
         SolutionSpaceSortingMethod solution_space_sorting_method = new LinearExactMaxiumumAssignmentBasedSorting();
 
-        public ContributionSortingHeuristic() : base(AlgorithmType.MINCONTRIBSORT_FIRSTGUESS){}
+        public ContributionSortingHeuristic() : base(AlgorithmType.CONTRIBUTION_SORTING_GUESS){}
 
         public override Result applyTo(Problem p, int max_evaluation_number)
         {

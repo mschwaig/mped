@@ -36,7 +36,7 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                 int population_size = (p.a.Length + p.b.Length)*2;
                 alg.PopulationSize = new IntValue(population_size);
                 var evalTerminator = alg.Terminators.Operators.Where(x => x.Name == "Evaluations").Single() as ComparisonTerminator<IntValue>;
-                evalTerminator.ThresholdParameter = new FixedValueParameter<IntValue>("Threshold", new IntValue(100));
+                evalTerminator.ThresholdParameter = new FixedValueParameter<IntValue>("Threshold", new IntValue(max_evaluation_number));
                 alg.Terminators.Operators.SetItemCheckedState(evalTerminator, true);
                 alg.Crossover = alg.CrossoverParameter.ValidValues.OfType<PartiallyMatchedCrossover>().Single();
             }

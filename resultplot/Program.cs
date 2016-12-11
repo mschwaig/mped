@@ -7,6 +7,7 @@ using at.mschwaig.mped.persistence;
 using System.Reflection;
 using System.ComponentModel;
 using at.mschwaig.mped.resultplotter;
+using at.mschwaig.mped.resultplot;
 
 namespace at.mschwaig.mped.resultplotter
 {
@@ -51,7 +52,7 @@ namespace at.mschwaig.mped.resultplotter
                     using (StreamWriter file = new StreamWriter(
                         String.Format(CultureInfo.InvariantCulture, "linecomp_{0}_{1}.dat", group.Key.Length, group.Key.Correlation)))
                     {
-                        var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm);
+                        var res = group.SelectMany(x => x.Results).GroupBy(x => x.HeuristicRun.Algorithm).OrderBy(x => x.Key);
 
                         foreach (var alg in res)
                         {
@@ -59,7 +60,9 @@ namespace at.mschwaig.mped.resultplotter
 
                             var resultset = alg.Single();
 
-                            foreach (var entry in resultset.Solutions) {
+                            var filtered = resultset.Solutions.removedNeighouringDuplicateValues(x => x.Mped);
+
+                            foreach (var entry in filtered) {
                                 file.WriteLine(entry.EvalCount + " " + entry.Mped);
                             }
                             file.WriteLine();
@@ -125,8 +128,8 @@ namespace at.mschwaig.mped.resultplotter
 
                         foreach (var problem in group)
                         {
-                            var mincontribsort_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm == AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x => x.Solutions.Single().Mped);
-                            var min_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm != AlgorithmType.MINCONTRIBSORT_FIRSTGUESS).Min(x => x.Solutions.Single().Mped);
+                            var mincontribsort_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm == AlgorithmType.CONTRIBUTION_SORTING_GUESS).Min(x => x.Solutions.Single().Mped);
+                            var min_mped = problem.Results.Where(x => x.HeuristicRun.Algorithm != AlgorithmType.CONTRIBUTION_SORTING_GUESS).Min(x => x.Solutions.Single().Mped);
                             if (mincontribsort_mped <= min_mped)
                             {
                                 mincontrib_good++;

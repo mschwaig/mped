@@ -51,23 +51,23 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             alg.Stopped += (sender, args) => { trigger.Set(); };
             alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };
 
+            alg.Analyzer.Operators.Add(EvaluationCountAnalyerBuilder.createForParameterName("EvaluatedSolutions"));
+
             try
             {
                 alg.Prepare();
                 alg.Start();
                 trigger.WaitOne();
                 if (ex != null) throw ex;
-                var permutation = ((Permutation)alg.Results["Best Solution"].Value).ToArray();
-                var number_of_evals = ((IntValue)alg.Results["EvaluatedSolutions"].Value).Value;
+
                 persistence.Result r = new persistence.Result(p, run);
 
                 var qualities = ((DataTable)alg.Results["Qualities"].Value).Rows["BestQuality"].Values.ToArray();
-                var min_evals = alg.PopulationSize.Value;
-                var evals_per_generations = alg.Children.Value;
+                var evaluations = ((DataTable)alg.Results["EvaluationCount Chart"].Value).Rows["EvaluatedSolutions"].Values.ToArray();
 
                 for (int g = 0; g < qualities.Length; g++)
                 {
-                    r.Solutions.Add(new BestSolution(r, min_evals + g * evals_per_generations, (int)qualities[g]));
+                    r.Solutions.Add(new BestSolution(r, (int)evaluations[g], (int)qualities[g]));
                 }
 
                 return r;
