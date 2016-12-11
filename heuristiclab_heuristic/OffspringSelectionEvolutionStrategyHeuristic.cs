@@ -45,10 +45,20 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                     alg.MaximumGenerations = new IntValue(max_evaluation_number);
                 }
                 alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
-                alg.MaximumSelectionPressure = new DoubleValue(1000);
+                alg.MaximumSelectionPressure = new DoubleValue(100);
             }
 
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
+
+            var mutator = alg.MutatorParameter.ValidValues.OfType<MultiPermutationManipulator>().Single();
+
+            foreach (var manipulation_op in mutator.Operators)
+            {
+                mutator.Operators.SetItemCheckedState(manipulation_op, manipulation_op is Swap2Manipulator || manipulation_op is Swap3Manipulator);
+            }
+
+            alg.Mutator = mutator;
+
             alg.Engine = new SequentialEngine();
             alg.Stopped += (sender, args) => { trigger.Set(); };
             alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };
