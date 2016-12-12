@@ -14,6 +14,8 @@ using HeuristicLab.Encodings.PermutationEncoding;
 using HeuristicLab.Data;
 using at.mschwaig.mped.persistence;
 using HeuristicLab.Analysis;
+using HeuristicLab.Operators;
+using HeuristicLab.Selection;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
@@ -34,13 +36,30 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
 
         protected override OffspringSelectionGeneticAlgorithm instantiateAlgorithm()
         {
-            return new OffspringSelectionGeneticAlgorithm();
+            var alg = new OffspringSelectionGeneticAlgorithm();
+            var mainLoop = (AlgorithmOperator)alg.OperatorGraph.Operators.Single(x => x is OffspringSelectionGeneticAlgorithmMainLoop);
+            var mainOp = (AlgorithmOperator)mainLoop.OperatorGraph.Operators.Single(x => x is OffspringSelectionGeneticAlgorithmMainOperator);
+            var offSel = mainOp.OperatorGraph.Operators.OfType<OffspringSelector>().Single();
+
+            var comp = new Comparator();
+            comp.Comparison = new Comparison(ComparisonType.GreaterOrEqual);
+            comp.LeftSideParameter.ActualName = "EvaluatedSolutions";
+            comp.ResultParameter.ActualName = "TerminateEvaluatedSolutions";
+            comp.RightSideParameter.ActualName = "MaximumEvaluatedSolutions";
+
+            var cond = new ConditionalBranch();
+            cond.ConditionParameter.ActualName = "TerminateEvaluatedSolutions";
+
+            comp.Successor = cond;
+            cond.FalseBranch = offSel.OffspringCreator;
+            offSel.OffspringCreator = comp;
+
+            return alg;
         }
 
         protected override void parameterizeAlgorithm(OffspringSelectionGeneticAlgorithm alg, int albhabet_size_a, int albhabet_size_b, int max_eval_number)
         {
             int pop_size_suggestion = (albhabet_size_a + albhabet_size_b)*10;
- //           int pop_size_suggestion = (albhabet_size_a + albhabet_size_b);
 
             if (max_eval_number / pop_size_suggestion <= 0)
                 throw new ArgumentException();
