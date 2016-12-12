@@ -17,10 +17,14 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
 
         public SimulatedAnnealingHeuristic() : base(AlgorithmType.HL_SA) {}
 
-        protected override void attachEvalCountAnalzyer(SimulatedAnnealing alg)
+        protected override void attachEvalCountAnalzyer(SimulatedAnnealing alg, IntValueAnalyzer eval_count_analyzer)
         {
-            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedMoves");
-            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
+            alg.Analyzer.Operators.Add(eval_count_analyzer);
+        }
+
+        protected override string getEvalCountParameterName()
+        {
+            return "EvaluatedMoves";
         }
 
         protected override SimulatedAnnealing instantiateAlgorithm()

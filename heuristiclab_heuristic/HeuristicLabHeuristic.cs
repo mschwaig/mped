@@ -23,7 +23,9 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
 
         protected abstract T instantiateAlgorithm();
 
-        protected abstract void attachEvalCountAnalzyer(T alg);
+        protected abstract void attachEvalCountAnalzyer(T alg, IntValueAnalyzer eval_count_analyzer);
+
+        protected abstract string getEvalCountParameterName();
 
         public override persistence.Result applyTo(persistence.Problem p)
         {
@@ -39,7 +41,8 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             alg.Stopped += (sender, args) => { trigger.Set(); };
             alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };
 
-            attachEvalCountAnalzyer(alg);
+            var eval_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName(getEvalCountParameterName());
+            attachEvalCountAnalzyer(alg, eval_count_analyzer);
 
             try
             {
@@ -51,7 +54,7 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                 persistence.Result r = new persistence.Result(p, run);
 
                 var qualities = ((DataTable)alg.Results["Qualities"].Value).Rows["BestQuality"].Values.ToArray();
-                var evaluations = ((DataTable)alg.Results["EvaluationCount Chart"].Value).Rows["EvaluatedSolutions"].Values.ToArray();
+                var evaluations = ((DataTable)alg.Results["EvaluationCount Chart"].Value).Rows[getEvalCountParameterName()].Values.ToArray();
 
                 for (int g = 0; g < qualities.Length; g++)
                 {

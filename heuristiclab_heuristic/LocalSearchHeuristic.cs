@@ -21,10 +21,14 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
         public LocalSearchHeuristic() : base(AlgorithmType.HL_LS){}
 
 
-        protected override void attachEvalCountAnalzyer(LocalSearch alg)
+        protected override void attachEvalCountAnalzyer(LocalSearch alg, IntValueAnalyzer eval_count_analyzer)
         {
-            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedMoves");
-            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
+            alg.Analyzer.Operators.Add(eval_count_analyzer);
+        }
+
+        protected override string getEvalCountParameterName()
+        {
+            return "EvaluatedMoves";
         }
 
         protected override LocalSearch instantiateAlgorithm()

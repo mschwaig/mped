@@ -21,10 +21,14 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
     {
         public VariableNeighborhoodSearchHeuristic() : base(AlgorithmType.HL_VNS) {}
 
-        protected override void attachEvalCountAnalzyer(VariableNeighborhoodSearch alg)
+        protected override void attachEvalCountAnalzyer(VariableNeighborhoodSearch alg, IntValueAnalyzer eval_count_analyzer)
         {
-            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedMoves");
-            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
+            alg.Analyzer.Operators.Add(eval_count_analyzer);
+        }
+
+        protected override string getEvalCountParameterName()
+        {
+            return "EvaluatedMoves";
         }
 
         protected override VariableNeighborhoodSearch instantiateAlgorithm()

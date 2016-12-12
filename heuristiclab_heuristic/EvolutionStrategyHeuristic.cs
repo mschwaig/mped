@@ -21,10 +21,14 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
     {
         public EvolutionStrategyHeuristic() : base(AlgorithmType.HL_ES) {}
 
-        protected override void attachEvalCountAnalzyer(EvolutionStrategy alg)
+        protected override void attachEvalCountAnalzyer(EvolutionStrategy alg, IntValueAnalyzer eval_count_analyzer)
         {
-            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedSolutions");
-            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
+            alg.Analyzer.Operators.Add(eval_count_analyzer);
+        }
+
+        protected override string getEvalCountParameterName()
+        {
+            return "EvaluatedSolutions";
         }
 
         protected override EvolutionStrategy instantiateAlgorithm()
