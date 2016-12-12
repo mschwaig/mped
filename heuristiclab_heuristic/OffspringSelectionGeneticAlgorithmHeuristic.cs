@@ -43,10 +43,23 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                     alg.MaximumGenerations = new IntValue(max_evaluation_number);
                     alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
                 }
-                alg.MaximumSelectionPressure = new DoubleValue(10000000);
+                alg.MaximumSelectionPressure = new DoubleValue(1000);
             }
 
             alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
+
+            var crossover = alg.CrossoverParameter.ValidValues.OfType<MultiPermutationCrossover>().Single();
+
+            foreach (var crossover_op in crossover.Operators)
+            {
+                crossover.Operators.SetItemCheckedState(crossover_op,
+                    crossover_op is CyclicCrossover ||
+                    crossover_op is CyclicCrossover2 ||
+                    crossover_op is PartiallyMatchedCrossover);
+            }
+
+            alg.Crossover = crossover;
+
             alg.Engine = new SequentialEngine();
             alg.Stopped += (sender, args) => { trigger.Set(); };
             alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };

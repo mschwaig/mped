@@ -60,7 +60,7 @@ namespace at.mschwaig.mped.resultplotter
 
                             var resultset = alg.Single();
 
-                            var filtered = resultset.Solutions.removedNeighouringDuplicateValues(x => x.Mped);
+                            var filtered = resultset.Solutions.OrderBy(x => x.EvalCount).removedNeighouringDuplicateValues(x => x.Mped);
 
                             foreach (var entry in filtered) {
                                 file.WriteLine(entry.EvalCount + " " + entry.Mped);
