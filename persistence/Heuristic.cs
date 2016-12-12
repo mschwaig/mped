@@ -17,6 +17,11 @@ namespace at.mschwaig.mped.persistence
             }
         }
 
-        public abstract Result applyTo(Problem p, int max_evaluation_number = 0);
+        public abstract Result applyTo(Problem p);
+
+        public int getMaxEvalNumber(int albhabet_size_a, int albhabet_size_b)
+        {
+            return albhabet_size_a * albhabet_size_a * albhabet_size_b * albhabet_size_b;
+        }
     }
 }

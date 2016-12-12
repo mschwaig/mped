@@ -17,78 +17,47 @@ using HeuristicLab.Analysis;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
-    public class OffspringSelectionGeneticAlgorithmHeuristic : Heuristic
+    public class OffspringSelectionGeneticAlgorithmHeuristic : HeuristicLabHeuristic<OffspringSelectionGeneticAlgorithm>
     {
 
-        public OffspringSelectionGeneticAlgorithmHeuristic() : base(AlgorithmType.HL_OSGA) {
+        public OffspringSelectionGeneticAlgorithmHeuristic() : base(AlgorithmType.HL_OSGA) {}
 
+        protected override void attachEvalCountAnalzyer(OffspringSelectionGeneticAlgorithm alg)
+        {
+            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedSolutions");
+            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
         }
 
-        public override persistence.Result applyTo(persistence.Problem p, int max_evaluation_number)
+        protected override OffspringSelectionGeneticAlgorithm instantiateAlgorithm()
         {
-            var trigger = new ManualResetEvent(false);
+            return new OffspringSelectionGeneticAlgorithm();
+        }
 
-            Exception ex = null;
-            var alg = new OffspringSelectionGeneticAlgorithm();
-            if (max_evaluation_number > 0)
-            {
-                int pop_size_suggestion = p.a.Length + p.b.Length;
+        protected override void parameterizeAlgorithm(OffspringSelectionGeneticAlgorithm alg, int albhabet_size_a, int albhabet_size_b, int max_eval_number)
+        {
+            int pop_size_suggestion = (albhabet_size_a + albhabet_size_b)*10;
+ //           int pop_size_suggestion = (albhabet_size_a + albhabet_size_b);
 
-                if (max_evaluation_number / pop_size_suggestion > 0) {
-                    alg.PopulationSize = new IntValue(pop_size_suggestion);
-                    alg.MaximumGenerations = new IntValue(max_evaluation_number / pop_size_suggestion);
-                    alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
-                } else {
-                    alg.PopulationSize = new IntValue(1);
-                    alg.MaximumGenerations = new IntValue(max_evaluation_number);
-                    alg.MaximumEvaluatedSolutions = new IntValue(max_evaluation_number);
-                }
-                alg.MaximumSelectionPressure = new DoubleValue(1000);
-            }
+            if (max_eval_number / pop_size_suggestion <= 0)
+                throw new ArgumentException();
 
-            alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
+            alg.PopulationSize = new IntValue(pop_size_suggestion);
+            alg.MaximumGenerations = new IntValue(max_eval_number / pop_size_suggestion);
+            alg.MaximumEvaluatedSolutions = new IntValue(max_eval_number);
+
+            alg.MaximumSelectionPressure = new DoubleValue(1000);
 
             var crossover = alg.CrossoverParameter.ValidValues.OfType<MultiPermutationCrossover>().Single();
 
             foreach (var crossover_op in crossover.Operators)
             {
                 crossover.Operators.SetItemCheckedState(crossover_op,
-                    crossover_op is CyclicCrossover ||
-                    crossover_op is CyclicCrossover2 ||
+ //                   crossover_op is CyclicCrossover ||
+ //                   crossover_op is CyclicCrossover2 ||
                     crossover_op is PartiallyMatchedCrossover);
             }
 
             alg.Crossover = crossover;
-
-            alg.Engine = new SequentialEngine();
-            alg.Stopped += (sender, args) => { trigger.Set(); };
-            alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };
-
-            alg.Analyzer.Operators.Add(EvaluationCountAnalyerBuilder.createForParameterName("EvaluatedSolutions"));
-
-            try
-            {
-                alg.Prepare();
-                alg.Start();
-                trigger.WaitOne();
-                if (ex != null) throw ex;
-
-                persistence.Result r = new persistence.Result(p, run);
-
-                var qualities = ((DataTable)alg.Results["Qualities"].Value).Rows["BestQuality"].Values.ToArray();
-                var evaluations = ((DataTable)alg.Results["EvaluationCount Chart"].Value).Rows["EvaluatedSolutions"].Values.ToArray();
-
-                for (int g = 0; g < qualities.Length; g++)
-                {
-                    r.Solutions.Add(new BestSolution(r, (int)evaluations[g], (int)qualities[g]));
-                }
-
-                return r;
-            }
-            finally
-            {
-                trigger.Reset();
-            }
         }
     }
 }

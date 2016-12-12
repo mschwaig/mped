@@ -16,56 +16,31 @@ using HeuristicLab.Analysis;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
-    public class LocalSearchHeuristic : Heuristic
+    public class LocalSearchHeuristic : HeuristicLabHeuristic<LocalSearch>
     {
-        public LocalSearchHeuristic() : base(AlgorithmType.HL_LS)
-        {
+        public LocalSearchHeuristic() : base(AlgorithmType.HL_LS){}
 
+
+        protected override void attachEvalCountAnalzyer(LocalSearch alg)
+        {
+            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedMoves");
+            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
         }
 
-        public override persistence.Result applyTo(persistence.Problem p, int max_evaluation_number)
+        protected override LocalSearch instantiateAlgorithm()
         {
-            var trigger = new ManualResetEvent(false);
+            return new LocalSearch();
+        }
 
-            Exception ex = null;
-            var alg = new LocalSearch();
-            alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
-            if (max_evaluation_number > 0)
-            {
-                int inner_iteration_count = p.a.Length + p.b.Length;
-                alg.SampleSize = new IntValue(inner_iteration_count);
-                alg.MaximumIterations = new IntValue(max_evaluation_number / inner_iteration_count);
-            }
+        protected override void parameterizeAlgorithm(LocalSearch alg, int albhabet_size_a, int albhabet_size_b, int max_eval_number)
+        {
+            int inner_iteration_count = albhabet_size_a + albhabet_size_b;
 
-            alg.Engine = new SequentialEngine();
-            alg.Stopped += (sender, args) => { trigger.Set(); };
-            alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };
+            if (max_eval_number / inner_iteration_count <= 0)
+                throw new ArgumentException();
 
-            try
-            {
-                alg.Prepare();
-                alg.Start();
-                trigger.WaitOne();
-                if (ex != null) throw ex;
-                var permutation = ((Permutation)alg.Results["Best Solution"].Value).ToArray();
-                var number_of_evals = ((IntValue)alg.Results["EvaluatedMoves"].Value).Value;
-
-                persistence.Result r = new persistence.Result(p, run);
-
-                var qualities = ((DataTable)alg.Results["Qualities"].Value).Rows["BestQuality"].Values.ToArray();
-                var evals_per_generations = alg.SampleSize.Value;
-
-                for (int g = 0; g < qualities.Length; g++)
-                {
-                    r.Solutions.Add(new BestSolution(r, g * evals_per_generations, (int)qualities[g]));
-                }
-
-                return r;
-            }
-            finally
-            {
-                trigger.Reset();
-            }
+            alg.SampleSize = new IntValue(inner_iteration_count);
+            alg.MaximumIterations = new IntValue(max_eval_number / inner_iteration_count);
         }
     }
 }

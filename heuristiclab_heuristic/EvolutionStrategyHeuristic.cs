@@ -17,65 +17,30 @@ using HeuristicLab.Analysis;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
-    public class EvolutionStrategyHeuristic : Heuristic
+    public class EvolutionStrategyHeuristic :  HeuristicLabHeuristic<EvolutionStrategy>
     {
-        public EvolutionStrategyHeuristic() : base(AlgorithmType.HL_ES) {
+        public EvolutionStrategyHeuristic() : base(AlgorithmType.HL_ES) {}
 
+        protected override void attachEvalCountAnalzyer(EvolutionStrategy alg)
+        {
+            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedSolutions");
+            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
         }
 
-        public override persistence.Result applyTo(persistence.Problem p, int max_evaluation_number)
+        protected override EvolutionStrategy instantiateAlgorithm()
         {
-            var trigger = new ManualResetEvent(false);
+            return new EvolutionStrategy();
+        }
 
-            Exception ex = null;
-            var alg = new EvolutionStrategy();
-            if (max_evaluation_number > 0)
-            {
-                int pop_size_suggestion = p.a.Length + p.b.Length;
+        protected override void parameterizeAlgorithm(EvolutionStrategy alg, int albhabet_size_a, int albhabet_size_b, int max_eval_number)
+        {
+            int pop_size_suggestion = albhabet_size_a + albhabet_size_b;
 
-                if (max_evaluation_number / pop_size_suggestion > 0)
-                {
-                    alg.PopulationSize = new IntValue(pop_size_suggestion);
-                    alg.MaximumGenerations = new IntValue(max_evaluation_number / pop_size_suggestion);
+            if (max_eval_number / pop_size_suggestion <= 0)
+                throw new ArgumentOutOfRangeException();
 
-                }
-                else
-                {
-                    alg.PopulationSize = new IntValue(1);
-                    alg.MaximumGenerations = new IntValue(max_evaluation_number);
-                }
-            }
-
-            alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
-            alg.Engine = new SequentialEngine();
-            alg.Stopped += (sender, args) => { trigger.Set(); };
-            alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };
-
-            alg.Analyzer.Operators.Add(EvaluationCountAnalyerBuilder.createForParameterName("EvaluatedSolutions"));
-
-            try
-            {
-                alg.Prepare();
-                alg.Start();
-                trigger.WaitOne();
-                if (ex != null) throw ex;
-
-                persistence.Result r = new persistence.Result(p, run);
-
-                var qualities = ((DataTable)alg.Results["Qualities"].Value).Rows["BestQuality"].Values.ToArray();
-                var evaluations = ((DataTable)alg.Results["EvaluationCount Chart"].Value).Rows["EvaluatedSolutions"].Values.ToArray();
-
-                for (int g = 0; g < qualities.Length; g++)
-                {
-                    r.Solutions.Add(new BestSolution(r, (int)evaluations[g], (int)qualities[g]));
-                }
-
-                return r;
-            }
-            finally
-            {
-                trigger.Reset();
-            }
+            alg.PopulationSize = new IntValue(pop_size_suggestion);
+            alg.MaximumGenerations = new IntValue(max_eval_number / pop_size_suggestion);       
         }
     }
 }

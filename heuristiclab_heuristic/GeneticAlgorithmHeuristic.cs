@@ -16,57 +16,31 @@ using HeuristicLab.Analysis;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
-    public class GeneticAlgorithmHeuristic : Heuristic
+    public class GeneticAlgorithmHeuristic : HeuristicLabHeuristic<GeneticAlgorithm>
     {
-        public GeneticAlgorithmHeuristic() : base(AlgorithmType.HL_GA)
-        {
+        public GeneticAlgorithmHeuristic() : base(AlgorithmType.HL_GA){}
 
+        protected override void attachEvalCountAnalzyer(GeneticAlgorithm alg)
+        {
+            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedSolutions");
+            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
         }
 
-        public override persistence.Result applyTo(persistence.Problem p, int max_evaluation_number)
+        protected override GeneticAlgorithm instantiateAlgorithm()
         {
-            var trigger = new ManualResetEvent(false);
+            return new GeneticAlgorithm();
+        }
 
-            Exception ex = null;
-            var alg = new GeneticAlgorithm();
-            alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
-            if (max_evaluation_number > 0)
-            {
-                int population_size = (p.a.Length + p.b.Length)*10;
-                alg.Crossover = alg.CrossoverParameter.ValidValues.OfType<PartiallyMatchedCrossover>().Single();
-                alg.PopulationSize =new IntValue(population_size);
-                alg.MaximumGenerations = new IntValue(max_evaluation_number / population_size);
-            }
+        protected override void parameterizeAlgorithm(GeneticAlgorithm alg, int albhabet_size_a, int albhabet_size_b, int max_eval_number)
+        {
+            int population_size = (albhabet_size_a + albhabet_size_b) * 10;
 
-            alg.Engine = new SequentialEngine();
-            alg.Stopped += (sender, args) => { trigger.Set(); };
-            alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };
+            if (max_eval_number / population_size <= 0)
+                throw new ArgumentException();
 
-            try
-            {
-                alg.Prepare();
-                alg.Start();
-                trigger.WaitOne();
-                if (ex != null) throw ex;
-                var permutation = ((Permutation)alg.Results["Best Solution"].Value).ToArray();
-                var number_of_evals = ((IntValue)alg.Results["EvaluatedSolutions"].Value).Value;
-                var solution = new Solution(permutation);
-                persistence.Result r = new persistence.Result(p, run);
-
-                var qualities = ((DataTable)alg.Results["Qualities"].Value).Rows["BestQuality"].Values.ToArray();
-                var evals_per_generations = alg.PopulationSize.Value;
-
-                for (int g = 0; g < qualities.Length; g++)
-                {
-                    r.Solutions.Add(new BestSolution(r, g * evals_per_generations, (int)qualities[g]));
-                }
-
-                return r;
-            }
-            finally
-            {
-                trigger.Reset();
-            }
+            alg.Crossover = alg.CrossoverParameter.ValidValues.OfType<PartiallyMatchedCrossover>().Single();
+            alg.PopulationSize = new IntValue(population_size);
+            alg.MaximumGenerations = new IntValue(max_eval_number / population_size);
         }
     }
 }

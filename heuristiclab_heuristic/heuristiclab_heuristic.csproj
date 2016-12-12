@@ -134,9 +134,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlpsGeneticAlgorithmHeuristic.cs" />
-    <Compile Include="EvaluationCountAnalyerBuilder.cs" />
+    <Compile Include="EvaluationCountAnalyzerBuilder.cs" />
     <Compile Include="EvolutionStrategyHeuristic.cs" />
     <Compile Include="GeneticAlgorithmHeuristic.cs" />
+    <Compile Include="HeuristicLabHeuristic.cs" />
     <Compile Include="LocalSearchHeuristic.cs" />
     <Compile Include="OffspringSelectionEvolutionStrategyHeuristic.cs" />
     <Compile Include="SimulatedAnnealingHeuristic.cs" />

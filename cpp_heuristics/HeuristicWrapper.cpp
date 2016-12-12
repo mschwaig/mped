@@ -41,7 +41,7 @@ namespace cpp_heuristics {
 	public:
 		HeuristicBase(AlgorithmType type) : at::mschwaig::mped::persistence::Heuristic(type) {}
 
-		 virtual Result^ applyTo(Problem^ p, int max_evaluation_number) override {
+		 virtual Result^ applyTo(Problem^ p) override {
 
 			std::string s1 = marshal_as<std::string>(p->s1);
 			std::string s2 = marshal_as<std::string>(p->s2);
@@ -62,7 +62,7 @@ namespace cpp_heuristics {
 			IntPtr ip = Marshal::GetFunctionPointerForDelegate(d);
 			report_cb cb = static_cast<report_cb>(ip.ToPointer());
 
-			heuristic h(prob, max_evaluation_number, cb);
+			heuristic h(prob, getMaxEvalNumber(prob.getSgl1(), prob.getSgl2()), cb);
 			h.computeAndAlign();
 
 			const unsigned short * sigma1 = h.getComputedSigma1();

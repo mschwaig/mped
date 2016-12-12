@@ -15,7 +15,7 @@ namespace at.mschwaig.mped.contribution_sorting
 
         public ContributionSortingHeuristic() : base(AlgorithmType.CONTRIBUTION_SORTING_GUESS){}
 
-        public override Result applyTo(Problem p, int max_evaluation_number)
+        public override Result applyTo(Problem p)
         {
             CharacterMapping[,] one_to_one_mappings = ContributionSorting.generateMatrixOfOneToOneMappings(p);
 
@@ -37,7 +37,7 @@ namespace at.mschwaig.mped.contribution_sorting
             }
 
             int eval_number = p.a.Length * p.b.Length + eval_counter;
-            if (max_evaluation_number != 0 && max_evaluation_number < eval_number)
+            if (getMaxEvalNumber(p.a.Length, p.b.Length) < eval_number)
                 throw new ArgumentException("cannot make a guess with so few evaluations");
 
 

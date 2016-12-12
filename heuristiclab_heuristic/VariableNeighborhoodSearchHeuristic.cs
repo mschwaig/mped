@@ -13,53 +13,36 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using HeuristicLab.Optimization;
+using HeuristicLab.Analysis;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
-    public class VariableNeighborhoodSearchHeuristic : Heuristic
+    public class VariableNeighborhoodSearchHeuristic : HeuristicLabHeuristic<VariableNeighborhoodSearch>
     {
-        public VariableNeighborhoodSearchHeuristic() : base(AlgorithmType.HL_VNS) {
+        public VariableNeighborhoodSearchHeuristic() : base(AlgorithmType.HL_VNS) {}
 
+        protected override void attachEvalCountAnalzyer(VariableNeighborhoodSearch alg)
+        {
+            var evaluation_count_analyzer = EvaluationCountAnalyzerBuilder.createForParameterName("EvaluatedMoves");
+            alg.Analyzer.Operators.Add(evaluation_count_analyzer);
         }
 
-        public override persistence.Result applyTo(persistence.Problem p, int max_evaluation_number)
+        protected override VariableNeighborhoodSearch instantiateAlgorithm()
         {
-            var trigger = new ManualResetEvent(false);
+            return new VariableNeighborhoodSearch();
+        }
 
-            Exception ex = null;
-            var alg = new VariableNeighborhoodSearch();
-            alg.Problem = new MpedBasicProblem(p.s1ToAString(), p.s2ToAString());
-            if (max_evaluation_number > 0)
-            {
-                int inner_iteration_count = p.a.Length + p.b.Length;
-                alg.LocalImprovementMaximumIterations = inner_iteration_count;
-                alg.MaximumIterations = max_evaluation_number / inner_iteration_count;
+        protected override void parameterizeAlgorithm(VariableNeighborhoodSearch alg, int albhabet_size_a, int albhabet_size_b, int max_eval_number)
+        {
+            int inner_iteration_count = albhabet_size_a + albhabet_size_b;
 
-                alg.LocalImprovement = alg.LocalImprovementParameter.ValidValues.OfType<LocalSearchImprovementOperator>().Single();
-            }
+            if (max_eval_number / inner_iteration_count <= 0)
+                throw new ArgumentException();
 
-            alg.Engine = new SequentialEngine();
-            alg.Stopped += (sender, args) => { trigger.Set(); };
-            alg.ExceptionOccurred += (sender, args) => { ex = args.Value; trigger.Set(); };
+            alg.LocalImprovementMaximumIterations = inner_iteration_count;
+            alg.MaximumIterations = max_eval_number / inner_iteration_count;
 
-            try
-            {
-                alg.Prepare();
-                alg.Start();
-                trigger.WaitOne();
-                if (ex != null) throw ex;
-                var permutation = ((Permutation)alg.Results["Best Solution"].Value).ToArray();
-                var number_of_evals = ((IntValue)alg.Results["EvaluatedMoves"].Value).Value;
-                persistence.Result r = new persistence.Result(p, run);
-
-                r.Solutions.Add(new BestSolution(r, permutation, number_of_evals));
-
-                return r;
-            }
-            finally
-            {
-                trigger.Reset();
-            }
+            alg.LocalImprovement = alg.LocalImprovementParameter.ValidValues.OfType<LocalSearchImprovementOperator>().Single();
         }
     }
 }

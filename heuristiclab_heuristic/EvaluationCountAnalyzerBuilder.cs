@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
-    public class EvaluationCountAnalyerBuilder
+    public class EvaluationCountAnalyzerBuilder
     {
         public static IntValueAnalyzer createForParameterName(String numberOfEvalsParameterName) {
             IntValueAnalyzer intValueAnalyzer = new IntValueAnalyzer();

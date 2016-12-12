@@ -50,18 +50,16 @@ namespace at.mschwaig.mped.evalrun
                     ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == experiment_name).First();
                     problemList = ex.Problems.Where(x => !x.Results.Where(r => r.HeuristicRun.Algorithm == heuristic.run.Algorithm).Any()).ToList();
 
-
-
                     Parallel.ForEach(problemList, (problem) =>
                     {
                         var watch = System.Diagnostics.Stopwatch.StartNew();
 
                         var lenghth_product = problem.a.Length * problem.b.Length;
 
-                        var res = heuristic.applyTo(problem, lenghth_product * lenghth_product);
+                        var res = heuristic.applyTo(problem);
 
                         lock (dblock)
-                        { 
+                        {
                             ctx.Results.Add(res);
                             ctx.SaveChanges();
                         }
