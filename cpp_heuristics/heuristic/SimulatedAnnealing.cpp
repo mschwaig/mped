@@ -35,6 +35,7 @@ void SimulatedAnnealing::compute() {
 	unsigned current_dist = l1 + l2;
 	unsigned best_dist = current_dist, dist = 0;
 	unsigned next_dist = this->mped->computeEditDistance();
+	bool first_reported_result = true;
 
 	// random sigmas
 	unsigned short* sigma1_n = new unsigned short[sgl1]; copy(this->mped->getSigma1(), this->mped->getSigma1() + sgl1, sigma1_n);
@@ -46,7 +47,7 @@ void SimulatedAnnealing::compute() {
 	unsigned short* sigma1_b = new unsigned short[sgl1]; copy(this->mped->getSigma1(), this->mped->getSigma1() + sgl1, sigma1_b);
 	unsigned short* sigma2_b = new unsigned short[sgl2]; copy(this->mped->getSigma2(), this->mped->getSigma2() + sgl2, sigma2_b);
 
-	reportMpedAndEvalCount(dist, eval_count);
+	reportMpedAndEvalCount(next_dist, eval_count);
 
 	int temperature = sgl1 * sgl1;
 	temperature *= temperature;
@@ -79,11 +80,12 @@ void SimulatedAnnealing::compute() {
 
 			if (dist < best_dist) {
 
-				reportMpedAndEvalCount(dist, eval_count);
-
 				best_dist = dist;
 				copy(sigma1_c, sigma1_c + sgl1, sigma1_b);
 				copy(sigma2_c, sigma2_c + sgl2, sigma2_b);
+
+				reportMpedAndEvalCount(best_dist, eval_count);
+
 			}
 
 		}
