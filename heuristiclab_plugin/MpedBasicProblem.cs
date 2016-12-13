@@ -79,6 +79,7 @@ namespace HeuristicLab.Problems.MultiParameterizedEditDistance
 
         private MpedBasicProblem(MpedBasicProblem original, Cloner cloner)
       : base(original, cloner) {
+            Initialize();
         }
 
         public override IDeepCloneable Clone(Cloner cloner)
