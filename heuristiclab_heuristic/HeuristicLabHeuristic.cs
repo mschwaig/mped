@@ -10,6 +10,8 @@ using HeuristicLab.Analysis;
 using HeuristicLab.SequentialEngine;
 using System.Threading;
 using HeuristicLab.Problems.MultiParameterizedEditDistance;
+using System.Reflection;
+using HeuristicLab.Core;
 
 namespace at.mschwaig.mped.heuristiclab.heuristic
 {
@@ -61,12 +63,22 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                     r.Solutions.Add(new BestSolution(r, (int)evaluations[g], (int)qualities[g]));
                 }
 
+                r.Parameters = ((IParameterizedNamedItem)alg).Parameters.ToArray().ToString();
+
                 return r;
             }
             finally
             {
                 trigger.Reset();
             }
+        }
+
+        internal static object GetInstanceField(Type type, object instance, string fieldName)
+        {
+            BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+                | BindingFlags.Static;
+            FieldInfo field = type.GetField(fieldName, bindFlags);
+            return field.GetValue(instance);
         }
     }
 }

@@ -42,9 +42,28 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             if (max_eval_number / population_size <= 0)
                 throw new ArgumentException();
 
-            alg.Crossover = alg.CrossoverParameter.ValidValues.OfType<PartiallyMatchedCrossover>().Single();
             alg.PopulationSize = new IntValue(population_size);
             alg.MaximumGenerations = new IntValue(max_eval_number / population_size);
+
+            var crossover = alg.CrossoverParameter.ValidValues.OfType<MultiPermutationCrossover>().Single();
+
+            foreach (var crossover_op in crossover.Operators)
+            {
+                crossover.Operators.SetItemCheckedState(crossover_op,
+                    crossover_op is CyclicCrossover ||
+                    crossover_op is PartiallyMatchedCrossover);
+            }
+
+            alg.Crossover = crossover;
+
+            var mutator = alg.MutatorParameter.ValidValues.OfType<MultiPermutationManipulator>().Single();
+
+            foreach (var manipulation_op in mutator.Operators)
+            {
+                mutator.Operators.SetItemCheckedState(manipulation_op, manipulation_op is Swap2Manipulator || manipulation_op is Swap3Manipulator);
+            }
+
+            alg.Mutator = mutator;
         }
     }
 }

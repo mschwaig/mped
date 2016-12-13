@@ -68,19 +68,27 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             alg.MaximumGenerations = new IntValue(max_eval_number / pop_size_suggestion);
             alg.MaximumEvaluatedSolutions = new IntValue(max_eval_number);
 
-            alg.MaximumSelectionPressure = new DoubleValue(1000);
+            alg.MaximumSelectionPressure = new DoubleValue(200);
 
             var crossover = alg.CrossoverParameter.ValidValues.OfType<MultiPermutationCrossover>().Single();
 
             foreach (var crossover_op in crossover.Operators)
             {
                 crossover.Operators.SetItemCheckedState(crossover_op,
- //                   crossover_op is CyclicCrossover ||
- //                   crossover_op is CyclicCrossover2 ||
+                    crossover_op is CyclicCrossover ||
                     crossover_op is PartiallyMatchedCrossover);
             }
 
             alg.Crossover = crossover;
+
+            var mutator = alg.MutatorParameter.ValidValues.OfType<MultiPermutationManipulator>().Single();
+
+            foreach (var manipulation_op in mutator.Operators)
+            {
+                mutator.Operators.SetItemCheckedState(manipulation_op, manipulation_op is Swap2Manipulator || manipulation_op is Swap3Manipulator);
+            }
+
+            alg.Mutator = mutator;
         }
     }
 }

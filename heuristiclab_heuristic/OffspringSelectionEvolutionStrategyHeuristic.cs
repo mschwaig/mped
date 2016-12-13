@@ -46,7 +46,7 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
             alg.PopulationSize = new IntValue(pop_size_suggestion);
             alg.MaximumGenerations = new IntValue(max_eval_number / pop_size_suggestion);
             alg.MaximumEvaluatedSolutions = new IntValue(max_eval_number);
-            alg.MaximumSelectionPressure = new DoubleValue(100);
+            alg.MaximumSelectionPressure = new DoubleValue(200);
 
             var mutator = alg.MutatorParameter.ValidValues.OfType<MultiPermutationManipulator>().Single();
 
