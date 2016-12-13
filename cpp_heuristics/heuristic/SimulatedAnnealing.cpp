@@ -35,7 +35,6 @@ void SimulatedAnnealing::compute() {
 	unsigned current_dist = l1 + l2;
 	unsigned best_dist = current_dist, dist = 0;
 	unsigned next_dist = this->mped->computeEditDistance();
-	bool first_reported_result = true;
 
 	// random sigmas
 	unsigned short* sigma1_n = new unsigned short[sgl1]; copy(this->mped->getSigma1(), this->mped->getSigma1() + sgl1, sigma1_n);
