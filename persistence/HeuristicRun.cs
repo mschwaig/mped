@@ -14,20 +14,16 @@ namespace at.mschwaig.mped.persistence
         public AlgorithmType Algorithm { get; private set; }
         public DateTime StartTime { get; private set; }
         public string Parameters { get; private set; }
-        public string GitHash { get; private set; }
-        public bool UncommittedChanges { get; private set; }
 
         public virtual ICollection<Result> Results { get; set; }
 
         // Used by Entity Framework
         private HeuristicRun() { }
 
-        public HeuristicRun(AlgorithmType algorithm, DateTime startTime, string parameters, string git_hash, bool uncommitted_changes) {
+        public HeuristicRun(AlgorithmType algorithm, DateTime startTime, string parameters) {
             this.Algorithm = algorithm;
             this.StartTime = startTime;
             this.Parameters = parameters;
-            this.GitHash = git_hash;
-            this.UncommittedChanges = uncommitted_changes;
         }
     }
 }

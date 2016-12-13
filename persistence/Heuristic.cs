@@ -9,12 +9,7 @@ namespace at.mschwaig.mped.persistence
 
         public Heuristic(AlgorithmType type)
         {
-            run = new HeuristicRun(type, DateTime.Now, "", "", true);
-            using (var ctx = new ThesisDbContext())
-            {
-                ctx.HeuristicRun.Add(run);
-                ctx.SaveChanges();
-            }
+            run = new HeuristicRun(type, DateTime.Now, "");
         }
 
         public abstract Result applyTo(Problem p);

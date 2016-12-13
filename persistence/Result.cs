@@ -24,6 +24,8 @@ namespace at.mschwaig.mped.persistence
         [Required]
         public virtual HeuristicRun HeuristicRun { get; set; }
 
+        public string Parameters { get; set; }
+
         // Used by Entity Framework
         private Result(){ }
 
