@@ -45,5 +45,18 @@ namespace at.mschwaig.mped.resultplot
         {
             return removedNeighouringDuplicateValues(source, x => x);
         }
+
+        public static double computeStandardDeviation(this IEnumerable<int> values)
+        {
+            double result = 0;
+            int count = values.Count();
+            if (count > 1)
+            {
+                double avg = values.Average();
+                double sum = values.Sum(d => (d - avg) * (d - avg));
+                result = Math.Sqrt(sum / count);
+            }
+            return result;
+        }
     }
 }
