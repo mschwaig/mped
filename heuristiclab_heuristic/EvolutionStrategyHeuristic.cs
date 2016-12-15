@@ -44,7 +44,16 @@ namespace at.mschwaig.mped.heuristiclab.heuristic
                 throw new ArgumentOutOfRangeException();
 
             alg.PopulationSize = new IntValue(pop_size_suggestion);
-            alg.MaximumGenerations = new IntValue(max_eval_number / pop_size_suggestion);       
+            alg.MaximumGenerations = new IntValue(max_eval_number / pop_size_suggestion);
+
+            var mutator = alg.MutatorParameter.ValidValues.OfType<MultiPermutationManipulator>().Single();
+
+            foreach (var manipulation_op in mutator.Operators)
+            {
+                mutator.Operators.SetItemCheckedState(manipulation_op, manipulation_op is Swap2Manipulator || manipulation_op is Swap3Manipulator);
+            }
+
+            alg.Mutator = mutator;
         }
     }
 }
