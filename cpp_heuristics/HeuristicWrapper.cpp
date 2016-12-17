@@ -49,7 +49,7 @@ namespace cpp_heuristics {
 			std::string b = marshal_as<std::string>(gcnew System::String(p->b));
 
 			MPED prob(s1, s2, a, b);
-			prob.setAttempts(1);
+			prob.setAttempts(3);
 			prob.setSelfIdentity(false);
 			prob.debug();
 			

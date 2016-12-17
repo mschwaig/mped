@@ -21,25 +21,6 @@ namespace at.mschwaig.mped.resultplotter
             evaluateCompareExperimentTable();
         }
 
-        static void evaluateExperimentResultsByProblem()
-        {
-            using (var ctx = new ThesisDbContext())
-            {
-                Experiment ex = ctx.Experiments.Include("Problems.Results.HeuristicRun").Where(x => x.Name == "Insert").First();
-
-                foreach (var problem in ex.Problems)
-                {
-                    using (StreamWriter file = new StreamWriter(problem.ProblemId + ".txt"))
-                    {
-                        foreach (var result in problem.Results)
-                        {
-                            file.WriteLine("{0} {1} {2}", result.HeuristicRun.Algorithm.ToString(), result.Solutions.Single().Mped, result.Solutions.Single().EvalCount);
-                        }
-                    }
-                }
-            }
-        }
-
         static void evaluateCompareExperimentLineGraph(int index)
         {
             using (var ctx = new ThesisDbContext())
@@ -98,34 +79,41 @@ namespace at.mschwaig.mped.resultplotter
 
                 var problem_param_groups = ex.Problems.GroupBy(x => new { Correlation = 1 - x.SubstituteProb, x.a.Length });
 
-                foreach (var group in problem_param_groups)
+
+                using (StreamWriter best_file = new StreamWriter("tblcomp_best.dat"))
                 {
-                    using (StreamWriter file = new StreamWriter(
-                        String.Format(CultureInfo.InvariantCulture, "tblcomp_{0}_{1}.dat", group.Key.Length, group.Key.Correlation)))
+                    foreach (var group in problem_param_groups)
                     {
-                        var problem_results = group.SelectMany(x => x.Results).Select(x => x.Solutions.OrderBy(y => y.Mped).ThenBy(y => y.EvalCount).First());
-
-                        var results = new List<TableRow>();
-
-                        foreach (var alg_res in problem_results.GroupBy(x => x.Result.HeuristicRun.Algorithm))
+                        using (StreamWriter file = new StreamWriter(
+                            String.Format(CultureInfo.InvariantCulture, "tblcomp_{0}_{1}.dat", group.Key.Length, group.Key.Correlation)))
                         {
-                            // solution for problem - best solution for problem
-                            var differences = alg_res.Select(s => s.Mped - s.Result.Problem.Results.Select(y => y.Solutions.Min(z => z.Mped)).Min());
+                            var problem_results = group.SelectMany(x => x.Results).Select(x => x.Solutions.OrderBy(y => y.Mped).ThenBy(y => y.EvalCount).First());
+                            var best_mped = group.Single().Results.Min(x => x.Solutions.Min(y => y.Mped));
 
-                            double avg = alg_res.Average(x => x.Mped);
-                            double avg_diff = differences.Average();
-                            double stddev_diff = differences.computeStandardDeviation();
+                            best_file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", group.Key.Length, group.Key.Correlation, best_mped));
 
-                            results.Add(new TableRow(alg_res.Key, avg, avg_diff, stddev_diff));
+                            var results = new List<TableRow>();
+
+                            foreach (var alg_res in problem_results.GroupBy(x => x.Result.HeuristicRun.Algorithm))
+                            {
+                                // solution for problem - best solution for problem
+                                var differences = alg_res.Select(s => s.Mped - s.Result.Problem.Results.Select(y => y.Solutions.Min(z => z.Mped)).Min());
+
+                                double avg = alg_res.Average(x => x.Mped);
+                                double avg_diff = differences.Average();
+                                double stddev_diff = differences.computeStandardDeviation();
+
+                                results.Add(new TableRow(alg_res.Key, avg, avg_diff, stddev_diff));
 
 
-                        }
+                            }
 
-                        foreach (var r in results.OrderBy(x => x.AverageDiff).ThenBy(x => x.Algorithm.GetDescription()))
-                        {
-                            file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0,-25} {1,16} {2,16:0.0} {3,20:0.0000}",
-                                                                        r.Algorithm.GetDescription(), r.Average, r.AverageDiff, r.StdDevDiff));
-                            file.WriteLine();
+                            foreach (var r in results.OrderBy(x => x.AverageDiff).ThenBy(x => x.Algorithm.GetDescription()))
+                            {
+                                file.WriteLine(String.Format(CultureInfo.InvariantCulture, "{0,-25} {1,16} {2,16:0.0} {3,20:0.0000}",
+                                                                            r.Algorithm.GetDescription(), r.Average, r.AverageDiff, r.StdDevDiff));
+                                file.WriteLine();
+                            }
                         }
                     }
                 }
@@ -143,7 +131,7 @@ namespace at.mschwaig.mped.resultplotter
                 foreach (var group in problem_param_groups)
                 {
                     using (StreamWriter file = new StreamWriter(
-                        String.Format(CultureInfo.InvariantCulture, "tblcomp_{0}_{1}.dat", group.Key.Length, group.Key.Correlation)))
+                        String.Format(CultureInfo.InvariantCulture, "unused_{0}_{1}.dat", group.Key.Length, group.Key.Correlation)))
                     {
 
                         var problem_results = group.Select(x => new

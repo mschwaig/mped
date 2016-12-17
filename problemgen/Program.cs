@@ -94,7 +94,7 @@ namespace at.mschwaig.mped.problemgen
 
         static void generateFullComparisonExperiment()
         {
-            generateCompareExperiment("FullComparison", 10);
+            generateCompareExperiment("FullComparison", 1);
         }
 
 
