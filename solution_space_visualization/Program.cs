@@ -12,10 +12,17 @@ namespace at.mschwaig.mped.solution_space_visualization
     {
         static void Main(string[] args)
         {
+
+            generateSearchSpaceVisualization(0.0, @"searchspace_8_128_0corr.dat");
+            generateSearchSpaceVisualization(1.0, @"searchspace_8_128_1corr.dat");
+        }
+
+        static void generateSearchSpaceVisualization(double edit_rate, string filename)
+        {
             int alphabet_size = 8;
             int string_length = 128;
 
-            Problem p = Problem.generateProblem(null, alphabet_size, string_length, 0.0d, 0.1d, 0.1d, LengthCorrectionPolicy.PREPEND_CORRECTION, new RNGCryptoServiceProvider(), 0);
+            Problem p = Problem.generateProblem(null, alphabet_size, string_length, edit_rate, 0.0d, 0.0d, LengthCorrectionPolicy.NO_CORRECTION, new RNGCryptoServiceProvider(), 0);
 
             CharacterMapping[,] one_to_one_mappings = ContributionSorting.generateMatrixOfOneToOneMappings(p);
 
@@ -33,7 +40,7 @@ namespace at.mschwaig.mped.solution_space_visualization
                 matrix[t.Item2, best.getDistanceTo(t.Item1)] += 1;
             }
 
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"results.txt"))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(filename))
             {
                 for (int i = 0; i < matrix.GetLength(0); i++)
                 {
@@ -45,8 +52,6 @@ namespace at.mschwaig.mped.solution_space_visualization
                     file.WriteLine();
                 }
             }
-
-
         }
 
 
